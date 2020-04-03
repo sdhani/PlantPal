@@ -7,10 +7,6 @@
 
 --- 
 
-## Entity Relationship Diagrams
-
----
-
 ## Install and Run
 
 1. Clone Repo.
@@ -38,4 +34,15 @@
 1. Check your newDB database. Do you have the `users` table?
 2. Is your `users` table empty? (Run `select * from users;`)
 
+---
 
+## Entity Relationship Diagrams
+Dummy user table.
+
+### users
+|    Key    |    Column     |    Type    |
+|    :---:    |    :---:     |    :---:     |
+| PK  | id | serial | 
+|   | username | text not null |
+
+---
