@@ -11,7 +11,7 @@
 
 1. Clone Repo.
     - SSH: `git clone git@github.com:sdhani/PlantPal.git` 
-    - HTTP: `git clone `
+    - HTTP: `git clone `https://github.com/sdhani/PlantPal.git`
 2. Run `yarn install` in root directory.
 3. `cd client`
 4. Run `yarn install`.
