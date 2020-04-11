@@ -11,14 +11,12 @@
 
 1. Clone Repo.
     - SSH: `git clone git@github.com:sdhani/PlantPal.git` 
-    - HTTP: `git clone `
+    - HTTP: `git clone https://github.com/sdhani/PlantPal.git`
 2. Run `yarn install` in root directory.
 3. `cd client`
 4. Run `yarn install`.
-5. `cd ../server`
-6. Run `yarn install`.
-7. `cd ..`
-8. In the root directory of the project, run `yarn start`.
+5. `cd ..`
+6. In the root directory of the project, run `yarn start`.
 
 #### To Run with a PostgreSQL DB
 

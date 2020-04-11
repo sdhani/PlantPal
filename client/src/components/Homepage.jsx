@@ -1,27 +1,27 @@
 import React, { Component } from "react";
 
 class Homepage extends Component{
-  state = {users: []}
+    state = {users: []}
+  
+    componentDidMount() {
+        fetch('/users')
+        .then(res => res.json())
+        .then(users => this.setState({ users }));
+    }
 
-  async componentDidMount() {
-    const response = await fetch('/users')
-    const users   = await response.json()
-    console.log("Dummy Data Output", users)
-    this.setState({users: users})
-  }
-
-  render(){
-    return(
-      <div>
-        <ul>
-          {this.state.users.map(users => {
-            return <li key={users.id}>{users.username}</li>
-          })}
-        </ul>
-      </div>
-        
-    )
-  }
+    render(){
+        return(
+            <div>
+                <h2>Homepage rendered</h2>
+                <ul>
+                {this.state.users.map(user => {
+                    return <li key={user.id}>{user.username}</li>
+                })}
+                </ul>
+            </div>
+           
+        )
+    }
 }
 
 export default Homepage;
