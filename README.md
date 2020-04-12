@@ -23,7 +23,7 @@
 1. Add your `DATABASE_URL = "url-link-to-newDB"` to the .env file.
 1. In the root directory of the project,  `knex migrate:latest`.
 1. Next run `knex seed:run`.
-1. Finally `yarn start`. (`http://localhost:3000/` should display the dummy usernames in your newDB database).
+1. Finally `yarn start-all`. (`http://localhost:3000/` should display the dummy usernames in your newDB database).
 
 ### Troubleshooting
 
