@@ -1,6 +1,6 @@
 exports.up = function(knex) {
   return knex.schema.createTable('plants', (table) => {
-    table.integer('plant_id').increments().primary(); /* PK */
+    table.integer('plant_id').primary(); /* PK */
     table.string('common_name'); 
     table.string('scientific_name');
     table.integer('trefle_id');
