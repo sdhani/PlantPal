@@ -1,17 +1,25 @@
 {
   "name": "PlantPal",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "(cd client && yarn) && (cd server && yarn)",
-    "start": "concurrently \"cd client && PORT=3000 yarn start\" \"cd server && PORT=3001 yarn start\""
+    "start": "nodemon app.js",
+    "start-all": "concurrently \"cd client && yarn start\" \"PORT=3001 yarn start\"",
+    "heroku-postbuild": "cd client && yarn && yarn run build",
+    "install-all": "yarn install && cd client && yarn install"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "concurrently": "^5.1.0"
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.1.0",
+    "cookie-parser": "^1.4.5",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "http-errors": "~1.6.3",
+    "http-proxy-middleware": "^1.0.3",
+    "knex": "^0.20.13",
+    "morgan": "~1.9.1",
+    "nodemon": "^2.0.3",
+    "pg": "^8.0.2"
   }
 }
