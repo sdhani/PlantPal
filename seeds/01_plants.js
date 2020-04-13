@@ -1,4 +1,6 @@
 
+/* seeds/plants.js */
+
 const plants = require('../seedData/plants');
 
 exports.seed = function(knex) {

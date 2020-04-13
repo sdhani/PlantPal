@@ -1,3 +1,4 @@
+/* seeds/location.js */
 
 const location = require('../seedData/location');
 

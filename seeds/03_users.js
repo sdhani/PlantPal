@@ -1,3 +1,4 @@
+/* seeds/users.js */
 
 const users = require('../seedData/users');
 

@@ -1,4 +1,6 @@
 
+/* seeds/weather.js */
+
 const weather = require('../seedData/weather');
 
 exports.seed = function(knex) {

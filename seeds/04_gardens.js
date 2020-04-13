@@ -1,3 +1,4 @@
+/* seeds/gardens.js */
 
 const gardens = require('../seedData/gardens');
 
