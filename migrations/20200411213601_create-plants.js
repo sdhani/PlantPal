@@ -7,7 +7,7 @@ exports.up = function(knex) {
     table.string('duration');
     table.boolean('outdoor_plant');
     table.json('images');
-    table.json('foilage');
+    table.json('foliage');
     table.json('fruit_or_seed');
     table.json('growth');
     table.json('seed');
