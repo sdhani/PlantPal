@@ -1,3 +1,5 @@
+/* seedData/plants.js */
+
 module.exports = [
   {
     plant_id: 1,
@@ -515,20 +517,3 @@ module.exports = [
     family_common_name: "Rose family" 
   },
 ]
-
-/*
-Plants Schema:
-  table.integer('plant_id').primary(); // PK 
-  table.string('common_name'); 
-  table.string('scientific_name');
-  table.integer('trefle_id');
-  table.string('duration');
-  table.boolean('outdoor_plant');
-  table.json('images');
-  table.json('foilage');
-  table.json('fruit_or_seed');
-  table.json('growth');
-  table.json('seed');
-  table.json('specifications');
-  table.string('family_common_name');
-*/

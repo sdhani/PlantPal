@@ -1,3 +1,5 @@
+/* seedData/users.js */
+
 module.exports = [
   {
     email: "someCoolPeople@coolpeople.com",
@@ -20,9 +22,3 @@ module.exports = [
     weather_zipcode: 10000
   },
 ]
-
-/* Users Schema
-    table.string('email', 50).notNullable().primary(); // PK 
-    table.string('display_name'); // Nullable 
-    table.string('weather_zipcode', 5).unsigned().notNullable().references('zipcode').inTable('weather'); // FK 
-*/

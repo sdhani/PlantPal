@@ -1,3 +1,5 @@
+/* seedData/weather.js */
+
 module.exports = [
   {
     zipcode: 10000,
@@ -12,16 +14,3 @@ module.exports = [
     forcast2_total_rain: 0.00, 
   },
 ]
-
-/* Weather Schema
-table.string('zipcode', 5).notNullable().primary(); // PK 
-table.decimal('day_max_temp', 5, 2); // Length, Precision might be off
-table.decimal('day_min_temp', 5, 2); 
-table.decimal('day_total_rain', 5, 2); 
-table.decimal('forcast1_max_temp', 5, 2); 
-table.decimal('forcast1_min_temp', 5, 2); 
-table.decimal('forcast1_total_rain', 5, 2); 
-table.decimal('forcast2_max_temp', 5, 2); 
-table.decimal('forcast2_min_temp', 5, 2); 
-table.decimal('forcast2_total_rain', 5, 2); 
-*/

@@ -1,3 +1,5 @@
+/* seedData/gardens.js */
+
 module.exports = [
   {
     garden_name: "Edible Plants",
@@ -25,10 +27,3 @@ module.exports = [
     plants_plant_id: 5,
   },
 ]
-
-/* Gardens' Schema
- table.string('garden_name').notNullable().primary(); // PK
- table.string('users_email', 50).references('email').inTable('users'); // FK
- table.integer('plants_plant_id').unsigned().notNullable().references('plant_id').inTable('plants'); // FK 
-
- */
