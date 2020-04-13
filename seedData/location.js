@@ -2,15 +2,9 @@ module.exports = [
   {
     weather_zipcode: 10000,
     state: "New York",
-    // latitude:,
-    // longitude:,
-  },
-  {
-    weather_zipcode: 10000,
-    state: "New York",
-    // latitude:,
-    // longitude:,
-  },
+    latitude: 40.712776,
+    longitude: -74.005974,
+  }
 ]
 
 /* Location's Schema
