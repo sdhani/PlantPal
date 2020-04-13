@@ -1,3 +1,5 @@
+/* migrations/[...]_create-weather.js */
+
 exports.up = function(knex) {
   return knex.schema.createTable('weather', (table) => {
     table.string('zipcode', 5).notNullable().primary(); /* PK */

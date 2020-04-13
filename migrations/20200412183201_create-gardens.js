@@ -1,3 +1,5 @@
+/* migrations/[...]_create-gardens.js */
+
 exports.up = function(knex) {
   return knex.schema.createTable('gardens', (table) => {
     table.string('garden_name').notNullable().primary(); /* PK */

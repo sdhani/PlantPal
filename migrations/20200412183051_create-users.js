@@ -1,3 +1,5 @@
+/* migrations/[...]_create-users.js */
+
 exports.up = function(knex) {
   return knex.schema.createTable('users', (table) => {
     table.string('email', 50).notNullable().primary(); /* PK */
