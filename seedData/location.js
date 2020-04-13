@@ -2,14 +2,14 @@ module.exports = [
   {
     weather_zipcode: 10000,
     state: "New York",
-    latitude:,
-    longitude:,
+    // latitude:,
+    // longitude:,
   },
   {
     weather_zipcode: 10000,
     state: "New York",
-    latitude:,
-    longitude:,
+    // latitude:,
+    // longitude:,
   },
 ]
 
