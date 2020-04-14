@@ -14,16 +14,3 @@ Router.get("/", async (req, res) => {
 });
 
 module.exports = Router; /* export Router */
-
-/**
- * 
-(property) Response.json: (body?: any) => Response
-Send JSON response.
-
-Examples:
-
- res.json(null);
- res.json({ user: 'tj' });
- res.status(500).json('oh noes!');
- res.status(404).json('I dont have that');
- */
