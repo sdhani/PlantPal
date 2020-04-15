@@ -1,3 +1,5 @@
+/* migrations/[...]_create-plants.js */
+
 exports.up = function(knex) {
   return knex.schema.createTable('plants', (table) => {
     table.integer('plant_id').primary(); /* PK */

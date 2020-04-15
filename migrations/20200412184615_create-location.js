@@ -1,3 +1,5 @@
+/* migrations/[...]_create-location.js */
+
 exports.up = function(knex) {
   return knex.schema.createTable('location', (table) => {
     table.string('weather_zipcode', 5).unsigned().notNullable().primary().references('zipcode').inTable('weather'); /* PK / FK (not sure if this is correct)*/
