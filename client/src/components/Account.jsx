@@ -15,16 +15,21 @@ class Account extends React.Component{
                         type="text"
                         name="email"
                         placeholder="email@email.com"
+                        onChange={this.props.handleRegisterChange}
                     />
                     <input 
                         type="text"
                         name="username"
                         placeholder="username"
+                        onChange={this.props.handleRegisterChange}
+
                     />
                     <input 
                         type="password"
                         name="password"
                         placeholder="password"
+                        onChange={this.props.handleRegisterChange}
+
                     />
                 </form>
             </div>
