@@ -25,8 +25,8 @@ class MyNav extends Component {
     } else {
       return (
         <Navbar collapseOnSelect expand="lg" variant="light" style={styles}>
-          <LinkContainer style={styles} to={`/`}>
-            <Navbar.Brand style={styles} href={`/`}>
+          <LinkContainer style={styles} to={`/home`}>
+            <Navbar.Brand style={styles} href={`/home`}>
               PlantPal
             </Navbar.Brand>
           </LinkContainer>

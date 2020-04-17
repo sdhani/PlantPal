@@ -5,14 +5,15 @@ class Plant extends Component {
     super(props);
     this.state = {};
   }
+  componentDidMount() {
+    // WOULD NEED TO MAKE TREFLE API CALL HERE TO GET MORE DATA
+  }
 
   render() {
     const { plant } = this.props.location.state;
-    console.log(Object.keys(plant));
     let plantData = Object.keys(plant).map((key) => {
-      return <div>{key},</div>;
+      return <li>{key}</li>;
     });
-    console.log(this.props.location.state.plant);
     return (
       <div>
         <h1>Plant Page</h1>

@@ -8,6 +8,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Plant from "./components/Plant";
+import OutdoorGarden from "./components/OutdoorGarden";
+import IndoorGarden from "./components/IndoorGarden";
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/allusers" component={Homepage} />
         <Route exact path="/garden" component={Garden} />
+        <Route exact path="/outdoorgarden" component={OutdoorGarden} />
+        <Route exact path="/indoorgarden" component={IndoorGarden} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/plant/:id" component={Plant} />
       </Router>

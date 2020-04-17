@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PlantCard from "./PlantCard";
-import plantData from "../dummy_plants.json";
 import styles from "../styles/cards.css";
 
 class Garden extends Component {
@@ -12,7 +11,7 @@ class Garden extends Component {
     };
   }
   componentDidMount() {
-    this.setState({ plants: plantData });
+    this.setState({ plants: this.props.plantData });
   }
   render() {
     let allPlants = this.state.plants.map((plant) => {
