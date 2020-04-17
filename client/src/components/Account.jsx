@@ -10,7 +10,7 @@ class Account extends React.Component{
             //REGISTER FORM
             <div className="register">
                 <h3>Register</h3>
-                <form>
+                <form onSubmit={this.props.handleRegisterSubmit}>
                     <input 
                         type="text"
                         name="email"
@@ -29,8 +29,8 @@ class Account extends React.Component{
                         name="password"
                         placeholder="password"
                         onChange={this.props.handleRegisterChange}
-
                     />
+                    <input type="submit" value="Sign Up" /> 
                 </form>
             </div>
         )

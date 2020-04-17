@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Homepage from './components/Homepage';
 import Account from './components/Account';
+import {fetchResponse} from './services/api'
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class App extends React.Component{
@@ -28,6 +29,15 @@ class App extends React.Component{
     }));
   }
 
+  handleRegisterSubmit = (ev) => {
+    ev.preventDefault();
+    console.log(this.state.registerFormData);
+  }
+
+  componentDidMount = async() => {
+    const res = await fetchResponse();
+    console.log(res);
+  }
   render(){
     return (
       <div>
@@ -35,6 +45,7 @@ class App extends React.Component{
         <Account 
           registerFormData={this.state.registerFormData}
           handleRegisterChange={this.handleRegisterChange}
+          handleRegisterSubmit={this.handleRegisterSubmit}
         />
         <Router>
           <Route exact path="/allusers" component = {Homepage} />
