@@ -10,14 +10,15 @@ class MyNav extends Component {
   }
   render() {
     const styles = {
-      fontSize: "1.5rem",
+      fontSize: "1.6rem",
       fontFamily: "Ubuntu, sans-serif",
       fontWeight: "1000",
       color: "white",
       backgroundColor: "#23cf53",
     };
     const stylesLogo = {
-      fontSize: "2rem",
+      fontSize: "1.8rem",
+      padding: "0",
       fontFamily: "Ubuntu, sans-serif",
       fontWeight: "1000",
       color: "white",

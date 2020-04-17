@@ -21,7 +21,9 @@ class PlantCard extends Component {
             width: "18rem",
             height: this.props.height || "500px",
             width: this.props.width || "400px",
+            margin: "5px",
           }}
+          className="cardbox"
         >
           <Card.Img variant="top" src={img} style={{ height: "65%" }} />
           <Card.Body>

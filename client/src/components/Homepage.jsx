@@ -82,12 +82,12 @@ class Homepage extends Component {
           <Row>
             <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
               <Row className="preview">
-                <Card style={{ width: "inherit", height: "37vh" }}>
+                <Card style={{ width: "inherit", minHeight: "37vh" }}>
                   <Link
                     to="/outdoorgarden"
                     style={{ textDecoration: "none", color: "black" }}
                   >
-                    <Card.Header as="h5">Outdoor Garden</Card.Header>{" "}
+                    <Card.Header as="h4">Outdoor Garden</Card.Header>{" "}
                   </Link>
                   <Card.Body>
                     <Card.Title>You have no plants to water today!</Card.Title>
@@ -107,12 +107,12 @@ class Homepage extends Component {
                 </Card>
               </Row>
               <Row className="preview">
-                <Card style={{ width: "inherit", height: "37vh" }}>
+                <Card style={{ width: "inherit", minHeight: "37vh" }}>
                   <Link
                     to="/indoorgarden"
                     style={{ textDecoration: "none", color: "black" }}
                   >
-                    <Card.Header as="h5">Indoor Garden</Card.Header>
+                    <Card.Header as="h4">Indoor Garden</Card.Header>
                   </Link>
                   <Card.Body>
                     <Card.Title>You have no plants to water today!</Card.Title>
@@ -135,7 +135,7 @@ class Homepage extends Component {
             <Col style={{ height: "100vh" }}>
               <Row className="preview">
                 <Card style={{ minHeight: "15vh", width: "inherit" }}>
-                  <Card.Header as="h5">Weather</Card.Header>
+                  <Card.Header as="h4">Weather</Card.Header>
                   <Card.Body>
                     <Card.Title>
                       {new Date(Date.now()).toDateString()}
@@ -153,7 +153,7 @@ class Homepage extends Component {
                     width: "inherit",
                   }}
                 >
-                  <Card.Header as="h5">Alerts</Card.Header>
+                  <Card.Header as="h4">Alerts</Card.Header>
                   <Card.Body>
                     <Card.Title>Your Alerts</Card.Title>
                     <div style={{ height: "90%", overflow: "auto" }}>

@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Ubuntu&display=swap");
 
 .nav-item {
-  padding: 2rem !important;
+  padding: 1.5rem !important;
   cursor: pointer;
 }
 .navbar-brand {
