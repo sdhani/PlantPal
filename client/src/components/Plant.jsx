@@ -3,9 +3,7 @@ class Plant extends Component {
   state = {};
   constructor(props) {
     super(props);
-    this.state = {
-      plants: plantData,
-    };
+    this.state = {};
   }
 
   render() {

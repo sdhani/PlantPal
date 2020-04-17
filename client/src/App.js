@@ -7,6 +7,7 @@ import MyNav from "./components/MyNav";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import Plant from "./components/Plant";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route exact path="/allusers" component={Homepage} />
         <Route exact path="/garden" component={Garden} />
         <Route exact path="/profile" component={Profile} />
+        <Route exact path="/plant" component={Plant} />
       </Router>
     </div>
   );
