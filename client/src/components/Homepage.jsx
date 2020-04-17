@@ -82,7 +82,7 @@ class Homepage extends Component {
           <Row>
             <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
               <Row className="preview">
-                <Card style={{ width: "inherit", height: "40vh" }}>
+                <Card style={{ width: "inherit", height: "37vh" }}>
                   <Card.Header as="h5">Outdoor Garden</Card.Header>
                   <Card.Body>
                     <Card.Title>You have no plants to water today!</Card.Title>
@@ -102,7 +102,7 @@ class Homepage extends Component {
                 </Card>
               </Row>
               <Row className="preview">
-                <Card style={{ width: "inherit", height: "40vh" }}>
+                <Card style={{ width: "inherit", height: "37vh" }}>
                   <Card.Header as="h5">Indoor Garden</Card.Header>
                   <Card.Body>
                     <Card.Title>You have no plants to water today!</Card.Title>
