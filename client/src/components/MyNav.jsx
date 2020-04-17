@@ -14,7 +14,7 @@ class MyNav extends Component {
       fontFamily: "Ubuntu, sans-serif",
       fontWeight: "1000",
       color: "white",
-      backgroundColor: "#0f6e2d",
+      backgroundColor: "#158538",
     };
     const stylesLogo = {
       fontSize: "1.8rem",
@@ -22,7 +22,7 @@ class MyNav extends Component {
       fontFamily: "Ubuntu, sans-serif",
       fontWeight: "1000",
       color: "white",
-      backgroundColor: "#0f6e2d",
+      backgroundColor: "#158538",
     };
 
     if (
