@@ -16,6 +16,13 @@ class MyNav extends Component {
       color: "white",
       backgroundColor: "#23cf53",
     };
+    const stylesLogo = {
+      fontSize: "2rem",
+      fontFamily: "Ubuntu, sans-serif",
+      fontWeight: "1000",
+      color: "white",
+      backgroundColor: "#23cf53",
+    };
 
     if (
       this.props.location.pathname === "/" ||
@@ -25,7 +32,7 @@ class MyNav extends Component {
     } else {
       return (
         <Navbar collapseOnSelect expand="lg" variant="light" style={styles}>
-          <LinkContainer style={styles} to={`/home`}>
+          <LinkContainer style={stylesLogo} to={`/home`}>
             <Navbar.Brand style={styles} href={`/home`}>
               PlantPal
             </Navbar.Brand>
@@ -44,10 +51,10 @@ class MyNav extends Component {
                 <NavItem eventKey={2}>Gardens</NavItem>
               </LinkContainer>
               <LinkContainer style={styles} to={`/profile`}>
-                <NavItem eventKey={4}>Profile</NavItem>
+                <NavItem eventKey={3}>Profile</NavItem>
               </LinkContainer>
               <LinkContainer style={styles} to={`/`}>
-                <NavItem eventKey={5}>Logout</NavItem>
+                <NavItem eventKey={4}>Logout</NavItem>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>

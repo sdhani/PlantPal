@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PlantCard from "./PlantCard";
 import styles from "../styles/cards.css";
+import plantData from "../dummy_plants.json";
 
 class Garden extends Component {
   state = {};
@@ -11,7 +12,9 @@ class Garden extends Component {
     };
   }
   componentDidMount() {
-    this.setState({ plants: this.props.plantData });
+    this.setState({
+      plants: this.props.plantData || plantData,
+    });
   }
   render() {
     let allPlants = this.state.plants.map((plant) => {
@@ -24,7 +27,6 @@ class Garden extends Component {
     console.log(this.state.plants);
     return (
       <div>
-        <h1 style={{ textAlign: "center" }}>Garden page</h1>
         <div className="card-container-outer">
           <div className="card-container">{allPlants}</div>
         </div>

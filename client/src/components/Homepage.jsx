@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+/**
+ *
+ * HOME:
+ * should fetch weather data
+ * should display alerts
+ * should show preview of gardens
+ */
 class Homepage extends Component {
   state = { users: [] };
 

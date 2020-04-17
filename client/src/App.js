@@ -20,7 +20,8 @@ function App() {
         <Route exact path="/home" component={Homepage} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/allusers" component={Homepage} />
-        <Route exact path="/garden" component={Garden} />
+        <Route exact path="/garden" component={Garden} />{" "}
+        {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
         <Route exact path="/outdoorgarden" component={OutdoorGarden} />
         <Route exact path="/indoorgarden" component={IndoorGarden} />
         <Route exact path="/profile" component={Profile} />
