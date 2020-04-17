@@ -513,7 +513,7 @@
     "family_common_name": "Rose family"
   },
   {
-    "plant_id": 1,
+    "plant_id": 5,
     "trefle_id": 193519,
     "common_name": "corn",
     "scientific_name": "Zea mays",
@@ -616,7 +616,7 @@
   },
 
   {
-    "plant_id": 2,
+    "plant_id": 7,
     "trefle_id": 111928,
     "common_name": "white doll's daisy",
     "scientific_name": "Boltonia asteroides",
@@ -719,7 +719,7 @@
   },
 
   {
-    "plant_id": 3,
+    "plant_id": 8,
     "trefle_id": 155728,
     "common_name": "wild mint",
     "scientific_name": "Mentha arvensis",
@@ -822,7 +822,7 @@
   },
 
   {
-    "plant_id": 4,
+    "plant_id": 9,
     "trefle_id": 158107,
     "common_name": "true forget-me-not",
     "scientific_name": "Myosotis scorpioides",
@@ -924,7 +924,7 @@
     "family_common_name": "Borage family"
   },
   {
-    "plant_id": 5,
+    "plant_id": 10,
     "trefle_id": 175820,
     "common_name": "cluster rose",
     "scientific_name": "Rosa pisocarpa",

@@ -16,14 +16,9 @@ class Garden extends Component {
   }
   render() {
     let allPlants = this.state.plants.map((plant) => {
-      console.log("name", plant.common_name);
       return (
         <div style={{ padding: "20px" }}>
-          <PlantCard
-            name={plant.common_name}
-            family={plant.family_common_name}
-            img={plant.images.url}
-          />
+          <PlantCard plant={plant} />
         </div>
       );
     });

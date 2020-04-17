@@ -8,8 +8,9 @@ class PlantCard extends Component {
     super(props);
   }
   render() {
-    const { name, family, img } = this.props;
-    console.log(this.props);
+    const { plant_id, common_name } = this.props.plant;
+    const img = this.props.plant.images.url;
+    const plant = { ...this.props.plant };
     return (
       <Card
         style={{
@@ -20,12 +21,12 @@ class PlantCard extends Component {
       >
         <Card.Img variant="top" src={img} style={{ height: "300px" }} />
         <Card.Body>
-          <Card.Title>{name}</Card.Title>
+          <Card.Title>{common_name}</Card.Title>
           <Card.Text>
             Some plant info some plant info Some plant info some plant info Some
             plant info some plant info
           </Card.Text>
-          <Link to="/plant">
+          <Link to={{ pathname: `/plant/${plant_id}`, state: { plant } }}>
             <Button variant="primary" style={{ backgroundColor: "#23cf53" }}>
               View
             </Button>
