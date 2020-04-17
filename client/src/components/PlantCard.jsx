@@ -22,6 +22,7 @@ class PlantCard extends Component {
             height: this.props.height || "500px",
             width: this.props.width || "400px",
             margin: "5px",
+            color: "#0a3618",
           }}
           className="cardbox"
         >
