@@ -6,6 +6,7 @@ import Garden from "./components/Garden";
 import MyNav from "./components/MyNav";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Profile from "./components/Profile";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/register" component={Register} />
         <Route exact path="/allusers" component={Homepage} />
         <Route exact path="/garden" component={Garden} />
+        <Route exact path="/profile" component={Profile} />
       </Router>
     </div>
   );

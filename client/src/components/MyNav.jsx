@@ -16,6 +16,7 @@ class MyNav extends Component {
       color: "white",
       backgroundColor: "#23cf53",
     };
+
     if (
       this.props.location.pathname === "/" ||
       this.props.location.pathname === "/register"
@@ -42,7 +43,7 @@ class MyNav extends Component {
               <LinkContainer style={styles} to={`/garden`}>
                 <NavItem eventKey={2}>Gardens</NavItem>
               </LinkContainer>
-              <LinkContainer style={styles} to={`/alltheusers`}>
+              <LinkContainer style={styles} to={`/profile`}>
                 <NavItem eventKey={4}>Profile</NavItem>
               </LinkContainer>
               <LinkContainer style={styles} to={`/`}>

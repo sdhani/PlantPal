@@ -10,7 +10,11 @@ class Plant extends Component {
 
   render() {
     console.log(this.state.plants);
-    return <div>Plant Page</div>;
+    return (
+      <div>
+        <h1>Plant Page</h1>
+      </div>
+    );
   }
 }
 

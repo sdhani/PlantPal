@@ -16,11 +16,11 @@ class Register extends Component {
     console.log("create user");
     // e.preventDefault();
     // axios
-    //   .post("https://floating-bastion-36036.herokuapp.com/api/users/create", {
+    //   .post("/api/users/create", {
     //     ...this.state,
     //   })
     //   .then((data) => {
-    //     this.props.history.push(`/home/${data.data.email}`);
+    //     console.log(data);
     //   })
     //   .catch((e) => {
     //     this.setState({ invalid: true });
