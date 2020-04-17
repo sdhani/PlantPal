@@ -83,7 +83,12 @@ class Homepage extends Component {
             <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
               <Row className="preview">
                 <Card style={{ width: "inherit", height: "37vh" }}>
-                  <Card.Header as="h5">Outdoor Garden</Card.Header>
+                  <Link
+                    to="/outdoorgarden"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <Card.Header as="h5">Outdoor Garden</Card.Header>{" "}
+                  </Link>
                   <Card.Body>
                     <Card.Title>You have no plants to water today!</Card.Title>
                     <div className="card-container-outer">
@@ -103,7 +108,12 @@ class Homepage extends Component {
               </Row>
               <Row className="preview">
                 <Card style={{ width: "inherit", height: "37vh" }}>
-                  <Card.Header as="h5">Indoor Garden</Card.Header>
+                  <Link
+                    to="/indoorgarden"
+                    style={{ textDecoration: "none", color: "black" }}
+                  >
+                    <Card.Header as="h5">Indoor Garden</Card.Header>
+                  </Link>
                   <Card.Body>
                     <Card.Title>You have no plants to water today!</Card.Title>
                     <div className="card-container-outer">
@@ -131,6 +141,8 @@ class Homepage extends Component {
                       {new Date(Date.now()).toDateString()}
                     </Card.Title>
                     <Card.Text>It is super hot today</Card.Text>
+                    <Card.Text>It is super hot today</Card.Text>
+                    <Card.Text>It is super hot today</Card.Text>
                   </Card.Body>
                 </Card>
               </Row>
@@ -153,12 +165,7 @@ class Homepage extends Component {
             </Col>
           </Row>
         </Container>
-        <Link to="/outdoorgarden">
-          <h3>Outdoor Garden</h3>
-        </Link>
-        <Link to="/indoorgarden">
-          <h3>Indoor Garden</h3>
-        </Link>
+
         <ul>
           {this.state.users.map((user) => {
             return (
