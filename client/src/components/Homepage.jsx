@@ -82,7 +82,13 @@ class Homepage extends Component {
           <Row>
             <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
               <Row className="preview">
-                <Card style={{ width: "inherit", minHeight: "37vh" }}>
+                <Card
+                  style={{
+                    width: "inherit",
+                    minHeight: "37vh",
+                    borderColor: "darkgrey",
+                  }}
+                >
                   <Link
                     to="/outdoorgarden"
                     style={{ textDecoration: "none", color: "black" }}
@@ -116,7 +122,13 @@ class Homepage extends Component {
                 </Card>
               </Row>
               <Row className="preview">
-                <Card style={{ width: "inherit", minHeight: "37vh" }}>
+                <Card
+                  style={{
+                    width: "inherit",
+                    minHeight: "37vh",
+                    borderColor: "darkgrey",
+                  }}
+                >
                   <Link
                     to="/indoorgarden"
                     style={{ textDecoration: "none", color: "black" }}
@@ -152,7 +164,13 @@ class Homepage extends Component {
             </Col>
             <Col style={{ height: "100vh" }}>
               <Row className="preview">
-                <Card style={{ minHeight: "15vh", width: "inherit" }}>
+                <Card
+                  style={{
+                    minHeight: "15vh",
+                    width: "inherit",
+                    borderColor: "darkgrey",
+                  }}
+                >
                   <Card.Header
                     as="h4"
                     style={{
@@ -178,6 +196,7 @@ class Homepage extends Component {
                   style={{
                     height: "50vh",
                     width: "inherit",
+                    borderColor: "darkgrey",
                   }}
                 >
                   <Card.Header
