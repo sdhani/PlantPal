@@ -23,9 +23,9 @@ class PlantCard extends Component {
             width: this.props.width || "280px",
             margin: "5px",
             color: "#0a3618",
-            borderColor: "rgb(46, 202, 95)",
+            borderColor: "#006b28",
             borderWidth: ".5px",
-            borderBottom: "5px solid rgb(46, 202, 95)",
+            borderBottom: "5px solid #22b550",
           }}
           className="cardbox"
         >
@@ -39,12 +39,24 @@ class PlantCard extends Component {
                 </Card.Text>
                 <Link to={{ pathname: `/plant/${plant_id}`, state: { plant } }}>
                   <Button
-                    variant="primary"
-                    style={{ backgroundColor: "#22b550" }}
+                    variant="secondary"
+                    style={{ backgroundColor: "#006b28", marginRight: "5px" }}
                   >
                     View
                   </Button>
                 </Link>
+                {/* <Button
+                  variant="secondary"
+                  style={{ backgroundColor: "#bfe046", marginRight: "5px" }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="secondary"
+                  style={{ backgroundColor: "#db5c58" }}
+                >
+                  Delete
+                </Button> */}
               </div>
             )}
           </Card.Body>

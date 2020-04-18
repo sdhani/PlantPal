@@ -23,7 +23,7 @@ class MyModal extends Component {
           variant="primary"
           size="lg"
           onClick={handleShow}
-          style={{ backgroundColor: "#22b550" }}
+          style={{ backgroundColor: "#006b28" }}
         >
           {this.props.label}
         </Button>
