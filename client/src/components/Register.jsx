@@ -35,7 +35,7 @@ class Register extends Component {
   render() {
     return (
       <div className="login-page">
-        <h1 style={{ textAlign: "center" }}>PlantPal</h1>
+        <h1 style={{ textAlign: "center", color: "#22b550" }}>PlantPal</h1>
         {this.state.invalid ? (
           <h5
             style={{

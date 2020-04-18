@@ -36,7 +36,7 @@ class Login extends Component {
   render() {
     return (
       <div className="login-page">
-        <h1 style={{ textAlign: "center" }}>Plant Pal</h1>
+        <h1 style={{ textAlign: "center", color: "#22b550" }}>Plant Pal</h1>
         {this.state.invalid ? (
           <h5
             style={{
