@@ -41,7 +41,7 @@ class Plant extends Component {
           <Button
             variant="primary"
             size="lg"
-            style={{ backgroundColor: "#22b550" }}
+            style={{ backgroundColor: "#006b28" }}
           >
             Edit Plant
           </Button>
@@ -50,7 +50,7 @@ class Plant extends Component {
           <Button
             variant="primary"
             size="lg"
-            style={{ backgroundColor: "#22b550" }}
+            style={{ backgroundColor: "#006b28" }}
           >
             Delete Plant
           </Button>
