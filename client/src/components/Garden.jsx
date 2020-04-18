@@ -99,7 +99,7 @@ class Garden extends Component {
             form={addForm}
             label={"Add A Plant"}
             title={`Add A Plant`}
-            refresh={this.refresh}
+            // refresh={this.refresh}
           />
         </div>
         <div className="card-container-outer">
