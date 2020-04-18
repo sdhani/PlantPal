@@ -13,7 +13,9 @@ class OutdoorGarden extends Component {
   render() {
     return (
       <div>
-        <h1 style={{ textAlign: "center" }}>Outdoor Garden</h1>
+        <h1 style={{ textAlign: "center", paddingTop: "20px" }}>
+          Outdoor Garden
+        </h1>
         <Garden plantData={plantData} />
       </div>
     );

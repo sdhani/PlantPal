@@ -60,8 +60,8 @@ class Homepage extends Component {
       return (
         <PlantCard
           plant={plant}
-          width={"200px"}
-          height={"200px"}
+          width={"150px"}
+          height={"150px"}
           preview={true}
         />
       );
@@ -70,8 +70,8 @@ class Homepage extends Component {
       return (
         <PlantCard
           plant={plant}
-          width={"200px"}
-          height={"200px"}
+          width={"150px"}
+          height={"150px"}
           preview={true}
         />
       );
@@ -125,7 +125,7 @@ class Homepage extends Component {
                       as="h4"
                       style={{
                         color: "white",
-                        backgroundColor: "#0c9437",
+                        backgroundColor: "rgb(137, 218, 31)",
                         opacity: ".7",
                       }}
                     >
@@ -157,7 +157,7 @@ class Homepage extends Component {
                     as="h4"
                     style={{
                       color: "white",
-                      backgroundColor: "#0c9437",
+                      backgroundColor: "#22b5ae",
                       opacity: ".7",
                     }}
                   >
@@ -184,15 +184,14 @@ class Homepage extends Component {
                     as="h4"
                     style={{
                       color: "white",
-                      backgroundColor: "#0c9437",
+                      backgroundColor: "#22b550",
                       opacity: ".7",
                     }}
                   >
                     Alerts
                   </Card.Header>
                   <Card.Body>
-                    <Card.Title>Your Alerts</Card.Title>
-                    <div style={{ height: "90%", overflow: "auto" }}>
+                    <div style={{ height: "95%", overflow: "auto" }}>
                       {alerts}
                     </div>
                   </Card.Body>

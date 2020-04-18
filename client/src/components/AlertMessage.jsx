@@ -12,6 +12,7 @@ class AlertCard extends Component {
           width: this.props.width || "20vw",
           height: "100px",
           marginBottom: "10px",
+          opacity: ".85",
         }}
       >
         <Card.Header>Header</Card.Header>

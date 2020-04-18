@@ -10,7 +10,7 @@ class MyNav extends Component {
   }
   render() {
     const styles = {
-      fontSize: "1.6rem",
+      fontSize: "1.5rem",
       fontFamily: "Ubuntu, sans-serif",
       fontWeight: "1000",
       color: "white",
@@ -18,9 +18,6 @@ class MyNav extends Component {
     };
     const stylesLogo = {
       fontSize: "1.8rem",
-      padding: "0",
-      fontFamily: "Ubuntu, sans-serif",
-      fontWeight: "1000",
       color: "white",
       backgroundColor: "#158538",
     };
