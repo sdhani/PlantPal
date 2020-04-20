@@ -75,18 +75,24 @@ Router.put("/:id", async (req, res) => {
 
 });
 
+/* DEL plant */
+Router.delete("/:id/delete", async(req, res) => {
+  const { body } = req;
 
-// /* GET a specific garden (of plants) from a user */
-// Router.get("/:id", async (req, res) => {
-//   // const { garden_id } = req.body;
+  if (!body.hasOwnProperty('user_id')) {
+    return res.status(400).json({ error: 'you must supply a field "user_id" when updating a new garden' });
+  }
 
-//   try {
-//     db.getPlantsFromGarden(req.params.id).then(plants => {
-//       res.status(200).json(plants);getAllPlantsFromGarden(user_id, garden_id)
-//     })
-//   }
-//   catch(err) { console.log(err); }
-// });
+  try {
+    db.deletePlant(user_id, req.params.id).then(
+      res.status(200).json({success: true})
+    );
+  }
+  catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'something weird happened with the API.' });
+  }
+});
 
 
 module.exports = Router; /* export Router */
