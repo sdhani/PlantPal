@@ -1,14 +1,18 @@
 const knex = require('./knex'); // the connection
 
 module.exports = {
+  getAllPlantsFromUser(user_id){
+    return knex('plants')
+    .where('user_id', user_id)
+  },
 
-  createGarden(garden_name, user_id){
-    return knex('gardens')
+  addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name){
+    return knex('plants')
     .insert({ 
-      garden_name,
-      user_id
+      user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name
     })
   },
+
 
   // getGardenByID(user_id, id){
   //   return knex('gardens')
