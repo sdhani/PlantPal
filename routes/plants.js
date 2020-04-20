@@ -41,7 +41,40 @@ Router.post("/", async (req, res) => {
   catch (e) {
     console.error(e);
     res.status(500).json({ error: 'something weird happened with the API.' });
-  }});
+  }
+});
+
+
+/* PUT plant */
+Router.put("/:id", async (req, res) => {
+  const { body } = req;
+
+  if (!body.hasOwnProperty('user_id')) {
+    return res.status(400).json({ error: 'you must supply a field "user_id" when updating a new garden' });
+  }
+
+  if (!body.hasOwnProperty('garden_id')) {
+    return res.status(400).json({ error: 'you must supply a field "garden_id" when updating a new garden' });
+  }
+
+  if (!body.hasOwnProperty('outdoor_plant')) {
+    return res.status(400).json({ error: 'you must supply a field "outdoor_plant" when updating a new garden' });
+  }
+
+  const { garden_id, outdoor_plant, user_id, images } = body;
+
+  try {
+    db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images).then(
+      res.status(200).json({success: true})
+    );
+  }
+  catch (e) {
+    console.error(e);
+    res.status(500).json({ error: 'something weird happened with the API.' });
+  }
+
+});
+
 
 // /* GET a specific garden (of plants) from a user */
 // Router.get("/:id", async (req, res) => {
@@ -53,32 +86,6 @@ Router.post("/", async (req, res) => {
 //     })
 //   }
 //   catch(err) { console.log(err); }
-// });
-
-// /* Create new garden */
-// Router.post("/", async (req, res) => {
-//   const { body } = req;
-
-//   if (!body.hasOwnProperty('garden_name')) {
-//     return res.status(400).json({ error: 'you must supply a field "garden_name" when creating a new garden' });
-//   }
-
-//   if (!body.hasOwnProperty('user_id')) {
-//     return res.status(400).json({ error: 'you must supply a field "user_id" when creating a new garden' });
-//   }
-
-//   const { garden_name, user_id } = body;
-  
-//   console.log("passed checks")
-//   try {
-//     const newGardenId = await db.createGarden(garden_name, user_id)
-
-   
-// 	}
-//   catch (e) {
-//     console.error(e);
-//     res.status(500).json({ error: 'something weird happened with the API.' });
-//   }
 // });
 
 
