@@ -2,8 +2,8 @@
 
 module.exports = [
   {
-    plant_id: 1,
     trefle_id: 193519,
+    garden_id: 1,
     common_name: "corn",
     scientific_name: "Zea mays",
     duration: "Annual",
@@ -106,8 +106,8 @@ module.exports = [
   },
 
   {
-    plant_id: 2,
     trefle_id: 111928,
+    garden_id: 1,
     common_name: "white doll's daisy",
     scientific_name: "Boltonia asteroides",
     duration: "Perennial",
@@ -209,8 +209,8 @@ module.exports = [
   },
 
   {
-    plant_id: 3,
     trefle_id: 155728,
+    garden_id: 2,
     common_name: "wild mint",
     scientific_name: "Mentha arvensis",
     duration: "Perennial",
@@ -312,8 +312,8 @@ module.exports = [
   },
 
   {
-    plant_id: 4,
     trefle_id: 158107,
+    garden_id: 3,
     common_name: "true forget-me-not",
     scientific_name: "Myosotis scorpioides",
     duration: "Perennial",
@@ -415,8 +415,8 @@ module.exports = [
   },
 
   {
-    plant_id: 5,
     trefle_id: 175820,
+    garden_id: 4,
     common_name: "cluster rose",
     scientific_name: "Rosa pisocarpa",
     duration: "Perennial",

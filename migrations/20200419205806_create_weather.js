@@ -1,9 +1,12 @@
-/* migrations/[...]_create-weather.js */
+/* migrations/[...]_create_weather.js */
 
 exports.up = function(knex) {
   return knex.schema.createTable('weather', (table) => {
-    table.string('zipcode', 5).notNullable().primary(); /* PK */
-    table.decimal('day_max_temp', 5, 2); /* Length, Precision might be off */
+    table.increments('id').primary(); // PK
+    table.integer('location_id').references('id').inTable('location'); // FK
+    table.integer('user_id').references('id').inTable('users'); // FK 
+    table.string('zipcode', 5); 
+    table.decimal('day_max_temp', 5, 2); 
     table.decimal('day_min_temp', 5, 2); 
     table.decimal('day_total_rain', 5, 2); 
     table.decimal('forcast1_max_temp', 5, 2); 
