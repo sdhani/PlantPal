@@ -1,9 +1,20 @@
 const knex = require('./knex'); // the connection
 
 module.exports = {
-  getAllUserGardens(email){
+  getAllUserGardens(id){
     return knex('gardens')
-    .where('users_email', email)
+    .where('user_id', id)
+    .orderBy('id')
+    
+  },
+
+  createGarden(garden_name, user_id){
+    return knex('gardens')
+    .insert({ 
+      garden_name,
+      user_id
+    })
+    .returning('id');
   },
   // getPlantID(id) {
   //   return knex('plants')

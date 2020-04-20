@@ -1,12 +1,12 @@
 /* routes/users.js */
 const Router = require("express").Router();
-const queries = require('../controllers/users');
+const db = require('../controllers/users');
 
 
 /* GET all users on server */
 Router.get("/", async (req, res) => {
 	try {
-		queries.getAllUsers().then(users => {
+		db.getAllUsers().then(users => {
 			res.status(200).json(users);
 		});
 	}
