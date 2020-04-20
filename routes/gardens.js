@@ -1,6 +1,6 @@
 /* routes/plants.js */
 const Router = require("express").Router();
-const db = require('../controllers/plants');
+const db = require('../controllers/gardens');
 
 
 /* GET All gardens from a user */
@@ -42,8 +42,10 @@ Router.post("/", async (req, res) => {
   
   console.log("passed checks")
   try {
-    db.createGarden(garden_name, user_id)
-    return res.status(200).send("success");
+    db.createGarden(garden_name, user_id).then(
+      res.status(200).json({success: true})
+    )
+
 	}
   catch (e) {
     console.error(e);

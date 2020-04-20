@@ -14,8 +14,16 @@ module.exports = {
       garden_name,
       user_id
     })
-    .returning('id');
   },
+
+  // getPlantsFromGarden(garden_id, user_id){
+  //   const garden = knex('plants')
+  //   .where('garden_id', garden_id)
+    
+  //   const permission = knex('gardens').where('user_id', user_id)
+  //   .orderBy('id')
+  // },
+
   // getPlantID(id) {
   //   return knex('plants')
   //     .select('id')

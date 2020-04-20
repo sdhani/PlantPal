@@ -9,21 +9,23 @@ const app = express();
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
-const apiRouter = require("./routes/users");
+const usersRoute = require("./routes/users");
+const gardensRoute = require("./routes/gardens");
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/users", apiRouter);
+app.use("/users", usersRoute);
+app.use("/garden", gardensRoute);
 
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname+'/client/build/index.html'));
+// });
 
 
 app.set('port', (process.env.PORT || 3001));
