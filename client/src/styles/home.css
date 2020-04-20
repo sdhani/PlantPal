@@ -1,0 +1,20 @@
+.preview {
+  width: inherit;
+  /* height: 40vh; */
+  margin: 45px;
+}
+
+.weather {
+  width: inherit;
+  display: flex;
+  justify-content: space-around;
+}
+
+.inheretedWidth {
+  width: inherit;
+}
+/* 
+.grid-container {
+  display: flex;
+  justify-content: space-around;
+} */
