@@ -7,18 +7,25 @@ module.exports = {
     .orderBy('id')
   },
 
+  getGardenByID(user_id, id){
+    return knex('gardens')
+    .where('id', id)
+    .where('user_id', user_id)
+  },
+
+  /* Needs to check user */
+  getAllPlantsFromGarden(user_id, garden_id){
+    return knex('plants')
+    .where('garden_id', garden_id)
+    .orderBy('id')
+  },
+
   createGarden(garden_name, user_id){
     return knex('gardens')
     .insert({ 
       garden_name,
       user_id
     })
-  },
-
-  getGardenByID(user_id, id){
-    return knex('gardens')
-    .where('id', id)
-    .where('user_id', user_id)
   },
 
   updateGardenByID(user_id, id, garden_name){

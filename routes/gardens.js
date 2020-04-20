@@ -1,4 +1,5 @@
-/* routes/plants.js */
+/* routes/gardens.js */
+
 const Router = require("express").Router();
 const db = require('../controllers/gardens');
 
@@ -15,10 +16,9 @@ Router.get("/", async (req, res) => {
 });
 
 
-/* GET a specific garden (of plants) from a user */
+/* GET a specific garden from a user */
 Router.get("/:id", async (req, res) => {
   const { user_id } = req.body;
-
   try {
     db.getGardenByID(user_id, req.params.id).then(garden => {
       if(garden.length > 0){
@@ -28,6 +28,18 @@ Router.get("/:id", async (req, res) => {
       }
     });
   }
+  catch(err) { console.log(err); }
+});
+
+
+/* GET All plants from a garden */
+Router.get("/:id/plants", async (req, res) => {
+  const { user_id } = req.body;
+  try {
+		db.getAllPlantsFromGarden(user_id, req.params.id).then(plants => {
+			res.status(200).json(plants);
+		});
+	}
   catch(err) { console.log(err); }
 });
 

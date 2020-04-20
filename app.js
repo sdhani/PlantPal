@@ -11,6 +11,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 const usersRoute = require("./routes/users");
 const gardensRoute = require("./routes/gardens");
+const plantsRoute = require("./routes/plants");
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use(cookieParser());
 
 app.use("/users", usersRoute);
 app.use("/garden", gardensRoute);
+app.use("/plants", plantsRoute);
 
 
 // The "catchall" handler: for any request that doesn't
@@ -27,6 +29,8 @@ app.use("/garden", gardensRoute);
 //   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 // });
 
+// app.use(app.router);
+// routes.intialize(app);
 
 app.set('port', (process.env.PORT || 3001));
 app.listen(app.get('port'), () => {
