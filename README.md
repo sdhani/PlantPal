@@ -27,15 +27,15 @@
 
 1. Add your `DATABASE_URL = "url-link-to-newDB"` to the .env file.
 
-1. Set up your database tables, and seed it with dummy data. In the root directory of the project, run
+1. Add your `TREFLE_TOKEN = "your-trefle-token"` to the .env file.
 
-    ```
-        knex migrate:latest
-        knex seed:run
-    ```
+1. Set up your database tables relations. Run `knex migrate:latest` in the root directory.
+
+1. Seed your database. Run `knex seed:run` in the root directory.
     
 1. Run `yarn start-all` in the root directory. 
-1. Open `http://localhost:3000/allusers` in your browser to view seed data of all users.
+
+1. Open `http://localhost:3000` in your browser to view seed data of all users.
 
 ---
 
@@ -44,28 +44,30 @@
 ### users
 |    Key    |    Column     |    Type    |
 |    :---:    |    :---:     |    :---:     |
-| PK | email | varchar(50) | 
+| PK | id | serial unique |
+|  | email | varchar(50) | 
 |   | display_name | varchar(255) |
-| FK | weather_zipcode | varchar(5) |
+|  | zipcode | varchar(5) |
 
 
 ### gardens
 |    Key    |    Column     |    Type    |
 |    :---:    |    :---:     |    :---:     |
-| PK | garden_name | varchar(255) | 
-| FK | users_email | varchar(50) |
-| FK | plants_plant_id | smallint |
+| PK | id | serial unique |
+| | garden_name | varchar(255) | 
+| FK | user_id | integer |
 
 
 ### plants
 |    Key    |    Column     |    Type    |
 |    :---:    |    :---:     |    :---:     |
-| PK | plant_id | smallint | 
-| N | common_name | varchar(255) |
-|  | trefle_id | smallint | 
+| PK | id | serial unique | 
+|  | garden_id | smallint | 
+|  | user_id | smallint | 
+|  | common_name | varchar(255) |
 |  | scientific_name | varchar(255) |
+|  | trefle_id | smallint | 
 |  | duration | varchar(255) |
-|  | family_common_name | varchar(255) |
 |  | outdoor_plant | boolean |
 |  | images | json |
 |  | foliage | json |
@@ -73,12 +75,16 @@
 |  | growth | json |
 |  | seed | json |
 |  | specifications | json |
+|  | family_common_name | varchar(255) |
 
 
 ### weather
 |    Key    |    Column     |    Type    |
 |    :---:    |    :---:     |    :---:     |
-| PK  | zipcode | varchar(5) | 
+| PK | id | integer |
+|   | location_id | integer | 
+|   | user_id | integer | 
+|   | zipcode | varchar(5) | 
 |   | day_max_temp | decimal(5,2) | 
 |   | day_min_temp | decimal(5,2) | 
 |   | day_total_rain | decimal(5,2) | 
@@ -93,7 +99,9 @@
 ### location
 |    Key    |    Column     |    Type    |
 |    :---:    |    :---:     |    :---:     |
-| PK FK | weather_zipcode | varchar(5) | 
+| PK | id | serial unique |
+| FK | user_id | integer |
+|  | weather_zipcode | varchar(5) | 
 |  | city | varchar(255) |
 |  | state | varchar(2) |
 |  | latitude | decimal(9,6) |
