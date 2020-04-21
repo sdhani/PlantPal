@@ -15,6 +15,12 @@ module.exports = {
     }).returning('id')
   },
 
+  getUserByID(id) {
+    return knex('users')
+    .select('id', 'email', 'display_name', 'zipcode')
+    .where('id', id)
+  },
+
   updateUser(id, email, display_name, zipcode, password) {
     return knex('users')
     .where('id', id)

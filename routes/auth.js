@@ -43,6 +43,7 @@ Router.post("/register", async (req, res) => {
 });
 
 
+/* GET current user's ID -> format { "id": [ x ], ...} where x is some user_id number */
 Router.get('/me', async (req, res) => {
   const token = req.headers['x-access-token'];
 
@@ -54,7 +55,12 @@ Router.get('/me', async (req, res) => {
     if (err) {
       return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
     }
-    res.status(200).send(decoded); /* decoded contains user id */
+
+    try {
+      // console.log("DECODED", decoded.id[0].constructor)
+      db.getUserByID(decoded.id[0]).then(me => { res.status(200).json(me); });
+    }
+    catch(err) { console.log(err); }
   });
 });
 
