@@ -10,6 +10,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 const usersRoute = require("./routes/users");
+const authRoute = require("./routes/auth");
 const gardensRoute = require("./routes/gardens");
 const plantsRoute = require("./routes/plants");
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use("/users", usersRoute);
 app.use("/garden", gardensRoute);
 app.use("/plants", plantsRoute);
+app.use("/auth", authRoute);
 
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
