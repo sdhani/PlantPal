@@ -9,6 +9,7 @@ module.exports = [
     scientific_name: "Zea mays",
     duration: "Annual",
     outdoor_plant: true,
+    last_watered: "2020-04-01",
     images:{
       "url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Symbol_redirect_arrow_with_gradient.svg"
     },
@@ -114,6 +115,7 @@ module.exports = [
     scientific_name: "Boltonia asteroides",
     duration: "Perennial",
     outdoor_plant: true,
+    last_watered: "2020-04-01",
     images:{
       "url": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Boltonia_latisquama.jpg"
     },
@@ -218,6 +220,7 @@ module.exports = [
     scientific_name: "Mentha arvensis",
     duration: "Perennial",
     outdoor_plant: false,
+    last_watered: "2020-04-01",
     images:  {
       "url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Mentha_arvensis_-_p%C3%B5ldm%C3%BCnt_Keila.jpg"
     },
@@ -322,6 +325,7 @@ module.exports = [
     scientific_name: "Myosotis scorpioides",
     duration: "Perennial",
     outdoor_plant: false,
+    last_watered: "2020-04-01",
     images:  {
       "url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Myosotis_scorpioides_-_soo-l%C3%B5osilm_Keilas.jpg"
     },
@@ -426,6 +430,7 @@ module.exports = [
     scientific_name: "Rosa pisocarpa",
     duration: "Perennial",
     outdoor_plant: true,
+    last_watered: "2020-04-01",
     images:   {
       "url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Diplolepis-rosae.jpg"
     },

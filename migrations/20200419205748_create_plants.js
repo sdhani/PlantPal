@@ -5,11 +5,12 @@ exports.up = function(knex) {
     table.increments('id'); // PK 
     table.integer('garden_id').references('id').inTable('gardens'); // FK 
     table.integer('user_id').references('id').inTable('users'); // FK 
-    table.string('common_name'); 
+    table.string('common_name');
     table.string('scientific_name');
     table.integer('trefle_id');
     table.string('duration');
     table.boolean('outdoor_plant');
+    table.date('last_watered'); /* Expecting input: "yyyy-mm-dd"; response format: "2020-04-01T04:00:00.000Z" */
     table.json('images');
     table.json('foliage');
     table.json('fruit_or_seed');
@@ -23,3 +24,15 @@ exports.up = function(knex) {
 exports.down = function(knex) {
   return knex.schema.dropTable('plants');
 };
+
+
+/*
+ * Note:
+ *
+ * If last_watered !== today
+ *
+ * 
+ * Convert json data type into json obj for easier 
+ * handling in front end, or use lodash?.
+ * 
+ */
