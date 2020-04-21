@@ -19,7 +19,6 @@
     "http-errors": "~1.6.3",
     "http-proxy-middleware": "^1.0.3",
     "knex": "^0.20.13",
-    "lodash": "^4.17.15",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.3",
     "pg": "^8.0.2"
