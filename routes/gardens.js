@@ -57,21 +57,19 @@ Router.post("/", async (req, res) => {
   }
 
   const { garden_name, user_id } = body;
-  
   try {
     db.createGarden(garden_name, user_id).then(
       res.status(200).json({success: true})
     )
-
 	}
-  catch (e) {
-    console.error(e);
+  catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'something weird happened with the API.' });
   }
 });
 
 
-/* PUT garden */
+/* Update garden */
 Router.put("/:id", async (req, res) => {
   const { body } = req;
 

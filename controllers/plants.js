@@ -30,7 +30,7 @@ module.exports = {
     })
   },  
 
-  deletePlant(user_id, id){
+  deletePlant(user_id, id) {
     return knex('plants')
     .where('id', id)
     .where('user_id', user_id)
