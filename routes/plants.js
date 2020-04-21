@@ -148,9 +148,13 @@ Router.put("/:id", async (req, res) => {
     return res.status(400).json({ error: 'you must supply a field "outdoor_plant" when updating a plants info' });
   }
 
-  const { garden_id, outdoor_plant, user_id, images } = body;
+  if (!body.hasOwnProperty('last_watered')) {
+    return res.status(400).json({ error: 'you must supply a field "last_watered" when updating a plants info' });
+  }
+
+  const { garden_id, outdoor_plant, user_id, images, last_watered } = body;
   try {
-    db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images).then(
+    db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images, last_watered).then(
       res.status(200).json({success: true})
     );
   }

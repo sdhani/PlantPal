@@ -19,14 +19,15 @@ module.exports = {
     })
   },
 
-  updatePlant(id, garden_id, outdoor_plant, user_id, images) {
+  updatePlant(id, garden_id, outdoor_plant, user_id, images, last_watered) {
     return knex('plants')
     .where('id', id)
     .where('user_id', user_id)
     .update({ 
      garden_id,
      outdoor_plant,
-     images
+     images,
+     last_watered
     })
   },  
 
