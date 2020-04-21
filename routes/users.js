@@ -14,25 +14,6 @@ Router.get("/", async (req, res) => {
 });
 
 
-/* Register a user */
-Router.post("/", async (req, res) => {
-	const { body } = req;
-	
-  if (!body.hasOwnProperty('email')) {
-    return res.status(400).json({ error: 'you must supply a field "email" when creating a new garden' });
-  }
-
-  const { email, display_name, zipcode, password } = body;
-  try {
-    db.registerUser(email, display_name, zipcode, password).then(res.status(200).json({success: true}))
-	}
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'something weird happened with the API.' });
-  }
-});
-
-
 /* Update a user */
 Router.put("/:id", async (req, res) => {
   const { email, display_name, zipcode, password } = req.body;
@@ -48,9 +29,16 @@ Router.put("/:id", async (req, res) => {
 
 
 /* Delete user */
-Router.delete("/:id/delete", async(req, res) => {
+Router.delete("/delete", async(req, res) => {
+  const { body } = req;
+
+  if (!body.hasOwnProperty('user_id')) {
+    return res.status(400).json({ error: 'you must supply a field "user_id" when creating a new user' });
+  }
+
+  const { user_id } = body;
   try {
-    db.deleteUser(req.params.id).then(res.status(200).json({success: true}));
+    db.deleteUser(user_id).then(res.status(200).json({success: true}));
   }
   catch (err) {
     console.error(err);

@@ -17,8 +17,21 @@ module.exports = {
 
   getUserByID(id) {
     return knex('users')
-    .select('id', 'email', 'display_name', 'zipcode')
+    .select('id', 'email','display_name', 'zipcode')
     .where('id', id)
+  },
+
+  checkEmail(email) {
+    return knex('users')
+    .select('password')
+    .where('email', email)
+  },
+
+  loginUser(email, password) {
+    return knex('users')
+    .select('id')
+    .where('email', email)
+    .where('password', password)
   },
 
   updateUser(id, email, display_name, zipcode, password) {
