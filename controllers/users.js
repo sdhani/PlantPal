@@ -12,7 +12,7 @@ module.exports = {
       display_name, 
       zipcode, 
       password
-    })
+    }).returning('id')
   },
 
   updateUser(id, email, display_name, zipcode, password) {

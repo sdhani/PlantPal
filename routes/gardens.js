@@ -1,5 +1,4 @@
 /* routes/gardens.js */
-
 const Router = require("express").Router();
 const db = require('../controllers/gardens');
 
@@ -82,14 +81,13 @@ Router.put("/:id", async (req, res) => {
   }
 
   const { garden_name, user_id } = body;
-
   try {
     db.updateGardenByID(user_id, req.params.id, garden_name).then(
       res.status(200).json({success: true})
     );
   }
-  catch (e) {
-    console.error(e);
+  catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'something weird happened with the API.' });
   }
 });
@@ -108,8 +106,8 @@ Router.delete("/:id/delete", async(req, res) => {
       res.status(200).json({success: true})
     );
   }
-  catch (e) {
-    console.error(e);
+  catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'something weird happened with the API.' });
   }
 });
