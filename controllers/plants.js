@@ -6,6 +6,12 @@ module.exports = {
     .where('user_id', user_id)
   },
 
+  getPlantByID(user_id, id) {
+    return knex('plants')
+    .where('user_id', user_id)
+    .where('id', id)
+  },
+
   addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name) {
     return knex('plants')
     .insert({ 

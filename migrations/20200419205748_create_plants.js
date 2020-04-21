@@ -2,7 +2,7 @@
 
 exports.up = function(knex) {
   return knex.schema.createTable('plants', (table) => {
-    table.increments('id').primary(); // PK 
+    table.increments('id'); // PK 
     table.integer('garden_id').references('id').inTable('gardens'); // FK 
     table.integer('user_id').references('id').inTable('users'); // FK 
     table.string('common_name'); 

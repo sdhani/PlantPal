@@ -2,7 +2,7 @@
 
 exports.up = function(knex) {
   return knex.schema.createTable('weather', (table) => {
-    table.increments('id').primary(); // PK
+    table.increments('id'); // PK
     table.integer('location_id').references('id').inTable('location'); // FK
     table.integer('user_id').references('id').inTable('users'); // FK 
     table.string('zipcode', 5); 

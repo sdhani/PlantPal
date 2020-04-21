@@ -22,15 +22,11 @@ app.use("/users", usersRoute);
 app.use("/garden", gardensRoute);
 app.use("/plants", plantsRoute);
 
-
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 // });
-
-// app.use(app.router);
-// routes.intialize(app);
 
 app.set('port', (process.env.PORT || 3001));
 app.listen(app.get('port'), () => {
