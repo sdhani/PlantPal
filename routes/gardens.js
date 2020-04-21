@@ -3,7 +3,7 @@ const Router = require("express").Router();
 const db = require('../controllers/gardens');
 
 
-/* GET all gardens from a user */
+/* Get all gardens from a user */
 Router.get("/", async (req, res) => {
   const { id } = req.body;
 	try {
@@ -15,7 +15,7 @@ Router.get("/", async (req, res) => {
 });
 
 
-/* GET a specific garden from a user */
+/* Get a specific garden from a user */
 Router.get("/:id", async (req, res) => {
   const { user_id } = req.body;
   try {
@@ -31,7 +31,7 @@ Router.get("/:id", async (req, res) => {
 });
 
 
-/* GET All plants from a garden */
+/* Get all plants from garden /:id */
 Router.get("/:id/plants", async (req, res) => {
   const { user_id } = req.body;
   try {
@@ -43,19 +43,18 @@ Router.get("/:id/plants", async (req, res) => {
 });
 
 
-/* POST new garden */
+/* Add new garden */
 Router.post("/", async (req, res) => {
-  const { body } = req;
+  const { garden_name, user_id }  = req.body;
 
-  if (!body.hasOwnProperty('garden_name')) {
-    return res.status(400).json({ error: 'you must supply a field "garden_name" when creating a new garden' });
+  if (!req.body.hasOwnProperty('garden_name') || typeof garden_name !== 'string') {
+    return res.status(400).json({ error: 'you must supply a field "garden_name" of type string when creating a new garden' });
   }
 
-  if (!body.hasOwnProperty('user_id')) {
-    return res.status(400).json({ error: 'you must supply a field "user_id" when creating a new garden' });
+  if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'string') {
+    return res.status(400).json({ error: 'you must supply a field "user_id" of type string when creating a new garden' });
   }
 
-  const { garden_name, user_id } = body;
   try {
     db.createGarden(garden_name, user_id).then(
       res.status(200).json({success: true})
@@ -63,24 +62,23 @@ Router.post("/", async (req, res) => {
 	}
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'something weird happened with the API.' });
+    res.status(500).json({ error: 'Unable to add new garden. 500 Error.' });
   }
 });
 
 
 /* Update garden */
 Router.put("/:id", async (req, res) => {
-  const { body } = req;
+  const { garden_name, user_id } = req.body;
 
-  if (!body.hasOwnProperty('garden_name')) {
+  if (!req.body.hasOwnProperty('garden_name') || typeof garden_name !== 'string') {
     return res.status(400).json({ error: 'you must supply a field "garden_name" when updating a new garden' });
   }
 
-  if (!body.hasOwnProperty('user_id')) {
+  if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'string') {
     return res.status(400).json({ error: 'you must supply a field "user_id" when updating a new garden' });
   }
 
-  const { garden_name, user_id } = body;
   try {
     db.updateGardenByID(user_id, req.params.id, garden_name).then(
       res.status(200).json({success: true})
@@ -88,16 +86,16 @@ Router.put("/:id", async (req, res) => {
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'something weird happened with the API.' });
+    res.status(500).json({ error: `Unable to update garden ${garden_name}.` });
   }
 });
 
 
-/* DEL garden */
+/* Delete garden */
 Router.delete("/:id/delete", async(req, res) => {
-  const { body } = req;
+  const { user_id } = req.body;
 
-  if (!body.hasOwnProperty('user_id')) {
+  if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'string') {
     return res.status(400).json({ error: 'you must supply a field "user_id" when updating a new garden' });
   }
 

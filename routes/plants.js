@@ -6,7 +6,7 @@ const TREFLE_API = "http://trefle.io/api/plants"
 const TREFLE_TOKEN = process.env.TREFLE_TOKEN;
 
 
-/* GET All plants from a user */
+/* Get all plants from a user */
 Router.get("/", async (req, res) => {
   const { user_id } = req.body;
   try {
@@ -24,11 +24,10 @@ Router.get("/", async (req, res) => {
 
 /* 
   QUERY a plant from the Trefle API 
-  Use the "id" field in the response of a plant entry to add plant.  
+  Use the "id" field of a selected plant from query to add plant via post.  
 */
 Router.get("/query", async (req, res) => {
   const { body } = req;
-
   if (!body.hasOwnProperty('plant_query')) {
     return res.status(400).json({ error: 'you must supply a field "plant_query" when adding a new plant' });
   }
@@ -42,7 +41,7 @@ Router.get("/query", async (req, res) => {
 });
 
 
-/* GET a specific garden from a user */
+/* Get a specific garden from a user */
 Router.get("/:id", async (req, res) => {
   const { user_id } = req.body;
   try {
@@ -59,42 +58,35 @@ Router.get("/:id", async (req, res) => {
 
 
 /* 
-  POST a new plant 
+  Add a new plant 
   Needs the `trefle_id` from GET query ^^ to add Trefle Plant.
 */
 Router.post("/", async (req, res) => {
-  const { body } = req;
-
-  if (!body.hasOwnProperty('garden_id')) { /* checks */
+  const { trefle_id, garden_id, user_id, common_name, outdoor_plant } = req.body;
+  if (!req.body.hasOwnProperty('garden_id') || typeof garden_id !== 'number') { /* checks */
     return res.status(400).json({ error: 'you must supply a field "garden_id" when adding a new plant' });
   }
 
-  if (!body.hasOwnProperty('user_id')) { /* checks */
+  if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'number') { /* checks */
     return res.status(400).json({ error: 'you must supply a field "user_id" when adding a new plant' });
   } 
   
-  if (!body.hasOwnProperty('outdoor_plant')) { /* checks */
+  if (!req.body.hasOwnProperty('outdoor_plant') || typeof outdoor_plant !== 'boolean') { /* checks */
     return res.status(400).json({ error: 'you must supply a field "outdoor_plant" when adding a new plant' });
   }
 
-  if(!body.hasOwnProperty('trefle_id')){ /* trefle_id not provided */
-    if (!body.hasOwnProperty('common_name')) {
+  /* Manually add plant to db */
+  if(!req.body.hasOwnProperty('trefle_id') || typeof trefle_id !== 'number'){ /* trefle_id not provided */
+    if (!res.body.hasOwnProperty('common_name') || typeof common_name !== 'string') {
       return res.status(400).json({ error: 'you must supply a field "common_name" when adding a new plant' });
     }
   
-    const { garden_id, user_id, common_name, outdoor_plant } = body;
     try {
-      db.addPlant(garden_id, user_id, common_name, outdoor_plant)
-        .then(res.status(200).json({success: true}))
+      db.addPlant(garden_id, user_id, common_name, outdoor_plant).then(res.status(200).json({success: true}))
     }
-    catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'something weird happened with the API.' });
-    }
+    catch (err) { res.status(500).json({ error: 'Failed to add plant manually.' }); }
 
-  } else { /* Add Plant Entry from Trefle */
-    
-    const { trefle_id, garden_id, user_id } = body;
+  } else { /* Add Plant Entry from Trefle Query select */
     try {
       const newPlant = await axios.get(`${TREFLE_API}/${trefle_id}/?token=${TREFLE_TOKEN}`);
       const { 
@@ -124,65 +116,48 @@ Router.post("/", async (req, res) => {
         images_json, foliage_json, fruit_or_seed_json, growth_json, seed_json, specifications_json, family_common_name )
         .then(res.status(200).json({success: true}))
     }
-    catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'something weird happened with the API.' });
-    }
+    catch (err) { res.status(500).json({ error: 'something weird happened with the API.' }); }
   }
 });
 
 
-/* PUT plant */
+/* Update plant /:id */
 Router.put("/:id", async (req, res) => {
-  const { body } = req;
-
-  if (!body.hasOwnProperty('user_id')) {
+  const { garden_id, outdoor_plant, user_id, images, last_watered } = req.body;
+  if (!req.body.hasOwnProperty('user_id') || typeof trefle_id !== 'number') {
     return res.status(400).json({ error: 'you must supply a field "user_id" when updating a plants info' });
   }
 
-  if (!body.hasOwnProperty('garden_id')) {
+  if (!req.body.hasOwnProperty('garden_id') || typeof trefle_id !== 'number') {
     return res.status(400).json({ error: 'you must supply a field "garden_id" when updating a plants info' });
   }
 
-  if (!body.hasOwnProperty('outdoor_plant')) {
+  if (!req.body.hasOwnProperty('outdoor_plant') || typeof trefle_id !== 'boolean') {
     return res.status(400).json({ error: 'you must supply a field "outdoor_plant" when updating a plants info' });
   }
 
-  if (!body.hasOwnProperty('last_watered')) {
-    return res.status(400).json({ error: 'you must supply a field "last_watered" when updating a plants info' });
+  if (!req.body.hasOwnProperty('last_watered') || typeof last_watered !== 'string') {
+    return res.status(400).json({ error: 'you must supply a field "last_watered" of type "yyyy-mm-dd" when updating a plants info' });
   }
-
-  const { garden_id, outdoor_plant, user_id, images, last_watered } = body;
+  
   try {
-    db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images, last_watered).then(
-      res.status(200).json({success: true})
-    );
+    db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images, last_watered)
+    .then(res.status(200).json({success: true}));
   }
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'something weird happened with the API.' });
-  }
+  catch(err) { res.status(500).json({ error: 'something weird happened with the API.' }); }
 });
 
 
-/* DEL plant */
+/* Delete plant :id */
 Router.delete("/:id/delete", async(req, res) => {
-  const { body } = req;
-
-  if (!body.hasOwnProperty('user_id')) {
+  const { user_id } = req.body;
+  if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'number') {
     return res.status(400).json({ error: 'you must supply a field "user_id" when deleting a plants info' });
   }
-
-  const { user_id } = body;
   try {
-    db.deletePlant(user_id, req.params.id).then(
-      res.status(200).json({success: true})
-    );
+    db.deletePlant(user_id, req.params.id).then(res.status(200).json({success: true}));
   }
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'something weird happened with the API.' });
-  }
+  catch(err) { res.status(500).json({ error: 'something weird happened with the API.' }); }
 });
 
 

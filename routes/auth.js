@@ -1,15 +1,12 @@
 // routes/auth.js
-// type check needed for all entries
-
 const Router = require("express").Router();
 const db = require('../controllers/users');
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
-var config = require('../config');
+var config = require('../config'); /* stores jwt secret */
 
 
-/* needs user email already exists check */
-/* Register a user */
+/* Register new user */
 Router.post("/register", async (req, res) => {
   const { email, display_name, zipcode, password } = req.body;
 
@@ -37,29 +34,25 @@ Router.post("/register", async (req, res) => {
       res.status(200).json({ auth: true, token: token }); 
     })
 	}
-  catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'There was a problem registering the user.' });
-  }
+  catch (err) { res.status(500).json({ error: 'There was a problem registering the user.' }); }
 });
 
 
-/* GET current user */
+/* Get current user */
 Router.get('/me', async (req, res) => {
   const token = req.headers['x-access-token'];
 
-  if (!token || token === '') {
+  if (!token) {
     return res.status(401).send({ auth: false, message: 'No token provided.' });
   }
 
   jwt.verify(token, config.secret, (err, decoded) => {
-    if (err) {
-      return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-    }
+    if(err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+
     try {
       db.getUserByID(decoded.id[0].id).then(me => { res.status(200).send(me); });
     }
-    catch(err) { console.log(err); }
+    catch(err) { res.status(500).json({ error: 'There was a problem getting the current user\'s info.' }); }
   });
 });
 
@@ -96,9 +89,10 @@ Router.post('/login', async(req, res) => {
 });
 
 
-/* NOTE: Client side must destroy token in cookies */
+
 /* Logout user */
 Router.get('/logout', async (req, res) => {
+  /* NOTE: Client side must destroy token in cookies */
   res.status(200).send({ auth: false, token: null });
 });
 
