@@ -69,6 +69,7 @@
 |  | trefle_id | smallint | 
 |  | duration | varchar(255) |
 |  | outdoor_plant | boolean |
+|  | last_watered | date |
 |  | images | json |
 |  | foliage | json |
 |  | fruit_or_seed | json |
