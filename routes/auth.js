@@ -1,9 +1,10 @@
 // routes/auth.js
 const Router = require("express").Router();
 const db = require('../controllers/users');
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
-var config = require('../config'); /* stores jwt secret */
+const VerifyToken = require('./verifyToken');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const config = require('../config'); /* stores jwt secret */
 
 
 /* Register new user */
@@ -39,26 +40,20 @@ Router.post("/register", async (req, res) => {
 
 
 /* Get current user */
-Router.get('/me', async (req, res) => {
-  const token = req.headers['x-access-token'];
+Router.get('/me', VerifyToken, async (req, res) => {  
+  const { user_id } = req;
 
-  if (!token) {
-    return res.status(401).send({ auth: false, message: 'No token provided.' });
+  try {
+    db.getUserByID(user_id).then(me => { res.status(200).send(me); });
   }
-
-  jwt.verify(token, config.secret, (err, decoded) => {
-    if(err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
-
-    try {
-      db.getUserByID(decoded.id[0].id).then(me => { res.status(200).send(me); });
-    }
-    catch(err) { res.status(500).json({ error: 'There was a problem getting the current user\'s info.' }); }
-  });
+  catch(err) { 
+    res.status(500).json({ error: 'There was a problem getting the current user\'s info.' }); 
+  }
 });
 
 
 /* Login user */
-Router.post('/login', async(req, res) => {
+Router.post('/login',  async(req, res) => {
   const { email, password } = req.body;
 
   if (!req.body.hasOwnProperty('email') || typeof email !== 'string') {
@@ -87,7 +82,6 @@ Router.post('/login', async(req, res) => {
     });
   } catch(err) { console.log(err); }
 });
-
 
 
 /* Logout user */

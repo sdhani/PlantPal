@@ -1,9 +1,9 @@
 const knex = require('./knex'); // the connection
 
 module.exports = {
-  getAllUserGardens(id){
+  getAllUserGardens(user_id){
     return knex('gardens')
-    .where('user_id', id)
+    .where('user_id', user_id)
     .orderBy('id')
   },
 
@@ -17,6 +17,7 @@ module.exports = {
   getAllPlantsFromGarden(user_id, garden_id){
     return knex('plants')
     .where('garden_id', garden_id)
+    .where('user_id', user_id)
     .orderBy('id')
   },
 
