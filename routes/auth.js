@@ -28,8 +28,9 @@ Router.post("/register", async (req, res) => {
   const hashedPassword = bcrypt.hashSync(password, 8);
   try {
     db.registerUser(email, display_name, zipcode, hashedPassword).then(id => {
-      // create a token
-      const token = jwt.sign({ id: id }, config.secret, {
+      // create a token[]
+      const newID = [ { id: id[0]} ]
+      const token = jwt.sign({ id: newID }, config.secret, {
         expiresIn: 86400 // expires in 24 hours
       });
       res.status(200).json({ auth: true, token: token }); 
@@ -74,13 +75,15 @@ Router.post('/login',  async(req, res) => {
       if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
 
       db.loginUser(email,dbPassword[0].password).then(id => {
-        const token = jwt.sign({ id: id}, config.secret, {
+      console.log("ID in login", id)
+
+        const token = jwt.sign({ id: id }, config.secret, {
           expiresIn: 86400 // expires in 24 hours
         });
         res.status(200).send({ auth: true, token: token });
       });   
     });
-  } catch(err) { console.log(err); }
+  } catch(err) { res.status(500).json({ auth: false, token: null }); }
 });
 
 
