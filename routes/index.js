@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const Router = require("express").Router();
+const VerifyToken = require('./verifyToken');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
+/* Get home page. */
+Router.get('/', VerifyToken, function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-module.exports = router;
+module.exports = Router;

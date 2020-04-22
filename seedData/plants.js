@@ -2,12 +2,14 @@
 
 module.exports = [
   {
-    plant_id: 1,
     trefle_id: 193519,
+    garden_id: 1,
+    user_id: 1,
     common_name: "corn",
     scientific_name: "Zea mays",
     duration: "Annual",
     outdoor_plant: true,
+    last_watered: "2020-04-01",
     images:{
       "url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Symbol_redirect_arrow_with_gradient.svg"
     },
@@ -106,12 +108,14 @@ module.exports = [
   },
 
   {
-    plant_id: 2,
     trefle_id: 111928,
+    garden_id: 1,
+    user_id: 1,
     common_name: "white doll's daisy",
     scientific_name: "Boltonia asteroides",
     duration: "Perennial",
     outdoor_plant: true,
+    last_watered: "2020-04-01",
     images:{
       "url": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Boltonia_latisquama.jpg"
     },
@@ -209,12 +213,14 @@ module.exports = [
   },
 
   {
-    plant_id: 3,
     trefle_id: 155728,
+    garden_id: 2,
+    user_id: 2,
     common_name: "wild mint",
     scientific_name: "Mentha arvensis",
     duration: "Perennial",
     outdoor_plant: false,
+    last_watered: "2020-04-01",
     images:  {
       "url": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Mentha_arvensis_-_p%C3%B5ldm%C3%BCnt_Keila.jpg"
     },
@@ -312,12 +318,14 @@ module.exports = [
   },
 
   {
-    plant_id: 4,
     trefle_id: 158107,
+    garden_id: 3,
+    user_id: 2,
     common_name: "true forget-me-not",
     scientific_name: "Myosotis scorpioides",
     duration: "Perennial",
     outdoor_plant: false,
+    last_watered: "2020-04-01",
     images:  {
       "url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Myosotis_scorpioides_-_soo-l%C3%B5osilm_Keilas.jpg"
     },
@@ -415,12 +423,14 @@ module.exports = [
   },
 
   {
-    plant_id: 5,
     trefle_id: 175820,
+    garden_id: 4,
+    user_id: 3,
     common_name: "cluster rose",
     scientific_name: "Rosa pisocarpa",
     duration: "Perennial",
     outdoor_plant: true,
+    last_watered: "2020-04-01",
     images:   {
       "url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Diplolepis-rosae.jpg"
     },

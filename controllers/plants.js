@@ -1,50 +1,40 @@
 const knex = require('./knex'); // the connection
 
 module.exports = {
-  getUserID(username) {
-    return knex('users')
-      .select('id')
-      .where('username', username);
+  getAllPlantsFromUser(user_id) {
+    return knex('plants')
+    .where('user_id', user_id)
   },
 
-  getAllUserTodos(username) {
-    const user_id = knex('users').select('id').where('username', username);
-    return knex('users')
-      .join('todo', 'users.id', '=', 'todo.user_id')
-      .where('user_id', user_id);
+  getPlantByID(user_id, id) {
+    return knex('plants')
+    .where('user_id', user_id)
+    .where('id', id)
   },
 
-  createNewTodo(username, todo) {
-    const user_id = knex('users').select('id').where('username', username);
-    todo.user_id = user_id;
-    return knex('todo')
-      .insert(todo);
+  addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name) {
+    return knex('plants')
+    .insert({ 
+      user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name
+    })
   },
 
-  /* Ensures todo belongs to user */
-  getTodoByID(username, id){
-    const user_id = knex('users').select('id').where('username', username);
-    return knex('todo')
-      .join('users', 'todo.user_id', '=', 'users.id')
-      .where('todo.user_id', user_id)
-      .where('todo.id', id);
-  },
+  updatePlant(id, garden_id, outdoor_plant, user_id, images, last_watered) {
+    return knex('plants')
+    .where('id', id)
+    .where('user_id', user_id)
+    .update({ 
+     garden_id,
+     outdoor_plant,
+     images,
+     last_watered
+    })
+  },  
 
-  update(username, id, content, completed){
-    const user_id = knex('users').select('id').where('username', username);
-    // const validateUser = knex('todo').join('users', 'todo.user_id', '=', 'users.id').where('todo.user_id', user_id).where('todo.id', id);
-    return knex('todo')
-      .where('id', id)
-      .update({content: content, completed: completed});
-  },
-
-  delete(username, id) {
-    const user_id = knex('users').select('id').where('username', username);
-    // const validateUser = knex('todo').join('users', 'todo.user_id', '=', 'users.id').where('todo.user_id', user_id).where('todo.id', id);
-    return knex('todo')
-      .join('users', 'todo.user_id', '=', 'users.id')
-      .where('todo.user_id', user_id)
-      .where('todo.id', id)
-      .del();
+  deletePlant(user_id, id) {
+    return knex('plants')
+    .where('id', id)
+    .where('user_id', user_id)
+    .del();
   },
 };

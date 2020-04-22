@@ -2,6 +2,8 @@
 
 module.exports = [
   {
+    location_id:1,
+    user_id:1,
     zipcode: 10000,
     day_max_temp: 80.00,
     day_min_temp: 40.00,
