@@ -11,7 +11,7 @@ Router.get("/", async (req, res) => {
 			res.status(200).json(users);
 		});
 	}
-  catch(err) { console.log(err); }
+  catch(err) { res.status(500).json({ error: 'Unable to get all user.' });  }
 });
 
 
@@ -29,11 +29,11 @@ Router.put("/", VerifyToken, async (req, res) => {
 
 
 /* Delete user */
-Router.delete("/delete",VerifyToken, async(req, res) => {
+Router.delete("/delete", VerifyToken, async(req, res) => {
   const { user_id } = req;
 
-  if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'number') {
-    return res.status(400).json({ error: 'you must supply a field "user_id" when creating a new user' });
+  if (user_id === undefined) {
+    return res.status(400).json({ error: 'User not authorized to perform action.' });
   }
 
   try {
