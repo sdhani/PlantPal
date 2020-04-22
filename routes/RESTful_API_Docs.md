@@ -177,7 +177,7 @@ req.body = {
 }
 /* Other error messages include invalid type, and field not provided. */
 ```
-[top auth](#auth-routes)
+[(top auth)](#auth-routes)
 
 ---
 
@@ -202,7 +202,7 @@ req.body = {
   "error": 'There was a problem getting the current user\'s info.'
 }
 ```
-[top auth](#auth-routes)
+[(top auth)](#auth-routes)
 
 ---
 
@@ -232,7 +232,7 @@ req.body = {
   "error": 'Unable to delete user.'
 }
 ```
-[top auth](#auth-routes)
+[(top auth)](#auth-routes)
 
 ---
 
@@ -246,9 +246,9 @@ req.body = {
 - [GET `/api/plants`](#get-apiplants)
 - [GET `/api/plants/query`](#get-apiplantsquery)
 - [POST `/api/plants`](#post-apiplants)
-- [GET `/api/plants/:id`](#get-apiplants:id)
-- [PUT `/api/plants/:id`](#put-apiplants:id)
-- [DEL `/api/plants/:id/delete`](#del-apiplants:iddelete)
+- [GET `/api/plants/:id`](#get-apiplantsid)
+- [PUT `/api/plants/:id`](#put-apiplantsid)
+- [DEL `/api/plants/:id/delete`](#del-apiplantsiddelete)
 
 ---
 #### **GET** `/api/plants`  
@@ -268,7 +268,7 @@ req.body = {
   "error": 'User does not have any plants.'
 }
 ```
-[top plants](#plants-routes)
+[(top plants)](#plants-routes)
 
 ---
 
@@ -283,7 +283,8 @@ req.body = {
 ```
 
 **Success: :heavy_check_mark:** 
-- Returns one or more plants that match the query from the [Trefle API]()
+- Returns one or more plants that match the query from the [Trefle API](https://trefle.io/)
+
 ```javascript
 [
     {
@@ -335,7 +336,7 @@ req.body = {
   "error": 'Something went wrong with this query.'
 }
 ```
-[top plants](#plants-routes)
+[(top plants)](#plants-routes)
 
 ---
 
@@ -378,7 +379,7 @@ Expecting:
   "error": 'Unable to add plant.'
 }
 ```
-[top plants](#plants-routes)
+[(top plants)](#plants-routes)
 
 ---
 
@@ -510,7 +511,7 @@ Expecting:
   "error": 'Unable to get plant info.'
 }
 ```
-[top plants](#plants-routes)
+[(top plants)](#plants-routes)
 
 ---
 #### **PUT** `/api/plants/:id`  
@@ -541,7 +542,7 @@ Expecting:
   "error": 'Unable to update plant info.'
 }
 ```
-[top plants](#plants-routes)
+[(top plants)](#plants-routes)
 
 ---
 #### **DEL** `/api/plants/:id/delete`  
@@ -561,7 +562,7 @@ Expecting:
   "error": 'Unable to delete plant.'
 }
 ```
-[top plants](#plants-routes)
+[(top plants)](#plants-routes)
 
 ---
 
@@ -571,11 +572,11 @@ Expecting:
 
 ### Operations
 - [GET `/api/gardens`](#get-apigardens)
-- [GET `/api/gardens/:id`](#get-apigardens:id)
-- [GET `/api/gardens/:id/plants`](#get-apigardens:id/plants)
+- [GET `/api/gardens/:id`](#get-apigardensid)
+- [GET `/api/gardens/:id/plants`](#get-apigardensid/plants)
 - [POST `/api/gardens`](#post-apigardens)
-- [PUT `/api/gardens/:id`](#put-apigardens:id)
-- [DEL `/api/plants/:id/delete`](#del-apigardens:iddelete)
+- [PUT `/api/gardens/:id`](#put-apigardensid)
+- [DEL `/api/plants/:id/delete`](#del-apigardensiddelete)
 
 ---
 
@@ -605,7 +606,8 @@ Expecting:
 }
 ```
 
-[top gardens](#gardens-routes)
+[(top gardens)](#gardens-routes)
+
 ---
 
 #### **GET** `/api/gardens/:id`  
@@ -629,7 +631,7 @@ Expecting:
   "error": 'Invalid garden. User does not own garden.'
 }
 ```
-[top gardens](#gardens-routes)
+[(top gardens)](#gardens-routes)
 
 ---
 
@@ -760,7 +762,7 @@ Expecting:
   "error": 'Unable to get all plants from garden.'
 }
 ```
-[top gardens](#gardens-routes)
+[(top gardens)](#gardens-routes)
 
 ---
 
@@ -788,7 +790,7 @@ Expecting:
   "error": 'Unable to add new garden.'
 }
 ```
-[top gardens](#gardens-routes)
+[(top gardens)](#gardens-routes)
 
 ---
 
@@ -816,7 +818,7 @@ Expecting:
   "error": `Unable to update garden ${garden_name}.`
 }
 ```
-[top gardens](#gardens-routes)
+[(top gardens)](#gardens-routes)
 
 ---
 
@@ -837,8 +839,9 @@ Expecting:
   "error": 'Failed to delete garden.'
 }
 ```
-[top gardens](#gardens-routes)
-[top introduction](#introduction)
+[(top gardens)](#gardens-routes)
+
+[(top introduction)](#introduction)
 
 ---
 
