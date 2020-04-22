@@ -1,5 +1,5 @@
 // config.js
 
 module.exports = {
-  'secret': 'supersecret'
+  'secret': process.env.SECRET_JWT
 };
