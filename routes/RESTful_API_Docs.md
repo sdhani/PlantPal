@@ -50,6 +50,8 @@ If user was not successfully registered a validation error with the req.body mig
 
 ## Users Routes
 
+### Operations
+- [GET `/api/users`](#**GET**-`/api/users`)
 ---
 #### **GET** `/api/users`  
 - Get all users.
