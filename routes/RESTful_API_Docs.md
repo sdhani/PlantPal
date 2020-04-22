@@ -51,7 +51,8 @@ If user was not successfully registered a validation error with the req.body mig
 ## Users Routes
 
 ### Operations
-- [GET `/api/users`](#**GET**-`/api/users`)
+- [GET `/api/users`](#get-apiusers)
+- [PUT `/api/users`](#put-apiusers)
 ---
 #### **GET** `/api/users`  
 - Get all users.
@@ -65,6 +66,7 @@ If user was not successfully registered a validation error with the req.body mig
   "error": 'Unable to get all user.' 
 }
 ```
+[top users](#users-routes)
 
 ---
 
@@ -95,6 +97,7 @@ req.body = {
   "error": 'Unable to update user.'
 }
 ```
+[top users](#users-routes)
 
 ---
 
@@ -126,6 +129,7 @@ req.body = {
   error: 'Unable to delete user.'
 }
 ```
+[top users](#users-routes)
 
 ---
 
@@ -164,6 +168,7 @@ req.body = {
 }
 /* Other error messages include invalid type, and field not provided. */
 ```
+[top auth](#auth-routes)
 
 ---
 
@@ -188,6 +193,7 @@ req.body = {
   "error": 'There was a problem getting the current user\'s info.'
 }
 ```
+[top auth](#auth-routes)
 
 ---
 
@@ -217,6 +223,7 @@ req.body = {
   "error": 'Unable to delete user.'
 }
 ```
+[top auth](#auth-routes)
 
 ---
 
@@ -244,6 +251,7 @@ req.body = {
   "error": 'User does not have any plants.'
 }
 ```
+[top plants](#plants-routes)
 
 ---
 
@@ -310,6 +318,7 @@ req.body = {
   "error": 'Something went wrong with this query.'
 }
 ```
+[top plants](#plants-routes)
 
 ---
 
@@ -352,6 +361,7 @@ Expecting:
   "error": 'Unable to add plant.'
 }
 ```
+[top plants](#plants-routes)
 
 ---
 
@@ -483,6 +493,7 @@ Expecting:
   "error": 'Unable to get plant info.'
 }
 ```
+[top plants](#plants-routes)
 
 ---
 #### **PUT** `/api/plants/:id`  
@@ -513,6 +524,7 @@ Expecting:
   "error": 'Unable to update plant info.'
 }
 ```
+[top plants](#plants-routes)
 
 ---
 #### **DEL** `/api/plants/:id/delete`  
@@ -532,6 +544,7 @@ Expecting:
   "error": 'Unable to delete plant.'
 }
 ```
+[top plants](#plants-routes)
 
 ---
 
@@ -567,6 +580,7 @@ Expecting:
 }
 ```
 
+[top gardens](#gardens-routes)
 ---
 
 #### **GET** `/api/gardens/:id`  
@@ -590,6 +604,7 @@ Expecting:
   "error": 'Invalid garden. User does not own garden.'
 }
 ```
+[top gardens](#gardens-routes)
 
 ---
 
@@ -720,6 +735,7 @@ Expecting:
   "error": 'Unable to get all plants from garden.'
 }
 ```
+[top gardens](#gardens-routes)
 
 ---
 
@@ -747,6 +763,7 @@ Expecting:
   "error": 'Unable to add new garden.'
 }
 ```
+[top gardens](#gardens-routes)
 
 ---
 
@@ -774,6 +791,7 @@ Expecting:
   "error": `Unable to update garden ${garden_name}.`
 }
 ```
+[top gardens](#gardens-routes)
 
 ---
 
@@ -794,6 +812,8 @@ Expecting:
   "error": 'Failed to delete garden.'
 }
 ```
+[top gardens](#gardens-routes)
+[top introduction](#introduction)
 
 ---
 
