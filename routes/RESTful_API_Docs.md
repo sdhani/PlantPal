@@ -3,6 +3,7 @@
 
 
 ### Table of Contents
+- [Introduction](#introduction)
 - [Users Table](#users-routes)
 - [Authentication](#auth-routes)
 - [Plants Table](#plants-routes)
@@ -51,9 +52,12 @@ If user was not successfully registered a validation error with the req.body mig
 
 ---
 #### **GET** `/api/users`  
-Success: Returns JSON object of all users.
+- Get all users.
 
-Error:
+**Success: :heavy_check_mark:** 
+- Returns JSON object of all users.
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Unable to get all user.' 
@@ -63,6 +67,8 @@ Error:
 ---
 
 #### **PUT** `/api/users`  
+- Update authenticated user.
+
 Expecting:
 ```javascript
 /* Only one of these fields must be supplied */
@@ -74,13 +80,14 @@ req.body = {
 }
 ```
 
-Success: 
+**Success: :heavy_check_mark:**
 ```javascript
 {
   "success": true
 }
 ```
-Error:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Unable to update user.'
@@ -90,6 +97,8 @@ Error:
 ---
 
 #### **DEL** `/api/users/delete`  
+- Delete user with :id.
+
 Expecting:
 ```javascript
 /* Only one of these fields must be supplied */
@@ -100,13 +109,16 @@ req.body = {
   "password":"some_new_password",
 }
 ```
-Success: 
+
+**Success: :heavy_check_mark:**
+
 ```javascript
 {
   success: true
 }
 ```
-Error:
+
+**Error: :x:**
 ```javascript
 { 
   error: 'Unable to delete user.'
@@ -123,6 +135,8 @@ Error:
 
 ---
 #### **GET** `/api/auth/register`  
+- Register new user.
+
 Expecting:
 ```javascript
 req.body = {
@@ -133,26 +147,28 @@ req.body = {
 }
 ```
 
-Success:
+**Success: :heavy_check_mark:**
 ```javascript
 {
   "auth": true,
   "token": "authentication_token"
 }
 ```
-Possible Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Email already exists on server.'
 }
-
 /* Other error messages include invalid type, and field not provided. */
 ```
 
 ---
 
 #### **GET** `/api/auth/me`  
-Success: Returns current user's info.
+- Get current user's info.
+
+**Success: :heavy_check_mark:** 
 ```javascript
 [
     {
@@ -163,7 +179,8 @@ Success: Returns current user's info.
     }
 ]
 ```
-Error:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'There was a problem getting the current user\'s info.'
@@ -173,6 +190,8 @@ Error:
 ---
 
 #### **POST** `/api/auth/login`  
+- Login user.
+
 Expecting:
 ```javascript
 /* Only one of these fields must be supplied */
@@ -181,14 +200,16 @@ req.body = {
   "password": "password"
 }
 ```
-Success: 
+
+**Success: :heavy_check_mark:** 
 ```javascript
 {
   "auth": true,
   "token": "authentication_token"
 }
 ```
-Error:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Unable to delete user.'
@@ -207,14 +228,15 @@ Error:
 #### **GET** `/api/plants`  
 - Get all plants from user
 
-Success:
+**Success: :heavy_check_mark:** 
 ```javascript
 {
   "auth": true,
   "token": "authentication_token"
 }
 ```
-Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'User does not have any plants.'
@@ -225,6 +247,7 @@ Errors:
 
 #### **GET** `/api/plants/query`
 - Get a list of potential plants to add to the user's garden.
+
 Expecting:
 ```javascript
 req.body = {  
@@ -232,7 +255,8 @@ req.body = {
 }
 ```
 
-Success: Returns one or more plants that match the query from the [Trefle API]()
+**Success: :heavy_check_mark:** 
+- Returns one or more plants that match the query from the [Trefle API]()
 ```javascript
 [
     {
@@ -278,7 +302,7 @@ Success: Returns one or more plants that match the query from the [Trefle API]()
 ]
 ```
 
-Error:
+**Error: :x:**
 ```javascript
 { 
   "error": 'Something went wrong with this query.'
@@ -312,45 +336,200 @@ Expecting:
 
 ```
 
-Success: 
+**Success: :heavy_check_mark:** 
 ```javascript
 {
     "success": true
 }
 ```
-Error:
+
+**Error: :x:**
 - JSON object containing a specific error message.
+```javascript
+{ 
+  "error": 'Unable to add plant.'
+}
+```
 
 ---
+
 #### **GET** `/api/plants/:id`  
 - Get a plant's data with :id.
 
-Success: 
+**Success: :heavy_check_mark:** 
 - JSON object of plant data.
 
-Error:
+```javascript
+[
+    {
+        "id": 8,
+        "garden_id": 6,
+        "user_id": 24,
+        "common_name": "cutleaf daisy",
+        "scientific_name": "Erigeron compositus",
+        "trefle_id": 133520,
+        "duration": "Perennial",
+        "outdoor_plant": null,
+        "last_watered": null,
+        "images": [
+            {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Erigeron_compositus_%288161931839%29.jpg"
+            },
+            {
+                "url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Bellis_perennis3_ies.jpg"
+            }
+        ],
+        "foliage": {
+            "color": "Green",
+            "porosity_summer": "Dense",
+            "porosity_winter": "Porous",
+            "texture": "Medium"
+        },
+        "fruit_or_seed": {
+            "color": "Brown",
+            "conspicuous": null,
+            "seed_abundance": "Medium",
+            "seed_period_begin": "Spring",
+            "seed_period_end": "Summer",
+            "seed_persistence": null
+        },
+        "growth": {
+            "anaerobic_tolerance": "None",
+            "caco_3_tolerance": "High",
+            "cold_stratification_required": true,
+            "drought_tolerance": "High",
+            "fertility_requirement": "Low",
+            "fire_tolerance": "Medium",
+            "frost_free_days_minimum": 80,
+            "hedge_tolerance": "None",
+            "moisture_use": "Low",
+            "ph_maximum": 8.1,
+            "ph_minimum": 6.1,
+            "planting_density_maximum": {
+                "acre": null,
+                "sqm": null
+            },
+            "planting_density_minimum": {
+                "acre": null,
+                "sqm": null
+            },
+            "precipitation_maximum": {
+                "cm": 60.96012192024385,
+                "inches": 24
+            },
+            "precipitation_minimum": {
+                "cm": 25.400050800101603,
+                "inches": 10
+            },
+            "resprout_ability": null,
+            "root_depth_minimum": {
+                "cm": 25.400050800101603,
+                "inches": 10
+            },
+            "salinity_tolerance": "Low",
+            "shade_tolerance": "Intolerant",
+            "temperature_minimum": {
+                "deg_c": -36.11111111111111,
+                "deg_f": -33
+            }
+        },
+        "seed": {
+            "bloom_period": "Late Spring",
+            "commercial_availability": "Contracting Only",
+            "seed_spread_rate": "Moderate",
+            "seedling_vigor": "Medium",
+            "seeds_per_pound": 250000,
+            "small_grain": null,
+            "vegetative_spread_rate": "None"
+        },
+        "specifications": {
+            "bloat": "None",
+            "c_n_ratio": "Medium",
+            "coppice_potential": null,
+            "fall_conspicuous": null,
+            "fire_resistance": null,
+            "growth_form": "Single Crown",
+            "growth_habit": "Forb/herb",
+            "growth_period": "Spring and Summer",
+            "growth_rate": "Moderate",
+            "known_allelopath": null,
+            "leaf_retention": null,
+            "lifespan": "Moderate",
+            "low_growing_grass": null,
+            "mature_height": {
+                "cm": 30.478512648582743,
+                "ft": 1
+            },
+            "max_height_at_base_age": {
+                "cm": null,
+                "ft": null
+            },
+            "nitrogen_fixation": "None",
+            "regrowth_rate": "Slow",
+            "shape_and_orientation": "Decumbent",
+            "toxicity": "None"
+        },
+        "family_common_name": "Aster family"
+    }
+]
+```
+
+**Error: :x:**
 - JSON object containing a specific error message.
+```javascript
+{ 
+  "error": 'Unable to get plant info.'
+}
+```
 
 ---
 #### **PUT** `/api/plants/:id`  
 - Update plant with :id.
 
-Success: 
-- JSON object of plant data.
+Expecting: 
+- Currently only updates these columns "garden_id", "outdoor_plant", "images", "last_watered".
 
-Error:
+```javascript
+{
+	"last_watered": "2020-04-21",
+	"outdoor_plant": true,
+	"garden_id": 8 	 /* required */
+}
+```
+
+**Success: :heavy_check_mark:** 
+```javascript
+{
+    "success": true
+}
+```
+
+**Error: :x:**
 - JSON object containing a specific error message.
+```javascript
+{ 
+  "error": 'Unable to update plant info.'
+}
+```
 
 ---
 #### **DEL** `/api/plants/:id/delete`  
 - Delete plant with :id.
 
-Success: 
+**Success: :heavy_check_mark:** 
+```javascript
 {
   "success": true
 }
-Error:
+```
+
+**Error: :x:**
 - JSON object containing a specific error message.
+```javascript
+{ 
+  "error": 'Unable to delete plant.'
+}
+```
 
 ---
 
@@ -363,7 +542,7 @@ Error:
 #### **GET** `/api/gardens`  
 - Get all gardens from a user .
 
-Success:
+**Success: :heavy_check_mark:** 
 ```javascript
 [
     {
@@ -378,10 +557,12 @@ Success:
     }
 ]
 ```
-Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Unable to get all gardens.'
+}
 ```
 
 ---
@@ -389,7 +570,7 @@ Errors:
 #### **GET** `/api/gardens/:id`  
 - Get a garden with :id from a user.
 
-Success:
+**Success: :heavy_check_mark:** 
 - Example payload.
 ```javascript
 [
@@ -400,10 +581,12 @@ Success:
     }
 ]
 ```
-Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Invalid garden. User does not own garden.'
+}
 ```
 
 ---
@@ -411,7 +594,7 @@ Errors:
 #### **GET** `/api/gardens/:id/plants`  
 - Get all plants associated with garden :id.
 
-Success:
+**Success: :heavy_check_mark:** 
 - Example payload.
 ```javascript
 [
@@ -528,10 +711,12 @@ Success:
     {...},
 ]
 ```
-Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Unable to get all plants from garden.'
+}
 ```
 
 ---
@@ -546,14 +731,15 @@ Expecting:
 }
 ```
 
-Success:
+**Success: :heavy_check_mark:** 
 - Example payload.
 ```javascript
 {
   "success": true
 }
 ```
-Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Unable to add new garden.'
@@ -572,14 +758,15 @@ Expecting:
 }
 ```
 
-Success:
+**Success: :heavy_check_mark:** 
 - Example payload.
 ```javascript
 {
   "success": true
 }
 ```
-Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": `Unable to update garden ${garden_name}.`
@@ -591,18 +778,21 @@ Errors:
 #### **DEL** `/api/gardens/:id`  
 - Delete garden with :id
 
-Success:
+**Success: :heavy_check_mark:** 
 - Example payload.
 ```javascript
 {
   "success": true
 }
 ```
-Errors:
+
+**Error: :x:**
 ```javascript
 { 
   "error": 'Failed to delete garden.'
+}
 ```
 
 ---
 
+> End of Docs
