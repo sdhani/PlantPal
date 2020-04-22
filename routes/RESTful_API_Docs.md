@@ -4,10 +4,10 @@
 
 ### Table of Contents
 - [Introduction](#introduction)
-- [Users Table](#users-routes)
+- [Users](#users-routes)
 - [Authentication](#auth-routes)
-- [Plants Table](#plants-routes)
-- [Gardens Table](#gardens-routes)
+- [Plants](#plants-routes)
+- [Gardens](#gardens-routes)
 
 
 
