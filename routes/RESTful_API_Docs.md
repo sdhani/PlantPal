@@ -53,6 +53,8 @@ If user was not successfully registered a validation error with the req.body mig
 ### Operations
 - [GET `/api/users`](#get-apiusers)
 - [PUT `/api/users`](#put-apiusers)
+- [DEL `/api/users/delete`](#del-apiusersdelete)
+
 ---
 #### **GET** `/api/users`  
 - Get all users.
@@ -138,6 +140,13 @@ req.body = {
   - authenticate and authorize users to preform CRUD operations.
   - register new users
   - will not create a new user if their email already exists on the server.
+
+### Operations
+- [GET `/api/auth/register`](#get-apiauthregister)
+- [GET `/api/auth/me`](#get-apiauthme)
+- [POST `/api/auth/login`](#post-apiauthlogin)
+- [POST `/api/auth/loggout`](#post-apiauthlogout)
+
 
 ---
 #### **GET** `/api/auth/register`  
@@ -232,6 +241,14 @@ req.body = {
   - authenticate and authorize users to preform CRUD operations.
   - register new users
   - will not create a new user if their email already exists on the server.
+
+### Operations
+- [GET `/api/plants`](#get-apiplants)
+- [GET `/api/plants/query`](#get-apiplantsquery)
+- [POST `/api/plants`](#post-apiplants)
+- [GET `/api/plants/:id`](#get-apiplants:id)
+- [PUT `/api/plants/:id`](#put-apiplants:id)
+- [DEL `/api/plants/:id/delete`](#del-apiplants:iddelete)
 
 ---
 #### **GET** `/api/plants`  
@@ -552,6 +569,14 @@ Expecting:
 **Features**
   - CRUD operations.
 
+### Operations
+- [GET `/api/gardens`](#get-apigardens)
+- [GET `/api/gardens/:id`](#get-apigardens:id)
+- [GET `/api/gardens/:id/plants`](#get-apigardens:id/plants)
+- [POST `/api/gardens`](#post-apigardens)
+- [PUT `/api/gardens/:id`](#put-apigardens:id)
+- [DEL `/api/plants/:id/delete`](#del-apigardens:iddelete)
+
 ---
 
 #### **GET** `/api/gardens`  
@@ -795,7 +820,7 @@ Expecting:
 
 ---
 
-#### **DEL** `/api/gardens/:id`  
+#### **DEL** `/api/gardens/:id/delete`  
 - Delete garden with :id
 
 **Success: :heavy_check_mark:** 
