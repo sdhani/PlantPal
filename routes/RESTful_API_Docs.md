@@ -1,5 +1,5 @@
 
-# :seedling::sunflower:PlantPal's RESTful API Docs
+# PlantPal's RESTful API Docs :seedling::sunflower:
 
 
 ### Table of Contents
@@ -11,7 +11,7 @@
 
 
 
-## Introduction 
+# Introduction 
 This is documentation for PlantPal's RESTful API.
 
 | Database Table | Supported Operations | Authentication | Permissions |
@@ -23,8 +23,7 @@ This is documentation for PlantPal's RESTful API.
 | location | TBD | TBD |W.I.P| 
 
 ### **Usage:**
-*A request with the proper body must be sent out to:*
-`/api/*database_table*/*operation*`
+A request with the proper body must be sent out to: `/api/*database_table*/*operation*`
  
 
 **Examples:** [POST]: `localhost:3001/api/auth/register`
@@ -47,8 +46,17 @@ The result of this post request will return a JSON object.
 
 If user was not successfully registered a validation error with the req.body might exist.
 
+# Users Routes
 
-## Users Routes
+### Users Schema
+|    Key    |    Column     |    Type    |
+|    :---:    |    :---:     |    :---:     |
+| PK | id | serial unique |
+|  | email | varchar(50) | 
+|   | display_name | varchar(255) |
+|  | zipcode | varchar(5) |
+|  | password | varchar(255)|
+
 
 ### Operations
 - [GET `/api/users`](#get-apiusers)
@@ -135,7 +143,7 @@ req.body = {
 
 ---
 
-## Auth Routes 
+# Auth Routes 
 **Features**
   - authenticate and authorize users to preform CRUD operations.
   - register new users
@@ -236,11 +244,31 @@ req.body = {
 
 ---
 
-## Plants Routes 
+# Plants Routes 
 **Features**
   - authenticate and authorize users to preform CRUD operations.
   - register new users
   - will not create a new user if their email already exists on the server.
+
+### Plants Schema
+|    Key    |    Column     |    Type    |
+|    :---:    |    :---:     |    :---:     |
+| PK | id | serial unique | 
+|  | garden_id | smallint | 
+|  | user_id | smallint | 
+|  | common_name | varchar(255) |
+|  | scientific_name | varchar(255) |
+|  | trefle_id | smallint | 
+|  | duration | varchar(255) |
+|  | outdoor_plant | boolean |
+|  | last_watered | date |
+|  | images | json |
+|  | foliage | json |
+|  | fruit_or_seed | json |
+|  | growth | json |
+|  | seed | json |
+|  | specifications | json |
+|  | family_common_name | varchar(255) |
 
 ### Operations
 - [GET `/api/plants`](#get-apiplants)
@@ -566,9 +594,17 @@ Expecting:
 
 ---
 
-## Gardens Routes 
+# Gardens Routes 
 **Features**
   - CRUD operations.
+
+### Gardens Schema
+|    Key    |    Column     |    Type    |
+|    :---:    |    :---:     |    :---:     |
+| PK | id | serial unique |
+| | garden_name | varchar(255) | 
+| FK | user_id | integer |
+
 
 ### Operations
 - [GET `/api/gardens`](#get-apigardens)
@@ -841,8 +877,46 @@ Expecting:
 ```
 [(top gardens)](#gardens-routes)
 
-[(top introduction)](#introduction)
 
 ---
 
+# Weather Routes 
+**Features**
+
+### weather
+|    Key    |    Column     |    Type    |
+|    :---:    |    :---:     |    :---:     |
+| PK | id | integer |
+|   | location_id | integer | 
+|   | user_id | integer | 
+|   | zipcode | varchar(5) | 
+|   | day_max_temp | decimal(5,2) | 
+|   | day_min_temp | decimal(5,2) | 
+|   | day_total_rain | decimal(5,2) | 
+|   | forcast1_max_temp | decimal(5,2) | 
+|   | forcast1_min_temp | decimal(5,2) | 
+|   | forcast1_total_rain | decimal(5,2) | 
+|   | forcast2_max_temp | decimal(5,2) | 
+|   | forcast2_min_temp | decimal(5,2) | 
+|   | forcast2_total_rain | decimal(5,2) | 
+
+---
+
+# Location Routes 
+**Features**
+
+### location
+|    Key    |    Column     |    Type    |
+|    :---:    |    :---:     |    :---:     |
+| PK | id | serial unique |
+| FK | user_id | integer |
+|  | weather_zipcode | varchar(5) | 
+|  | city | varchar(255) |
+|  | state | varchar(2) |
+|  | latitude | decimal(9,6) |
+|  | longitude | decimal(9,6) |
+
+[(top introduction)](#introduction)
+
+---
 > End of Docs
