@@ -28,20 +28,19 @@ Router.put("/", VerifyToken, async (req, res) => {
 });
 
 
-/* User must delete all associated gardens and plants before running this command */
 /* Delete user */
-// Router.delete("/delete",VerifyToken, async(req, res) => {
-//   const { user_id } = req;
+Router.delete("/delete",VerifyToken, async(req, res) => {
+  const { user_id } = req;
 
-//   if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'number') {
-//     return res.status(400).json({ error: 'you must supply a field "user_id" when creating a new user' });
-//   }
+  if (!req.body.hasOwnProperty('user_id') || typeof user_id !== 'number') {
+    return res.status(400).json({ error: 'you must supply a field "user_id" when creating a new user' });
+  }
 
-//   try {
-//     db.deleteUser(user_id).then(res.status(200).json({success: true}));
-//   }
-//   catch (err) { res.status(500).json({ error: 'Unable to delete user.' }); }
-// });
+  try {
+    db.deleteUser(user_id).then(res.status(200).json({success: true}));
+  }
+  catch (err) { res.status(500).json({ error: 'Unable to delete user.' }); }
+});
 
 
 module.exports = Router; /* export Router */
