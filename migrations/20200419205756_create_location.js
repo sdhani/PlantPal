@@ -3,7 +3,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('location', (table) => {
     table.increments('id'); // PK 
-    table.integer('user_id').references('id').inTable('users'); // FK 
+    table.integer('user_id').references('id').inTable('users').onDelete('CASCADE'); // FK 
     table.string('weather_zipcode', 5);
     table.string('city');
     table.string('state');

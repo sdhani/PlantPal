@@ -3,8 +3,8 @@
 exports.up = function(knex) {
   return knex.schema.createTable('plants', (table) => {
     table.increments('id'); // PK 
-    table.integer('garden_id').references('id').inTable('gardens'); // FK 
-    table.integer('user_id').references('id').inTable('users'); // FK 
+    table.integer('garden_id').references('id').inTable('gardens').onDelete('CASCADE'); // FK 
+    table.integer('user_id').references('id').inTable('users').onDelete('CASCADE'); // FK 
     table.string('common_name');
     table.string('scientific_name');
     table.integer('trefle_id');
