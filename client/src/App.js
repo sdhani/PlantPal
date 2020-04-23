@@ -11,24 +11,64 @@ import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
 
-function App() {
-  return (
-    <div>
-      <Router>
-        <MyNav />
-        <Route exact path="/" component={Login} />
-        <Route exact path="/home" component={Homepage} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/allusers" component={Homepage} />
-        <Route exact path="/garden" component={Garden} />{" "}
-        {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
-        <Route exact path="/outdoorgarden" component={OutdoorGarden} />
-        <Route exact path="/indoorgarden" component={IndoorGarden} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/plant/:id" component={Plant} />
-      </Router>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      registerFormData: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
+    }
+  }
+// ******FUNCTIONS TO HANDLE REGISTER FORM******
+  
+// tracks user input and stores it in state
+  handleRegisterChange = (ev) => {
+    const {name, value} = ev.target;
+    this.setState(prevState =>({
+      registerFormData: {
+        ...prevState.registerFormData,
+        [name]:value
+      }
+    }));
+  }
+
+// will submit data to backend
+  handleRegisterSubmit = (ev) => {
+    ev.preventDefault();
+    console.log(this.state.registerFormData);
+  }
+
+  render(){
+    return (
+      <div>
+        <Router>
+          <MyNav />
+          <Route exact path="/" component={Login} />
+          <Route exact path="/home" component={Homepage} />
+          <Route exact path="/register" render={()=>(
+            <Register 
+              registerFormData={this.state.registerFormData}
+              handleRegisterChange={this.handleRegisterChange}
+              handleRegisterSubmit={this.handleRegisterSubmit}
+            />
+          )}   
+          />
+          <Route exact path="/allusers" component={Homepage} />
+          <Route exact path="/garden" component={Garden} />{" "}
+          {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
+          <Route exact path="/outdoorgarden" component={OutdoorGarden} />
+          <Route exact path="/indoorgarden" component={IndoorGarden} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/plant/:id" component={Plant} />
+        </Router>
+      </div>
+    );
+  }
+
 }
 
 export default App;
