@@ -10,25 +10,122 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
+import {createUser, loginUser} from "./services/api"
 
-function App() {
-  return (
-    <div>
-      <Router>
-        <MyNav />
-        <Route exact path="/" component={Login} />
-        <Route exact path="/home" component={Homepage} />
-        <Route exact path="/register" component={Register} />
-        <Route exact path="/allusers" component={Homepage} />
-        <Route exact path="/garden" component={Garden} />{" "}
-        {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
-        <Route exact path="/outdoorgarden" component={OutdoorGarden} />
-        <Route exact path="/indoorgarden" component={IndoorGarden} />
-        <Route exact path="/profile" component={Profile} />
-        <Route exact path="/plant/:id" component={Plant} />
-      </Router>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      registerFormData: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      },
+      loginFormData: {
+        email: '',
+        password: ''
+      }
+    }
+  }
+
+// ******FUNCTIONS TO HANDLE REGISTER FORM******
+  
+// tracks user input and stores it in state
+  handleRegisterChange = (ev) => {
+    const {name, value} = ev.target;
+    this.setState(prevState =>({
+      registerFormData: {
+        ...prevState.registerFormData,
+        [name]:value
+      }
+    }));
+  }
+
+// will submit inputted data to backend
+  handleRegisterSubmit = async (ev) => {
+    ev.preventDefault();
+    console.log(this.state.registerFormData);
+    await createUser(this.state.registerFormData);
+    this.setState({
+      registerFormData: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
+    });
+    this.props.history.push('/home');
+  }
+
+// ******FUNCTIONS TO HANDLE LOGIN FORM******
+
+// tracks user input and stores it in state
+  handleLoginChange = (ev) => {
+    const { name, value } = ev.target;
+    this.setState(prevState => ({
+      loginFormData: {
+        ...prevState.loginFormData,
+        [name]: value
+      }
+    }));
+  }
+
+//submits state to loginUser function
+  handleLoginSubmit = async(ev) => {
+    ev.preventDefault();
+    const userInfo = await loginUser(this.state.loginFormData);
+    this.setState({
+      loginFormData: {
+        username: '',
+        password: ''
+      }
+    })
+
+    //auth stuff will go here
+
+    this.props.history.push('/home');
+  }
+
+  // LOGOUT
+  logout = () => {
+    localStorage.clear();
+    this.props.history.push('/');
+  }
+
+  render(){
+    return (
+      <div>
+        <Router>
+          <MyNav />
+          <Route exact path="/" render={()=>(
+            <Login 
+              loginFormData={this.state.loginFormData}
+              handleLoginChange={this.handleLoginChange}
+              handleLoginSubmit={this.handleLoginSubmit}
+            />
+          )} />
+          <Route exact path="/home" component={Homepage} />
+          <Route exact path="/register" render={()=>(
+            <Register 
+              registerFormData={this.state.registerFormData}
+              handleRegisterChange={this.handleRegisterChange}
+              handleRegisterSubmit={this.handleRegisterSubmit}
+            />
+          )}   
+          />
+          <Route exact path="/allusers" component={Homepage} />
+          <Route exact path="/garden" component={Garden} />{" "}
+          {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
+          <Route exact path="/outdoorgarden" component={OutdoorGarden} />
+          <Route exact path="/indoorgarden" component={IndoorGarden} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/plant/:id" component={Plant} />
+        </Router>
+      </div>
+    );
+  }
+
 }
 
 export default App;

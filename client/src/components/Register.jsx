@@ -6,32 +6,10 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      name: "",
-      email: "",
-      password: "",
       invalid: false,
     };
   }
-  onSubmit = (e) => {
-    console.log("create user");
-    // e.preventDefault();
-    // axios
-    //   .post("/api/users/create", {
-    //     ...this.state,
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((e) => {
-    //     this.setState({ invalid: true });
-    //     console.log(e);
-    //   });
-  };
 
-  inputHandler = (e) => {
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
-  };
   render() {
     return (
       <div className="login-page">
@@ -51,29 +29,35 @@ class Register extends Component {
           <div />
         )}
         <div className="form">
-          <form className="login-form" onSubmit={this.onSubmit}>
-            <input
-              type="text"
-              required
-              placeholder="name"
-              name="name"
-              onChange={this.inputHandler}
-            />
+          <form className="login-form" onSubmit={this.props.handleRegisterSubmit}>
             <input
               type="text"
               required
               placeholder="email address"
               name="email"
-              onChange={this.inputHandler}
+              onChange={this.props.handleRegisterChange}
+            />
+            <input
+              type="text"
+              required
+              placeholder="username"
+              name="username"
+              onChange={this.props.handleRegisterChange}
             />
             <input
               type="password"
               required
               placeholder="password"
               name="password"
-              onChange={this.inputHandler}
+              onChange={this.props.handleRegisterChange}
             />
-
+            <input
+              type="text"
+              required
+              placeholder="zipcode"
+              name="zipcode"
+              onChange={this.props.handleRegisterChange}
+            />
             <Link to="/home">
               <button>create</button>
             </Link>
