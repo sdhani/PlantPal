@@ -21,6 +21,10 @@ class App extends React.Component {
         username: '',
         password: '',
         zipcode: ''
+      },
+      loginFormData: {
+        email: '',
+        password: ''
       }
     }
   }
@@ -66,6 +70,7 @@ class App extends React.Component {
       }
     }));
   }
+
   render(){
     return (
       <div>
