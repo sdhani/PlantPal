@@ -5,8 +5,7 @@
 - Sift through care tips for their particular plant. (via the Trefle API)
 - Get WEATHER and CARE indications for outdoor plants (via the OpenWeatherMap API)
 
-***:tv: [Demo link IP](https://plant-pals.herokuapp.com)***
-
+***:tv: [Demo link W.I.P.](https://plant-pals.herokuapp.com)***
 
 ## Install and Run
 
@@ -29,5 +28,7 @@
 1. Seed your database. Run `knex seed:run` in the root directory.
 1. Run `yarn start-all` in the root directory. 
 1. Open `http://localhost:3000` in your browser to view seed data of all users.
+
+### [Check Out PlantPal's RESTful API Docs](https://github.com/sdhani/PlantPal/blob/master/routes/RESTful_API_Docs.md)
 
 # :tada:
