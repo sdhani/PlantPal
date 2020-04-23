@@ -86,12 +86,21 @@ class App extends React.Component {
     this.props.history.push('/home');
   }
 
+// LOGOUT
+
+
   render(){
     return (
       <div>
         <Router>
           <MyNav />
-          <Route exact path="/" component={Login} />
+          <Route exact path="/" render={()=>(
+            <Login 
+              loginFormData={this.state.loginFormData}
+              handleLoginChange={this.handleLoginChange}
+              handleLoginSubmit={this.handleLoginSubmit}
+            />
+          )} />
           <Route exact path="/home" component={Homepage} />
           <Route exact path="/register" render={()=>(
             <Register 
