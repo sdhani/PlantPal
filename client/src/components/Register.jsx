@@ -6,32 +6,10 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      // name: "",
-      // email: "",
-      // password: "",
       invalid: false,
     };
   }
-  // onSubmit = (e) => {
-  //   console.log("create user");
-    // e.preventDefault();
-    // axios
-    //   .post("/api/users/create", {
-    //     ...this.state,
-    //   })
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((e) => {
-    //     this.setState({ invalid: true });
-    //     console.log(e);
-    //   });
-  // };
 
-  // inputHandler = (e) => {
-  //   e.preventDefault();
-  //   this.setState({ [e.target.name]: e.target.value });
-  // };
   render() {
     return (
       <div className="login-page">

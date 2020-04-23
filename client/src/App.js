@@ -10,6 +10,7 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
+import {createUser, loginUser} from "./services/api"
 
 class App extends React.Component {
   constructor(props){
@@ -23,7 +24,7 @@ class App extends React.Component {
       }
     }
   }
-  
+
 // ******FUNCTIONS TO HANDLE REGISTER FORM******
   
 // tracks user input and stores it in state
@@ -37,10 +38,20 @@ class App extends React.Component {
     }));
   }
 
-// will submit data to backend
+// will submit inputted data to backend
   handleRegisterSubmit = (ev) => {
     ev.preventDefault();
     console.log(this.state.registerFormData);
+    await createUser(this.state.registerFormData);
+    this.setState({
+      registerFormData: {
+        email: '',
+        username: '',
+        password: '',
+        zipcode: ''
+      }
+    });
+    this.props.history.push('/home');
   }
 
   render(){
