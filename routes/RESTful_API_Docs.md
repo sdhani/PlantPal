@@ -153,7 +153,7 @@ req.body = {
 - [GET `/api/auth/register`](#get-apiauthregister)
 - [GET `/api/auth/me`](#get-apiauthme)
 - [POST `/api/auth/login`](#post-apiauthlogin)
-- [POST `/api/auth/loggout`](#post-apiauthlogout)
+- [GET `/api/auth/logout`](#get-apiauthlogout)
 
 
 ---
@@ -240,6 +240,23 @@ req.body = {
   "error": 'Unable to delete user.'
 }
 ```
+[(top auth)](#auth-routes)
+
+---
+
+#### **GET** `/api/auth/logout`  
+- Logout user. 
+- :warning: Requires client action to delete token from cookies. 
+
+
+**Success: :heavy_check_mark:** 
+```javascript
+{
+  "auth": false,
+  "token": null
+}
+```
+
 [(top auth)](#auth-routes)
 
 ---
