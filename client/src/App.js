@@ -23,6 +23,7 @@ class App extends React.Component {
       }
     }
   }
+  
 // ******FUNCTIONS TO HANDLE REGISTER FORM******
   
 // tracks user input and stores it in state
