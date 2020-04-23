@@ -54,6 +54,18 @@ class App extends React.Component {
     this.props.history.push('/home');
   }
 
+// ******FUNCTIONS TO HANDLE LOGIN FORM******
+
+// tracks user input and stores it in state
+  handleLoginChange = (ev) => {
+    const { name, value } = ev.target;
+    this.setState(prevState => ({
+      loginFormData: {
+        ...prevState.loginFormData,
+        [name]: value
+      }
+    }));
+  }
   render(){
     return (
       <div>
