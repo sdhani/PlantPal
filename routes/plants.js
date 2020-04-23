@@ -43,7 +43,7 @@ Router.get("/query", async (req, res) => {
 });
 
 
-/* Get a specific garden from a user */
+/* Get a specific plant from a user */
 Router.get("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
   try {
@@ -77,7 +77,7 @@ Router.post("/", VerifyToken, async (req, res) => {
 
   /* Manually add plant to db */
   if(!req.body.hasOwnProperty('trefle_id') || typeof trefle_id !== 'number'){ /* trefle_id not provided */
-    if (!res.body.hasOwnProperty('common_name') || typeof common_name !== 'string') {
+    if (!req.body.hasOwnProperty('common_name') || typeof common_name !== 'string') {
       return res.status(400).json({ error: 'you must supply a field "common_name" when adding a new plant' });
     }
   
@@ -144,7 +144,7 @@ Router.put("/:id", VerifyToken, async (req, res) => {
     db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images, last_watered)
     .then(res.status(200).json({success: true}));
   }
-  catch(err) { res.status(500).json({ error: 'something weird happened with the API.' }); }
+  catch(err) { res.status(500).json({ error: 'Unable to update plant.' }); }
 });
 
 
@@ -155,7 +155,7 @@ Router.delete("/:id/delete", VerifyToken, async(req, res) => {
   try {
     db.deletePlant(user_id, req.params.id).then(res.status(200).json({success: true}));
   }
-  catch(err) { res.status(500).json({ error: 'something weird happened with the API.' }); }
+  catch(err) { res.status(500).json({ error: 'Unable to delete plant.' }); }
 });
 
 
