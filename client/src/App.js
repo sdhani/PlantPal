@@ -71,6 +71,21 @@ class App extends React.Component {
     }));
   }
 
+  handleLoginSubmit = async(ev) => {
+    ev.preventDefault();
+    const userInfo = await loginUser(this.state.loginFormData);
+    this.setState({
+      loginFormData: {
+        username: '',
+        password: ''
+      }
+    })
+
+    //auth stuff will go here
+
+    this.props.history.push('/home');
+  }
+
   render(){
     return (
       <div>
