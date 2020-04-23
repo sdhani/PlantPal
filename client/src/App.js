@@ -39,7 +39,7 @@ class App extends React.Component {
   }
 
 // will submit inputted data to backend
-  handleRegisterSubmit = (ev) => {
+  handleRegisterSubmit = async (ev) => {
     ev.preventDefault();
     console.log(this.state.registerFormData);
     await createUser(this.state.registerFormData);

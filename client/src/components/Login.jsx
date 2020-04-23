@@ -7,32 +7,10 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: "",
-      password: "",
       invalid: false,
     };
   }
-  onSubmit = (e) => {
-    console.log("logging in");
-    // e.preventDefault();
-    // axios
-    //   .put("/api/auth/login", {
-    //     ...this.state,
-    //   })
-    //   .then((res) => res.data)
-    //   .then((user) => {
-    //     this.setState({ invalid: false });
-    //     this.props.history.replace(`/home/`);
-    //   })
-    //   .catch((e) => {
-    //     this.setState({ invalid: true });
-    //     console.log(e);
-    //   });
-  };
-  inputHandler = (e) => {
-    e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
-  };
+
   render() {
     return (
       <div className="login-page">
