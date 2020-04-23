@@ -30,20 +30,20 @@ class Login extends Component {
           <div />
         )}
         <div className="form" id="lform">
-          <form className="login-form" onSubmit={this.onSubmit}>
+          <form className="login-form" onSubmit={this.props.handleLoginSubmit}>
             <input
               type="text"
               placeholder="Email"
               name="email"
               required
-              onChange={this.inputHandler}
+              onChange={this.props.handleLoginChange}
             />
             <input
               type="password"
               required
               placeholder="Password"
               name="password"
-              onChange={this.inputHandler}
+              onChange={this.props.handleLoginChange}
             />
             <Link to="/home">
               <button>Login</button>
