@@ -71,6 +71,7 @@ class App extends React.Component {
     }));
   }
 
+//submits state to loginUser function
   handleLoginSubmit = async(ev) => {
     ev.preventDefault();
     const userInfo = await loginUser(this.state.loginFormData);
@@ -86,8 +87,11 @@ class App extends React.Component {
     this.props.history.push('/home');
   }
 
-// LOGOUT
-
+  // LOGOUT
+  logout = () => {
+    localStorage.clear();
+    this.props.history.push('/');
+  }
 
   render(){
     return (
