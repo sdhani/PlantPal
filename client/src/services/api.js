@@ -10,3 +10,9 @@ export const createUser = async(userData) => {
     const response = await api.post(`auth/users`, userData);
     return response;
 }
+
+// sends login data to backend
+export const loginUser = async(userData)=> {
+    const response = await api.post(`auth/login`, userData);
+    return response;
+}
