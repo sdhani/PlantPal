@@ -19,11 +19,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/users", usersRoute);
-app.use("/garden", gardensRoute);
-app.use("/plants", plantsRoute);
-app.use("/auth", authRoute);
+app.use("/api/users", usersRoute);
+app.use("/api/gardens", gardensRoute);
+app.use("/api/plants", plantsRoute);
+app.use("/api/auth", authRoute);
 
+/* For Deploying */
 // The "catchall" handler: for any request that doesn't
 // match one above, send back React's index.html file.
 // app.get('*', (req, res) => {

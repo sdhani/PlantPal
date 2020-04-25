@@ -11,17 +11,17 @@ const config = require('../config'); /* stores jwt secret */
 Router.post("/register", async (req, res) => {
   const { email, display_name, zipcode, password } = req.body;
 
-  if (!req.body.hasOwnProperty('email') || typeof email !== 'string') {
+  if (!req.body.hasOwnProperty('email') || typeof email !== 'string' || email === undefined) {
     return res.status(400).json({ error: 'you must supply a field "email" of type string when registering.' });
   }
 
-  if (!req.body.hasOwnProperty('password')|| typeof password !== 'string') {
+  if (!req.body.hasOwnProperty('password')|| typeof password !== 'string' || password === undefined) {
     return res.status(400).json({ error: 'you must supply a field "password" of type string when registering.' });
   }
 
   db.checkEmail(email).then(response => {
     if(response.length > 0){
-      return res.status(200).json({ error: 'Email already exists on server.' })
+      return res.status(400).json({ error: 'Email already exists on server.' })
     }
   })
 
