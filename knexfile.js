@@ -1,4 +1,4 @@
-const dotenv = require('dotenv').config();
+/* knexfile.js */
 
 module.exports = {
 
