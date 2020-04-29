@@ -85,15 +85,13 @@ class App extends React.Component {
       }
     })
     
-    const auth = 'Bearer ' + userInfo.data.token;
-    localStorage.setItem('authToken', userInfo.data.token);
-
     localStorage.setItem('jwt', userInfo.data.token);
 
     console.log(userInfo.data.token);
 
     const user = await verifyToken();
     console.log(user);
+    console.log(user[0].display_name);
 
     // this.props.history.push('/home');
   }
