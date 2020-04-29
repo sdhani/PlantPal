@@ -73,7 +73,7 @@ If user was not successfully registered a validation error with the req.body mig
 **Error: :x:**
 ```javascript
 { 
-  "error": 'Unable to get all user.' 
+  "error": 'Unable to get all users.' 
 }
 ```
 [top users](#users-routes)
@@ -145,9 +145,9 @@ req.body = {
 
 # Auth Routes 
 **Features**
-  - authenticate and authorize users to preform CRUD operations.
-  - register new users
-  - will not create a new user if their email already exists on the server.
+  - Authenticate and authorize users to perform CRUD operations.
+  - Register new users.
+  - Will not create a new user if their email already exists on the server.
 
 ### Operations
 - [GET `/api/auth/register`](#get-apiauthregister)
@@ -263,9 +263,9 @@ req.body = {
 
 # Plants Routes 
 **Features**
-  - authenticate and authorize users to preform CRUD operations.
-  - register new users
-  - will not create a new user if their email already exists on the server.
+  - Only for authenticated and authorized users.
+  - Plant CRUD Operations
+  - Query Plant in Trefle
 
 ### Plants Schema
 |    Key    |    Column     |    Type    |
@@ -613,7 +613,7 @@ Expecting:
 
 # Gardens Routes 
 **Features**
-  - CRUD operations.
+  - Garden CRUD operations.
 
 ### Gardens Schema
 |    Key    |    Column     |    Type    |
