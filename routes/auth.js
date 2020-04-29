@@ -39,7 +39,6 @@ Router.post("/register", async (req, res) => {
   catch (err) { res.status(500).json({ error: 'There was a problem registering the user.' }); }
 });
 
-
 /* Get current user */
 Router.get('/me', VerifyToken, async (req, res) => {  
   const { user_id } = req;
