@@ -85,7 +85,9 @@ class App extends React.Component {
       }
     })
     
-    //auth stuff will go here
+    // const auth = 'Bearer ' + userInfo.data.token;
+    // localStorage.setItem('jwt', userInfo.data.token);
+    // localStorage.setItem('jwtToken', auth);
 
     // this.props.history.push('/home');
   }

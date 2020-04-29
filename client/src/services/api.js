@@ -18,3 +18,8 @@ export const loginUser = async(userData)=> {
     return response;
 }
 
+// stores token inlocal storage
+export const storeToken = (token) => {
+    localStorage.setItem('jwt', token);
+    api.defaults.headers.common.authorization = `Bearer ${token}`
+}
