@@ -23,3 +23,35 @@ export const storeToken = (token) => {
     localStorage.setItem('jwt', token);
     api.defaults.headers.common.authorization = `Bearer ${token}`
 }
+
+export const verifyToken = async () => {
+    const token = localStorage.getItem('jwt');
+    if (token){
+        try{
+                const resp = await api.get('/api/auth/me', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            storeToken(token);
+            return resp.data;
+          } catch (e) {
+            return e.message;
+          }
+    }
+    // const resp = await api.get('/api/auth/me');
+    // return resp;
+    // if(token){
+    //     try {
+    //         const resp = await api.get('/api/auth/me', {
+    //           headers: {
+    //             Authorization: `Bearer ${token}`
+    //           }
+    //         });
+    //         storeToken(token);
+    //         return resp.data.user;
+    //       } catch (e) {
+    //         return e.message;
+    //       }
+    // }
+}

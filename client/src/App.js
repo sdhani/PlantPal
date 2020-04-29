@@ -10,7 +10,7 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
-import {createUser, loginUser} from "./services/api"
+import {createUser, loginUser, verifyToken} from "./services/api"
 
 class App extends React.Component {
   constructor(props){
@@ -85,9 +85,15 @@ class App extends React.Component {
       }
     })
     
-    // const auth = 'Bearer ' + userInfo.data.token;
-    // localStorage.setItem('jwt', userInfo.data.token);
-    // localStorage.setItem('jwtToken', auth);
+    const auth = 'Bearer ' + userInfo.data.token;
+    localStorage.setItem('authToken', userInfo.data.token);
+
+    localStorage.setItem('jwt', userInfo.data.token);
+
+    console.log(userInfo.data.token);
+
+    const user = await verifyToken();
+    console.log(user);
 
     // this.props.history.push('/home');
   }
@@ -98,7 +104,9 @@ class App extends React.Component {
     this.props.history.push('/');
   }
 
+  componentDidMount = async () => {
 
+  }
 
   render(){
     return (
