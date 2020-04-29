@@ -25,7 +25,8 @@ class App extends React.Component {
       loginFormData: {
         email: '',
         password: ''
-      }
+      },
+      currentUser: []
     }
   }
 
@@ -77,21 +78,20 @@ class App extends React.Component {
     ev.preventDefault(ev);
     console.log(this.state.loginFormData)
     const userInfo = await loginUser(this.state.loginFormData);
-    console.log(userInfo);
+    
+    localStorage.setItem('jwt', userInfo.data.token);
+
+    const user = await verifyToken();
+
     this.setState({
       loginFormData: {
         email: '',
         password: ''
-      }
+      },
+      currentUser: user
     })
-    
-    localStorage.setItem('jwt', userInfo.data.token);
-
-    console.log(userInfo.data.token);
-
-    const user = await verifyToken();
-    console.log(user);
-    console.log(user[0].display_name);
+    // console.log(user[0].display_name);
+    console.log(this.state.currentUser);
 
     // this.props.history.push('/home');
   }
