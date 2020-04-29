@@ -156,7 +156,20 @@ req.body = {
 - [GET `/api/auth/logout`](#get-apiauthlogout)
 
 
+### Notes
+
+- :warning: Auth Token is expected to be passed as an `x-access-token` header variable. If the token is stored as cookies on the client side, the API is expecting the cookie to be named ***x-access-token*** 
+
+All authorized API Routes are Expecting a Header that has this key:
+
+```javascript
+{
+    "x-access-token":"special-jwt-token-value",
+}
+```
+
 ---
+
 #### **GET** `/api/auth/register`  
 - Register new user.
 
