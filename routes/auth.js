@@ -22,21 +22,22 @@ Router.post("/register", async (req, res) => {
   db.checkEmail(email).then(response => {
     if(response.length > 0){
       return res.status(400).json({ error: 'Email already exists on server.' })
+    } else {
+      const hashedPassword = bcrypt.hashSync(password, 8);
+      try {
+        db.registerUser(email, display_name, zipcode, hashedPassword).then(id => {
+          // create a token[]
+          const newID = [ { id: id[0]} ]
+          const token = jwt.sign({ id: newID }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
+          });
+          res.status(200).json({ auth: true, token: token }); 
+        })
+      }
+      catch (err) { res.status(500).json({ error: 'There was a problem registering the user.' }); }
     }
   })
 
-  const hashedPassword = bcrypt.hashSync(password, 8);
-  try {
-    db.registerUser(email, display_name, zipcode, hashedPassword).then(id => {
-      // create a token[]
-      const newID = [ { id: id[0]} ]
-      const token = jwt.sign({ id: newID }, config.secret, {
-        expiresIn: 86400 // expires in 24 hours
-      });
-      res.status(200).json({ auth: true, token: token }); 
-    })
-	}
-  catch (err) { res.status(500).json({ error: 'There was a problem registering the user.' }); }
 });
 
 
