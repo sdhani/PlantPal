@@ -3,8 +3,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+const dotenv = require('dotenv').config();
+const cors = require('cors');
 const app = express();
+
+// Enable CORS
+app.use(cors());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -23,6 +27,8 @@ app.use("/api/users", usersRoute);
 app.use("/api/gardens", gardensRoute);
 app.use("/api/plants", plantsRoute);
 app.use("/api/auth", authRoute);
+
+
 
 /* For Deploying */
 // The "catchall" handler: for any request that doesn't

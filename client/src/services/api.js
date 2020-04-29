@@ -8,7 +8,7 @@ const api = axios.create({
 // ******* REGISTER/LOGIN FUNCTIONS *******
 // sends register data to backend 
 export const createUser = async(userData) => {
-    const response = await api.post(`api/auth/users`, userData);
+    const response = await api.post(`api/auth/register`, userData);
     return response;
 }
 

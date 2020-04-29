@@ -46,7 +46,8 @@ class App extends React.Component {
   handleRegisterSubmit = async (ev) => {
     ev.preventDefault();
     console.log(this.state.registerFormData);
-    await createUser(this.state.registerFormData);
+    const userinfo = await createUser(this.state.registerFormData);
+    console.log(userinfo)
     this.setState({
       registerFormData: {
         email: '',
@@ -55,7 +56,7 @@ class App extends React.Component {
         zipcode: ''
       }
     });
-    this.props.history.push('/home');
+    // this.props.history.push('/home');
   }
 
 // ******FUNCTIONS TO HANDLE LOGIN FORM******
@@ -73,18 +74,20 @@ class App extends React.Component {
 
 //submits state to loginUser function
   handleLoginSubmit = async(ev) => {
-    ev.preventDefault();
+    ev.preventDefault(ev);
+    console.log(this.state.loginFormData)
     const userInfo = await loginUser(this.state.loginFormData);
+    console.log(userInfo);
     this.setState({
       loginFormData: {
         username: '',
         password: ''
       }
     })
-
+    
     //auth stuff will go here
 
-    this.props.history.push('/home');
+    // this.props.history.push('/home');
   }
 
   // LOGOUT
@@ -92,6 +95,8 @@ class App extends React.Component {
     localStorage.clear();
     this.props.history.push('/');
   }
+
+
 
   render(){
     return (

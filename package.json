@@ -16,6 +16,7 @@
     "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",

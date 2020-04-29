@@ -10,7 +10,6 @@ const config = require('../config'); /* stores jwt secret */
 /* Register new user */
 Router.post("/register", async (req, res) => {
   const { email, display_name, zipcode, password } = req.body;
-  req.body = JSON.parse(JSON.stringify(req.body));
 
   if (!req.body.hasOwnProperty('email') || typeof email !== 'string' || email === undefined) {
     return res.status(400).json({ error: 'you must supply a field "email" of type string when registering.' });
@@ -57,8 +56,6 @@ Router.get('/me', VerifyToken, async (req, res) => {
 /* Login user */
 Router.post('/login',  async(req, res) => {
   const { email, password } = req.body;
-
-  req.body = JSON.parse(JSON.stringify(req.body));
 
   if (!req.body.hasOwnProperty('email') || typeof email !== 'string') {
     return res.status(400).json({ error: 'you must supply a field "email" of type string to login' });

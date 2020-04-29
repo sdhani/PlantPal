@@ -58,9 +58,9 @@ class Register extends Component {
               name="zipcode"
               onChange={this.props.handleRegisterChange}
             />
-            <Link to="/home">
+            {/* <Link to="/home"> */}
               <button>create</button>
-            </Link>
+            {/* </Link> */}
 
             <Link to="/">
               <p className="message">Already registered?</p>
