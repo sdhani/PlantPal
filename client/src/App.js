@@ -18,7 +18,7 @@ class App extends React.Component {
     this.state={
       registerFormData: {
         email: '',
-        username: '',
+        display_name: '',
         password: '',
         zipcode: ''
       },
@@ -51,7 +51,7 @@ class App extends React.Component {
     this.setState({
       registerFormData: {
         email: '',
-        username: '',
+        display_name: '',
         password: '',
         zipcode: ''
       }
@@ -80,7 +80,7 @@ class App extends React.Component {
     console.log(userInfo);
     this.setState({
       loginFormData: {
-        username: '',
+        email: '',
         password: ''
       }
     })

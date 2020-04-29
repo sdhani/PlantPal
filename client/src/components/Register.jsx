@@ -41,7 +41,7 @@ class Register extends Component {
               type="text"
               required
               placeholder="username"
-              name="username"
+              name="display_name"
               onChange={this.props.handleRegisterChange}
             />
             <input
