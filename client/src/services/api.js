@@ -28,7 +28,7 @@ export const verifyToken = async () => {
     const token = localStorage.getItem('jwt');
     if (token){
         try{
-                const resp = await api.get('/api/auth/me', {
+            const resp = await api.get('/api/auth/me', {
               headers: {
                 Authorization: `Bearer ${token}`
               }
@@ -39,19 +39,4 @@ export const verifyToken = async () => {
             return e.message;
           }
     }
-    // const resp = await api.get('/api/auth/me');
-    // return resp;
-    // if(token){
-    //     try {
-    //         const resp = await api.get('/api/auth/me', {
-    //           headers: {
-    //             Authorization: `Bearer ${token}`
-    //           }
-    //         });
-    //         storeToken(token);
-    //         return resp.data.user;
-    //       } catch (e) {
-    //         return e.message;
-    //       }
-    // }
 }

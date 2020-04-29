@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Homepage from "./components/Homepage";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { /*BrowserRouter as Router*/ withRouter, Route  } from "react-router-dom";
 import Garden from "./components/Garden";
 import MyNav from "./components/MyNav";
 import Login from "./components/Login";
@@ -26,7 +26,8 @@ class App extends React.Component {
         email: '',
         password: ''
       },
-      currentUser: []
+      currentUser: null,
+      loggedIn: false
     }
   }
 
@@ -57,7 +58,7 @@ class App extends React.Component {
         zipcode: ''
       }
     });
-    // this.props.history.push('/home');
+    
   }
 
 // ******FUNCTIONS TO HANDLE LOGIN FORM******
@@ -80,37 +81,51 @@ class App extends React.Component {
     const userInfo = await loginUser(this.state.loginFormData);
     
     localStorage.setItem('jwt', userInfo.data.token);
-
+    
     const user = await verifyToken();
 
+    console.log(user);
     this.setState({
       loginFormData: {
         email: '',
         password: ''
       },
-      currentUser: user
+      currentUser: user[0].display_name,
+      loggedIn: true
     })
+    localStorage.setItem('user', this.state.currentUser)
     // console.log(user[0].display_name);
     console.log(this.state.currentUser);
-
-    // this.props.history.push('/home');
+    this.props.history.push('/home')
   }
 
-  // LOGOUT
+  componentDidMount = () => {
+    const user = localStorage.getItem('user');
+    this.setState({
+      currentUser: user
+    })
+    if(this.state.loggedIn){
+      
+    }
+  }
+
   logout = () => {
     localStorage.clear();
-    this.props.history.push('/');
-  }
-
-  componentDidMount = async () => {
-
+    this.setState({
+      currentUser: null
+    })
+    this.props.history.push('/')
   }
 
   render(){
+
     return (
       <div>
-        <Router>
-          <MyNav />
+        {/* <Router> */}
+          <MyNav 
+          logout={this.logout}
+          currentUser={this.state.currentUser}
+          />
           <Route exact path="/" render={()=>(
             <Login 
               loginFormData={this.state.loginFormData}
@@ -118,7 +133,12 @@ class App extends React.Component {
               handleLoginSubmit={this.handleLoginSubmit}
             />
           )} />
-          <Route exact path="/home" component={Homepage} />
+          <Route exact path="/home" render={()=>(
+            <Homepage 
+              currentUser={this.state.currentUser}
+    
+            />
+          )} />
           <Route exact path="/register" render={()=>(
             <Register 
               registerFormData={this.state.registerFormData}
@@ -134,11 +154,11 @@ class App extends React.Component {
           <Route exact path="/indoorgarden" component={IndoorGarden} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/plant/:id" component={Plant} />
-        </Router>
+        {/* </Router> */}
       </div>
     );
   }
 
 }
 
-export default App;
+export default withRouter(App) ;
