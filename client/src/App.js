@@ -58,7 +58,9 @@ class App extends React.Component {
         zipcode: ''
       }
     });
-    
+    if(userinfo.request.status ===200){
+      this.props.history.push('/');
+    }
   }
 
 // ******FUNCTIONS TO HANDLE LOGIN FORM******
@@ -84,7 +86,6 @@ class App extends React.Component {
     
     const user = await verifyToken();
 
-    console.log(user);
     this.setState({
       loginFormData: {
         email: '',
@@ -94,7 +95,6 @@ class App extends React.Component {
       loggedIn: true
     })
     localStorage.setItem('user', this.state.currentUser)
-    // console.log(user[0].display_name);
     console.log(this.state.currentUser);
     this.props.history.push('/home')
   }
@@ -104,9 +104,6 @@ class App extends React.Component {
     this.setState({
       currentUser: user
     })
-    if(this.state.loggedIn){
-      
-    }
   }
 
   logout = () => {
