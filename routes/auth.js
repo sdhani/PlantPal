@@ -40,7 +40,6 @@ Router.post("/register", async (req, res) => {
 
 });
 
-
 /* Get current user */
 Router.get('/me', VerifyToken, async (req, res) => {  
   const { user_id } = req;

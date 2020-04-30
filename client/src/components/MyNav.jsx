@@ -8,6 +8,7 @@ class MyNav extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     const styles = {
       fontSize: "1.5rem",
@@ -51,9 +52,10 @@ class MyNav extends Component {
               <LinkContainer style={styles} to={`/profile`}>
                 <NavItem eventKey={3}>Profile</NavItem>
               </LinkContainer>
-              <LinkContainer style={styles} to={`/`}>
-                <NavItem eventKey={4}>Logout</NavItem>
-              </LinkContainer>
+              {/* <LinkContainer style={styles} to={`/`}> */}
+                <NavItem  onClick={this.props.logout} eventKey={4}>Logout</NavItem>
+              {/* </LinkContainer> */}
+              <p>Hi {this.props.currentUser}</p>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

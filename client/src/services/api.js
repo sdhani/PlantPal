@@ -8,13 +8,35 @@ const api = axios.create({
 // ******* REGISTER/LOGIN FUNCTIONS *******
 // sends register data to backend 
 export const createUser = async(userData) => {
-    const response = await api.post(`auth/users`, userData);
+    const response = await api.post(`api/auth/register`, userData);
     return response;
 }
 
 // sends login data to backend
 export const loginUser = async(userData)=> {
-    const response = await api.post(`auth/login`, userData);
+    const response = await api.post(`api/auth/login`, userData);
     return response;
 }
 
+// stores token inlocal storage
+export const storeToken = (token) => {
+    localStorage.setItem('jwt', token);
+    api.defaults.headers.common.authorization = `Bearer ${token}`
+}
+
+export const verifyToken = async () => {
+    const token = localStorage.getItem('jwt');
+    if (token){
+        try{
+            const resp = await api.get('/api/auth/me', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            storeToken(token);
+            return resp.data;
+          } catch (e) {
+            return e.message;
+          }
+    }
+}

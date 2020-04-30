@@ -45,9 +45,9 @@ class Login extends Component {
               name="password"
               onChange={this.props.handleLoginChange}
             />
-            <Link to="/home">
+            {/* <Link to="/home"> */}
               <button>Login</button>
-            </Link>
+            {/* </Link> */}
             <Link to="/register">
               <p className="message">Not registered?</p>
             </Link>

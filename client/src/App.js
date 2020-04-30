@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Homepage from "./components/Homepage";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { /*BrowserRouter as Router*/ withRouter, Route  } from "react-router-dom";
 import Garden from "./components/Garden";
 import MyNav from "./components/MyNav";
 import Login from "./components/Login";
@@ -10,7 +10,7 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
-import {createUser, loginUser} from "./services/api"
+import {createUser, loginUser, verifyToken} from "./services/api"
 
 class App extends React.Component {
   constructor(props){
@@ -18,14 +18,16 @@ class App extends React.Component {
     this.state={
       registerFormData: {
         email: '',
-        username: '',
+        display_name: '',
         password: '',
         zipcode: ''
       },
       loginFormData: {
         email: '',
         password: ''
-      }
+      },
+      currentUser: null,
+      loggedIn: false
     }
   }
 
@@ -46,16 +48,19 @@ class App extends React.Component {
   handleRegisterSubmit = async (ev) => {
     ev.preventDefault();
     console.log(this.state.registerFormData);
-    await createUser(this.state.registerFormData);
+    const userinfo = await createUser(this.state.registerFormData);
+    console.log(userinfo)
     this.setState({
       registerFormData: {
         email: '',
-        username: '',
+        display_name: '',
         password: '',
         zipcode: ''
       }
     });
-    this.props.history.push('/home');
+    if(userinfo.request.status ===200){
+      this.props.history.push('/');
+    }
   }
 
 // ******FUNCTIONS TO HANDLE LOGIN FORM******
@@ -73,31 +78,51 @@ class App extends React.Component {
 
 //submits state to loginUser function
   handleLoginSubmit = async(ev) => {
-    ev.preventDefault();
+    ev.preventDefault(ev);
+    console.log(this.state.loginFormData)
     const userInfo = await loginUser(this.state.loginFormData);
+    
+    localStorage.setItem('jwt', userInfo.data.token);
+    
+    const user = await verifyToken();
+
     this.setState({
       loginFormData: {
-        username: '',
+        email: '',
         password: ''
-      }
+      },
+      currentUser: user[0].display_name,
+      loggedIn: true
     })
-
-    //auth stuff will go here
-
-    this.props.history.push('/home');
+    localStorage.setItem('user', this.state.currentUser)
+    console.log(this.state.currentUser);
+    this.props.history.push('/home')
   }
 
-  // LOGOUT
+  componentDidMount = () => {
+    const user = localStorage.getItem('user');
+    this.setState({
+      currentUser: user
+    })
+  }
+
   logout = () => {
     localStorage.clear();
-    this.props.history.push('/');
+    this.setState({
+      currentUser: null
+    })
+    this.props.history.push('/')
   }
 
   render(){
+
     return (
       <div>
-        <Router>
-          <MyNav />
+        {/* <Router> */}
+          <MyNav 
+          logout={this.logout}
+          currentUser={this.state.currentUser}
+          />
           <Route exact path="/" render={()=>(
             <Login 
               loginFormData={this.state.loginFormData}
@@ -105,7 +130,12 @@ class App extends React.Component {
               handleLoginSubmit={this.handleLoginSubmit}
             />
           )} />
-          <Route exact path="/home" component={Homepage} />
+          <Route exact path="/home" render={()=>(
+            <Homepage 
+              currentUser={this.state.currentUser}
+    
+            />
+          )} />
           <Route exact path="/register" render={()=>(
             <Register 
               registerFormData={this.state.registerFormData}
@@ -121,11 +151,11 @@ class App extends React.Component {
           <Route exact path="/indoorgarden" component={IndoorGarden} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/plant/:id" component={Plant} />
-        </Router>
+        {/* </Router> */}
       </div>
     );
   }
 
 }
 
-export default App;
+export default withRouter(App) ;

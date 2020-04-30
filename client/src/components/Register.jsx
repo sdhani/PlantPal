@@ -41,7 +41,7 @@ class Register extends Component {
               type="text"
               required
               placeholder="username"
-              name="username"
+              name="display_name"
               onChange={this.props.handleRegisterChange}
             />
             <input
@@ -58,9 +58,9 @@ class Register extends Component {
               name="zipcode"
               onChange={this.props.handleRegisterChange}
             />
-            <Link to="/home">
+            {/* <Link to="/home"> */}
               <button>create</button>
-            </Link>
+            {/* </Link> */}
 
             <Link to="/">
               <p className="message">Already registered?</p>

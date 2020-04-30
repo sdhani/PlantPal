@@ -3,10 +3,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 const request = require('request');
 const dotenv = require('dotenv').config();
 
 const app = express();
+
+// Enable CORS
+app.use(cors());
 
 // Serve static files from the React app
 // app.use(express.static(path.join(__dirname, 'client/build')));
