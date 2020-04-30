@@ -1,3 +1,4 @@
+/* knexfile.js */
 
 module.exports = {
 
