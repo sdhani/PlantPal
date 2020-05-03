@@ -4,6 +4,7 @@ import styles from "../styles/cards.css";
 import plantData from "../dummy_plants.json";
 import { Button } from "react-bootstrap";
 import Modal from "./Modal";
+import CreateGardenForm from "./CreateGardenForm";
 
 class Garden extends Component {
   state = {};
@@ -105,6 +106,7 @@ class Garden extends Component {
         <div className="card-container-outer">
           <div className="card-container">{allPlants}</div>
         </div>
+        <CreateGardenForm />
       </div>
     );
   }
