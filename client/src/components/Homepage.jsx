@@ -5,6 +5,7 @@ import styles from "../styles/home.css";
 import plantData from "../dummy_plants.json";
 import AlertCard from "./AlertMessage";
 import PlantCard from "./PlantCard";
+import CreateGardenForm from './CreateGardenForm'
 import styles2 from "../styles/cards.css";
 
 /**
