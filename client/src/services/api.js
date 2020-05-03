@@ -58,3 +58,24 @@ export const createGarden = async(gardenName) => {
       }
   }
 }
+
+// function to get all gardens from user
+export const fetchGarden = async() => {
+  // const gardens = await api.get(`api/gardens`);
+  // console.log(gardens);
+  // return gardens;
+  const token = localStorage.getItem('jwt');
+  if (token){
+    try{
+        const resp = await api.get('/api/gardens', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        storeToken(token);
+        return resp.data;
+      } catch (e) {
+        return e.message;
+      }
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import {createGarden} from '../services/api'
+import {createGarden, fetchGarden} from '../services/api'
 
 class CreateGardenForm extends React.Component{
     constructor(props){
@@ -33,6 +33,10 @@ class CreateGardenForm extends React.Component{
             }
         });
       }
+      componentDidMount = async () => {
+        const data = await fetchGarden();
+        console.log(data);
+      }
     render(){
         return(
             <div>
@@ -45,7 +49,6 @@ class CreateGardenForm extends React.Component{
                         onChange={this.handleGardenChange}
                     />
                     <button>Create</button>
-                    
                 </form>
             </div>
         )
