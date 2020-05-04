@@ -18,11 +18,9 @@ import styles2 from "../styles/cards.css";
 class Homepage extends Component {
   state = { users: [] };
 
-  // componentDidMount() {
-  //   fetch("/users")
-  //     .then((res) => res.json())
-  //     .then((users) => this.setState({ users }));
-  // }
+  componentDidMount() {
+
+  }
 
   render() {
     const dummyAlerts = [
@@ -79,6 +77,7 @@ class Homepage extends Component {
     });
     return (
       <div>
+        <Button>Add Garden</Button>
         <Container fluid className="grid_container">
           <Row>
             <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>

@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Homepage from "./components/Homepage";
-import { /*BrowserRouter as Router*/ withRouter, Route  } from "react-router-dom";
+import { /*BrowserRouter as Router*/ withRouter, Route } from "react-router-dom";
 import Garden from "./components/Garden";
 import MyNav from "./components/MyNav";
 import Login from "./components/Login";
@@ -10,12 +10,13 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
-import {createUser, loginUser, verifyToken} from "./services/api"
+import { createUser, loginUser, verifyToken } from "./services/api"
+import Gardens from "./components/Gardens";
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       registerFormData: {
         email: '',
         display_name: '',
@@ -31,20 +32,20 @@ class App extends React.Component {
     }
   }
 
-// ******FUNCTIONS TO HANDLE REGISTER FORM******
-  
-// tracks user input and stores it in state
+  // ******FUNCTIONS TO HANDLE REGISTER FORM******
+
+  // tracks user input and stores it in state
   handleRegisterChange = (ev) => {
-    const {name, value} = ev.target;
-    this.setState(prevState =>({
+    const { name, value } = ev.target;
+    this.setState(prevState => ({
       registerFormData: {
         ...prevState.registerFormData,
-        [name]:value
+        [name]: value
       }
     }));
   }
 
-// will submit inputted data to backend
+  // will submit inputted data to backend
   handleRegisterSubmit = async (ev) => {
     ev.preventDefault();
     console.log(this.state.registerFormData);
@@ -58,14 +59,14 @@ class App extends React.Component {
         zipcode: ''
       }
     });
-    if(userinfo.request.status ===200){
+    if (userinfo.request.status === 200) {
       this.props.history.push('/');
     }
   }
 
-// ******FUNCTIONS TO HANDLE LOGIN FORM******
+  // ******FUNCTIONS TO HANDLE LOGIN FORM******
 
-// tracks user input and stores it in state
+  // tracks user input and stores it in state
   handleLoginChange = (ev) => {
     const { name, value } = ev.target;
     this.setState(prevState => ({
@@ -76,14 +77,14 @@ class App extends React.Component {
     }));
   }
 
-//submits state to loginUser function
-  handleLoginSubmit = async(ev) => {
+  //submits state to loginUser function
+  handleLoginSubmit = async (ev) => {
     ev.preventDefault(ev);
     console.log(this.state.loginFormData)
     const userInfo = await loginUser(this.state.loginFormData);
-    
+
     localStorage.setItem('jwt', userInfo.data.token);
-    
+
     const user = await verifyToken();
 
     this.setState({
@@ -114,43 +115,43 @@ class App extends React.Component {
     this.props.history.push('/')
   }
 
-  render(){
+  render() {
 
     return (
       <div>
         {/* <Router> */}
-          <MyNav 
+        <MyNav
           logout={this.logout}
           currentUser={this.state.currentUser}
+        />
+        <Route exact path="/" render={() => (
+          <Login
+            loginFormData={this.state.loginFormData}
+            handleLoginChange={this.handleLoginChange}
+            handleLoginSubmit={this.handleLoginSubmit}
           />
-          <Route exact path="/" render={()=>(
-            <Login 
-              loginFormData={this.state.loginFormData}
-              handleLoginChange={this.handleLoginChange}
-              handleLoginSubmit={this.handleLoginSubmit}
-            />
-          )} />
-          <Route exact path="/home" render={()=>(
-            <Homepage 
-              currentUser={this.state.currentUser}
-    
-            />
-          )} />
-          <Route exact path="/register" render={()=>(
-            <Register 
-              registerFormData={this.state.registerFormData}
-              handleRegisterChange={this.handleRegisterChange}
-              handleRegisterSubmit={this.handleRegisterSubmit}
-            />
-          )}   
+        )} />
+        <Route exact path="/home" render={() => (
+          <Homepage
+            currentUser={this.state.currentUser}
+
           />
-          <Route exact path="/allusers" component={Homepage} />
-          <Route exact path="/garden" component={Garden} />{" "}
-          {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
-          <Route exact path="/outdoorgarden" component={OutdoorGarden} />
-          <Route exact path="/indoorgarden" component={IndoorGarden} />
-          <Route exact path="/profile" component={Profile} />
-          <Route exact path="/plant/:id" component={Plant} />
+        )} />
+        <Route exact path="/register" render={() => (
+          <Register
+            registerFormData={this.state.registerFormData}
+            handleRegisterChange={this.handleRegisterChange}
+            handleRegisterSubmit={this.handleRegisterSubmit}
+          />
+        )}
+        />
+        <Route exact path="/allusers" component={Homepage} />
+        <Route exact path="/gardens" component={Gardens} />{" "}
+        {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
+        <Route exact path="/outdoorgarden" component={OutdoorGarden} />
+        <Route exact path="/indoorgarden" component={IndoorGarden} />
+        <Route exact path="/profile" component={Profile} />
+        <Route exact path="/plant/:id" component={Plant} />
         {/* </Router> */}
       </div>
     );
@@ -158,4 +159,4 @@ class App extends React.Component {
 
 }
 
-export default withRouter(App) ;
+export default withRouter(App);
