@@ -77,7 +77,6 @@ class Homepage extends Component {
     });
     return (
       <div>
-        <Button>Add Garden</Button>
         <Container fluid className="grid_container">
           <Row>
             <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
