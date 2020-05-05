@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import {createGarden, fetchGarden} from '../services/api'
+import {createGarden, fetchGarden, verifyToken} from '../services/api'
 
 class CreateGardenForm extends React.Component{
     constructor(props){
@@ -24,19 +24,29 @@ class CreateGardenForm extends React.Component{
     
     // will submit inputted data to backend
       handleGardenSubmit = async (ev) => {
-        ev.preventDefault();
-        const garden_name = await createGarden(this.state.garden);
-        console.log(garden_name);
-        this.setState({
-            garden : {
-                garden_name: ''
-            }
-        });
+        const token = await verifyToken();
+        if(token){
+          try{
+            ev.preventDefault();
+            const garden_name = await createGarden(this.state.garden);
+            console.log(garden_name);
+            this.setState({
+                garden : {
+                    garden_name: ''
+                }
+            });
+          }catch(e){
+            console.log(e);
+          }
+        }
       }
+
       componentDidMount = async () => {
-        const data = await fetchGarden();
+        const data = await verifyToken();
         console.log(data);
+        // debugger;
       }
+     
     render(){
         return(
             <div>

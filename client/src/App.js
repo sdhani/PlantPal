@@ -46,21 +46,27 @@ class App extends React.Component {
 
 // will submit inputted data to backend
   handleRegisterSubmit = async (ev) => {
-    ev.preventDefault();
-    console.log(this.state.registerFormData);
-    const userinfo = await createUser(this.state.registerFormData);
-    console.log(userinfo)
-    this.setState({
-      registerFormData: {
-        email: '',
-        display_name: '',
-        password: '',
-        zipcode: ''
-      }
-    });
-    if(userinfo.request.status ===200){
+    try{
+      ev.preventDefault();
+      console.log(this.state.registerFormData);
+      const userinfo = await createUser(this.state.registerFormData);
+      console.log(userinfo)
+      this.setState({
+        registerFormData: {
+          email: '',
+          display_name: '',
+          password: '',
+          zipcode: ''
+        }
+      });
       this.props.history.push('/');
     }
+    catch(e){
+      console.log(e);
+    }
+    // if(userinfo.request.status ===200){
+    //   this.props.history.push('/home');
+    // }
   }
 
 // ******FUNCTIONS TO HANDLE LOGIN FORM******
@@ -82,28 +88,28 @@ class App extends React.Component {
     console.log(this.state.loginFormData)
     const userInfo = await loginUser(this.state.loginFormData);
     
-    localStorage.setItem('jwt', userInfo.data.token);
+    // localStorage.setItem('jwt', userInfo.data.token);
     
-    const user = await verifyToken();
+    // const user = await verifyToken();
 
     this.setState({
       loginFormData: {
         email: '',
         password: ''
       },
-      currentUser: user[0].display_name,
+      // currentUser: user[0].display_name,
       loggedIn: true
     })
-    localStorage.setItem('user', this.state.currentUser)
-    console.log(this.state.currentUser);
+    // localStorage.setItem('user', this.state.currentUser)
+    // console.log(this.state.currentUser);
     this.props.history.push('/home')
   }
 
   componentDidMount = () => {
-    const user = localStorage.getItem('user');
-    this.setState({
-      currentUser: user
-    })
+    // const user = localStorage.getItem('user');
+    // this.setState({
+    //   currentUser: user
+    // })
   }
 
   logout = () => {

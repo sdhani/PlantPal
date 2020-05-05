@@ -15,6 +15,7 @@ class Garden extends Component {
     };
   }
   componentDidMount() {
+    // window.location.reload(false);
     this.setState({
       plants: this.props.plantData || plantData,
     });
