@@ -64,7 +64,7 @@ class CreateGardenForm extends React.Component{
                 this.getGardens()
                 this.setState({show_gardens: true})}}>View all gardens</button>
               
-                {this.state.show_gardens && (
+                {this.state.show_gardens && this.state.all_gardens.length &&(
                   <div className="all-gardens">
                     {this.state.all_gardens.map((garden)=>(
                       <li>{garden.garden_name}</li>
