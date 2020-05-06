@@ -51,10 +51,11 @@ class CreateGardenForm extends React.Component{
       getGardens = async() => {
         const gardens = await fetchGarden();
         console.log(gardens);
-        this.setState({
-          all_gardens: gardens
-        })
-        console.log(this.state.all_gardens)
+
+        // this.setState({
+        //   all_gardens: gardens
+        // })
+        // console.log(this.state.all_gardens)
       }
 
     render(){
@@ -64,13 +65,14 @@ class CreateGardenForm extends React.Component{
                 this.getGardens()
                 this.setState({show_gardens: true})}}>View all gardens</button>
               
-                {this.state.show_gardens && this.state.all_gardens.length &&(
+                {/* {
+                this.state.show_gardens && this.state.all_gardens.length &&(
                   <div className="all-gardens">
                     {this.state.all_gardens.map((garden)=>(
                       <li>{garden.garden_name}</li>
                     ))}
                   </div>
-                )}
+                )} */}
               
                 <form onSubmit={this.handleGardenSubmit}>
                     <input
