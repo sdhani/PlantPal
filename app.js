@@ -13,7 +13,7 @@ const app = express();
 app.use(cors());
 
 // Serve static files from the React app
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(express.static(path.join(__dirname, './')));
 
 const usersRoute = require("./routes/users");
