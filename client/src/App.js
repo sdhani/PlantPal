@@ -27,7 +27,7 @@ class App extends React.Component {
         password: ''
       },
       currentUser: null,
-      loggedIn: false
+      loggedIn: false,
     }
   }
 
@@ -45,29 +45,23 @@ class App extends React.Component {
   }
 
 // will submit inputted data to backend
-  handleRegisterSubmit = async (ev) => {
-    try{
-      ev.preventDefault();
-      console.log(this.state.registerFormData);
-      const userinfo = await createUser(this.state.registerFormData);
-      console.log(userinfo)
-      this.setState({
-        registerFormData: {
-          email: '',
-          display_name: '',
-          password: '',
-          zipcode: ''
-        }
-      });
-      this.props.history.push('/');
+handleRegisterSubmit = async (ev) => {
+  ev.preventDefault();
+  console.log(this.state.registerFormData);
+  const userinfo = await createUser(this.state.registerFormData);
+  console.log(userinfo)
+  this.setState({
+    registerFormData: {
+      email: '',
+      display_name: '',
+      password: '',
+      zipcode: ''
     }
-    catch(e){
-      console.log(e);
-    }
-    // if(userinfo.request.status ===200){
-    //   this.props.history.push('/home');
-    // }
+  });
+  if (userinfo.request.status === 200) {
+    this.props.history.push('/');
   }
+}
 
 // ******FUNCTIONS TO HANDLE LOGIN FORM******
 
@@ -83,33 +77,33 @@ class App extends React.Component {
   }
 
 //submits state to loginUser function
-  handleLoginSubmit = async(ev) => {
-    ev.preventDefault(ev);
-    console.log(this.state.loginFormData)
-    const userInfo = await loginUser(this.state.loginFormData);
-    
-    // localStorage.setItem('jwt', userInfo.data.token);
-    
-    // const user = await verifyToken();
+handleLoginSubmit = async (ev) => {
+  ev.preventDefault(ev);
+  console.log(this.state.loginFormData)
+  const userInfo = await loginUser(this.state.loginFormData);
 
-    this.setState({
-      loginFormData: {
-        email: '',
-        password: ''
-      },
-      // currentUser: user[0].display_name,
-      loggedIn: true
-    })
-    // localStorage.setItem('user', this.state.currentUser)
-    // console.log(this.state.currentUser);
-    this.props.history.push('/home')
-  }
+  localStorage.setItem('jwt', userInfo.data.token);
+
+  const user = await verifyToken();
+
+  this.setState({
+    loginFormData: {
+      email: '',
+      password: ''
+    },
+    currentUser: user[0].display_name,
+    loggedIn: true
+  })
+  localStorage.setItem('user', this.state.currentUser)
+  console.log(this.state.currentUser);
+  this.props.history.push('/home')
+}
 
   componentDidMount = () => {
-    // const user = localStorage.getItem('user');
-    // this.setState({
-    //   currentUser: user
-    // })
+    const user = localStorage.getItem('user');
+    this.setState({
+      currentUser: user
+    })
   }
 
   logout = () => {
@@ -151,7 +145,7 @@ class App extends React.Component {
           )}   
           />
           <Route exact path="/allusers" component={Homepage} />
-          <Route exact path="/garden" component={Garden} />{" "}
+          <Route exact path="/gardens" component={Gardens} />{" "}
           {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
           <Route exact path="/outdoorgarden" component={OutdoorGarden} />
           <Route exact path="/indoorgarden" component={IndoorGarden} />
