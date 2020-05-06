@@ -5,6 +5,7 @@ import plantData from "../dummy_plants.json";
 import { Button } from "react-bootstrap";
 import Modal from "./Modal";
 import CreateGardenForm from "./CreateGardenForm";
+import {verifyToken} from '../services/api'
 
 class Garden extends Component {
   state = {};

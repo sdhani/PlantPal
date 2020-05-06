@@ -12,6 +12,7 @@ import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
 import { createUser, loginUser, verifyToken } from "./services/api"
 import Gardens from "./components/Gardens";
+import CreateGardenForm from './components/CreateGardenForm'
 
 class App extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ class App extends React.Component {
         password: ''
       },
       currentUser: null,
-      loggedIn: false
+      loggedIn: false,
     }
   }
 
@@ -48,9 +49,7 @@ class App extends React.Component {
   // will submit inputted data to backend
   handleRegisterSubmit = async (ev) => {
     ev.preventDefault();
-    console.log(this.state.registerFormData);
-    const userinfo = await createUser(this.state.registerFormData);
-    console.log(userinfo)
+    const userInfo = await createUser(this.state.registerFormData);
     this.setState({
       registerFormData: {
         email: '',
@@ -59,10 +58,11 @@ class App extends React.Component {
         zipcode: ''
       }
     });
-    if (userinfo.request.status === 200) {
+    //reroute user to login if registration successfull
+    if (userInfo.request.status === 200) {
       this.props.history.push('/');
     }
-  }
+}
 
   // ******FUNCTIONS TO HANDLE LOGIN FORM******
 
@@ -80,25 +80,22 @@ class App extends React.Component {
   //submits state to loginUser function
   handleLoginSubmit = async (ev) => {
     ev.preventDefault(ev);
-    console.log(this.state.loginFormData)
     const userInfo = await loginUser(this.state.loginFormData);
-
+    console.log(userInfo)
     localStorage.setItem('jwt', userInfo.data.token);
-
-    const user = await verifyToken();
 
     this.setState({
       loginFormData: {
         email: '',
         password: ''
       },
-      currentUser: user[0].display_name,
       loggedIn: true
     })
-    localStorage.setItem('user', this.state.currentUser)
-    console.log(this.state.currentUser);
-    this.props.history.push('/home')
-  }
+    //reroutes user to home page if login successful
+    if (userInfo.request.status === 200) {
+      this.props.history.push('/home');
+    }
+}
 
   componentDidMount = () => {
     const user = localStorage.getItem('user');
@@ -146,7 +143,7 @@ class App extends React.Component {
         )}
         />
         <Route exact path="/allusers" component={Homepage} />
-        <Route exact path="/gardens" component={Gardens} />{" "}
+        <Route exact path="/gardens" component={CreateGardenForm} />{" "}
         {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
         <Route exact path="/outdoorgarden" component={OutdoorGarden} />
         <Route exact path="/indoorgarden" component={IndoorGarden} />
