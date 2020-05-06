@@ -1,31 +1,54 @@
 import axios from 'axios';
 
+const user_token = localStorage.getItem('jwt') || null ;
 // baseURL will change to heroku link
 const api = axios.create({
-    baseURL: 'http://localhost:3001'
+    baseURL: 'http://localhost:3001',
+    headers: {
+      Authorization: `Bearer ${user_token}`,
+      'Access-Control-Allow-Origin': '*'
+    }
 });
 
+//******* AUTH ********
+
+// stores token in local storage
+const storeToken = (token) => {
+  localStorage.setItem('jwt', token);
+  api.defaults.headers.common.authorization = `Bearer ${token}`;
+}
+
+//retrieves token from local storage
+const getToken = () => {
+  const token = localStorage.getItem('jwt');
+  api.defaults.headers.common.authorization = `Bearer ${token}`;
+  return token;
+}
+
 // ******* REGISTER/LOGIN FUNCTIONS *******
+
 // sends register data to backend 
 export const createUser = async(userData) => {
     const response = await api.post(`api/auth/register`, userData);
+    storeToken(response.data.token);
+    console.log(response);
     return response;
 }
 
 // sends login data to backend
 export const loginUser = async(userData)=> {
     const response = await api.post(`api/auth/login`, userData);
+    console.log(response);
+    const token = response.data.token;
+    storeToken(token);
     return response;
 }
 
-// stores token inlocal storage
-export const storeToken = (token) => {
-    localStorage.setItem('jwt', token);
-    api.defaults.headers.common.authorization = `Bearer ${token}`
-}
 
 export const verifyToken = async () => {
     const token = localStorage.getItem('jwt');
+    console.log(token);
+    
     if (token){
         try{
             const resp = await api.get('/api/auth/me', {
@@ -34,6 +57,7 @@ export const verifyToken = async () => {
               }
             });
             storeToken(token);
+            console.log(resp.data);
             return resp.data;
           } catch (e) {
             return e.message;
@@ -43,7 +67,8 @@ export const verifyToken = async () => {
 
 // sends data to backend to create a garden, verifie token
 export const createGarden = async(gardenName) => {
-  const token = localStorage.getItem('jwt');
+  const token = localStorage.getItem('jwt')
+
   if (token){
     try{
         const resp = await api.post('/api/gardens', gardenName, {
@@ -51,7 +76,7 @@ export const createGarden = async(gardenName) => {
             Authorization: `Bearer ${token}`
           }
         });
-        storeToken(token);
+        storeToken(token); 
         return resp.data;
       } catch (e) {
         return e.message;
@@ -61,10 +86,8 @@ export const createGarden = async(gardenName) => {
 
 // function to get all gardens from user
 export const fetchGarden = async() => {
-  // const gardens = await api.get(`api/gardens`);
-  // console.log(gardens);
-  // return gardens;
   const token = localStorage.getItem('jwt');
+  
   if (token){
     try{
         const resp = await api.get('/api/gardens', {
