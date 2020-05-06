@@ -46,14 +46,14 @@ class MyNav extends Component {
               <LinkContainer style={styles} to={`/home`}>
                 <NavItem eventKey={1}>Home</NavItem>
               </LinkContainer>
-              <LinkContainer style={styles} to={`/garden`}>
+              <LinkContainer style={styles} to={`/gardens`}>
                 <NavItem eventKey={2}>Gardens</NavItem>
               </LinkContainer>
               <LinkContainer style={styles} to={`/profile`}>
                 <NavItem eventKey={3}>Profile</NavItem>
               </LinkContainer>
               {/* <LinkContainer style={styles} to={`/`}> */}
-                <NavItem  onClick={this.props.logout} eventKey={4}>Logout</NavItem>
+              <NavItem onClick={this.props.logout} eventKey={4}>Logout</NavItem>
               {/* </LinkContainer> */}
               <p>Hi {this.props.currentUser}</p>
             </Nav>

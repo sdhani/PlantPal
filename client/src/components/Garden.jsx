@@ -13,12 +13,24 @@ class Garden extends Component {
     super(props);
     this.state = {
       plants: [],
+      sorted: [],
+      sortedByCat: [],
+      categories: []
     };
   }
   componentDidMount() {
+    console.log(this.props.plantData);
     this.setState({
       plants: this.props.plantData || plantData,
+      sorted: this.props.plantData || plantData,
+    }, () => {
+      let categories = new Set()
+      this.state.plants.forEach(plant => {
+        categories.add(plant.family_common_name);
+      })
+      this.setState({ categories: Array.from(categories) }, () => console.log(this.state.categories))
     });
+
   }
 
   inputHandler = (e) => {
@@ -30,17 +42,64 @@ class Garden extends Component {
     e.preventDefault();
     console.log("added plant");
   };
+  // ascending
+  sortByName = () => {
+    let sorted = this.state.plants.sort((a, b) => {
+      const nameA = a.common_name.toLowerCase(),
+        nameB = b.common_name.toLowerCase();
+      if (nameA < nameB)
+        return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    });
+    this.setState({ sorted });
+  }
 
-  render() {
-    let allPlants = this.state.plants.map((plant) => {
+  // sort by highest priority
+  sortByPriority = () => {
+    let sorted = this.state.plants.sort((a, b) => a.last_watered - b.last_watered);
+    this.setState({ sorted });
+  }
+
+  filterByCategory = (category) => {
+    if (category === "none") {
+      this.setState({ sorted: this.state.plants });
+    } else {
+      let filtered = this.state.plants.filter((plant) => {
+        return plant.family_common_name === category;
+      });
+      return filtered;
+    }
+  };
+
+  sortByCategory = () => {
+    let sortedByCat = this.state.categories.map(category => {
+      let sub = this.filterByCategory(category);
+      console.log(sub);
+      return <div>
+        <h1 style={{ width: "100vw" }}>{category}</h1>
+        <div className="card-container">
+          {sub ? this.displayPlants(sub) : "None"}
+        </div>
+      </div>
+    })
+    return sortedByCat;
+
+  }
+
+  displayPlants = (plants) => {
+    return plants.map((plant) => {
       return (
         <div style={{ padding: "20px" }}>
           <PlantCard plant={plant} />
         </div>
       );
     });
-    console.log(this.state.plants);
+  }
 
+
+  render() {
+    let allPlants = this.displayPlants(this.state.sorted);
     const addForm = (
       <div>
         <form
@@ -96,18 +155,19 @@ class Garden extends Component {
     );
     return (
       <div style={{ margin: "20px" }}>
+        {/* <button onClick={this.sortByCategory} >Sort By category</button> */}
         <div style={{ textAlign: "right" }}>
           <Modal
             form={addForm}
             label={"Add A Plant"}
             title={`Add A Plant`}
-            // refresh={this.refresh}
+          // refresh={this.refresh}
           />
         </div>
+        {/* {this.state.sortedByCat && this.state.sortedByCat} */}
         <div className="card-container-outer">
           <div className="card-container">{allPlants}</div>
         </div>
-        <CreateGardenForm />
       </div>
     );
   }
