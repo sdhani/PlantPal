@@ -13,13 +13,14 @@ const app = express();
 app.use(cors());
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, 'client/build')));
-// app.use(express.static(path.join(__dirname, './')));
+//app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, './')));
 
 const usersRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const gardensRoute = require("./routes/gardens");
 const plantsRoute = require("./routes/plants");
+const weatherRoute = require("./routes/weather");
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,7 +38,7 @@ app.use("/api/users", usersRoute);
 app.use("/api/gardens", gardensRoute);
 app.use("/api/plants", plantsRoute);
 app.use("/api/auth", authRoute);
-
+app.use("/api/auth", weatherRoute);
 
 /* For Deploying */
 // The "catchall" handler: for any request that doesn't
