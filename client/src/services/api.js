@@ -3,8 +3,8 @@ import axios from 'axios';
 const user_token = localStorage.getItem('jwt') || null ;
 // baseURL will change to heroku link
 const api = axios.create({
-    // baseURL: 'https://plant-pals.herokuapp.com',
-    baseURL: "http://localhost:3001",
+    baseURL: 'https://plant-pals.herokuapp.com',
+    // baseURL: "http://localhost:3001",
     headers: {
       Authorization: `Bearer ${user_token}`,
     }
