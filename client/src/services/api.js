@@ -4,9 +4,9 @@ const user_token = localStorage.getItem('jwt') || null ;
 // baseURL will change to heroku link
 const api = axios.create({
     baseURL: 'https://plant-pals.herokuapp.com',
+    // baseURL: "http://localhost:3001",
     headers: {
       Authorization: `Bearer ${user_token}`,
-      // 'Access-Control-Allow-Origin': '*'
     }
 });
 
@@ -30,7 +30,6 @@ const getToken = () => {
 // sends register data to backend 
 export const createUser = async(userData) => {
     const response = await api.post(`api/auth/register`, userData);
-    storeToken(response.data.token);
     console.log(response);
     return response;
 }
@@ -40,7 +39,6 @@ export const loginUser = async(userData)=> {
     const response = await api.post(`api/auth/login`, userData);
     console.log(response);
     const token = response.data.token;
-    storeToken(token);
     return response;
 }
 
@@ -56,7 +54,6 @@ export const verifyToken = async () => {
                 Authorization: `Bearer ${token}`
               }
             });
-            storeToken(token);
             console.log(resp.data);
             return resp.data;
           } catch (e) {
@@ -75,8 +72,7 @@ export const createGarden = async(gardenName) => {
           headers: {
             Authorization: `Bearer ${token}`
           }
-        });
-        storeToken(token); 
+        }); 
         return resp.data;
       } catch (e) {
         return e.message;
@@ -95,7 +91,6 @@ export const fetchGarden = async() => {
             Authorization: `Bearer ${token}`
           }
         });
-        storeToken(token);
         return resp.data;
       } catch (e) {
         return e.message;
