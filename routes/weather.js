@@ -24,12 +24,10 @@ Router.get('/current', VerifyToken, async (req, res) => {
   let zip;
   try {
     db.getUserZipByID(user_id).then(zipcode => {
-      res.status(200).json(zipcode);
-      zip = zipcode;
-    });
-
-    db.getCurrentWeatherByZip(zip).then(weather => {
-      res.status(200).json(weather);
+      zip = `${zipcode[0].zipcode}`;
+      db.getCurrentWeatherByZip(zip).then(weather => {
+        res.status(200).json(weather);
+      });
     });
   } catch (err) {
     res.status(500).json({
@@ -46,12 +44,10 @@ Router.get('/rain', VerifyToken, async (req, res) => {
   let zip;
   try {
     db.getUserZipByID(user_id).then(zipcode => {
-      res.status(200).json(zipcode);
-      zip = zipcode;
-    });
-
-    db.getWeekTotalRain(zip).then(weather => {
-      res.status(200).json(weather);
+      zip = `${zipcode[0].zipcode}`;
+      db.getWeekTotalRain(zip).then(weather => {
+        res.status(200).json(weather);
+      });
     });
   } catch (err) {
     res.status(500).json({
@@ -68,12 +64,10 @@ Router.get('/forcast1', VerifyToken, async (req, res) => {
   let zip;
   try {
     db.getUserZipByID(user_id).then(zipcode => {
-      res.status(200).json(zipcode);
-      zip = zipcode;
-    });
-
-    db.getTomorrowsForcast(zip).then(weather => {
-      res.status(200).json(weather);
+      zip = `${zipcode[0].zipcode}`;
+      db.getTomorrowsForcast(zip).then(weather => {
+        res.status(200).json(weather);
+      });
     });
   } catch (err) {
     res.status(500).json({
@@ -90,12 +84,10 @@ Router.get('/forcast2', VerifyToken, async (req, res) => {
   let zip;
   try {
     db.getUserZipByID(user_id).then(zipcode => {
-      res.status(200).json(zipcode);
-      zip = zipcode;
-    });
-
-    db.getOvermorrowsForcast(zip).then(weather => {
-      res.status(200).json(weather);
+      zip = `${zipcode[0].zipcode}`;
+      db.getOvermorrowsForcast(zip).then(weather => {
+        res.status(200).json(weather);
+      });
     });
   } catch (err) {
     res.status(500).json({
