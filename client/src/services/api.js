@@ -99,8 +99,6 @@ export const fetchGarden = async () => {
 }
 
 export const addPlant = async (plant) => {
-  const { garden_id, outdoor_plant, common_plant, trefle_id } = plant
-  console.log(plant);
   const token = localStorage.getItem('jwt');
   if (token) {
     try {

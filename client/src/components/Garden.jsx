@@ -6,7 +6,7 @@ import { addPlant, getAllPlants, searchPlantName } from "../../src/services/api.
 import { Button } from "react-bootstrap";
 import Modal from "./Modal";
 import { verifyToken } from '../services/api'
-import AsyncSelect from 'react-select/async';
+import AsyncCreatable from "react-select/async-creatable";
 import Select from 'react-select';
 
 class Garden extends Component {
@@ -18,14 +18,7 @@ class Garden extends Component {
       sorted: [],
       sortedByCat: [],
       categories: [],
-      options: [
-        { label: "Alligators", value: 1 },
-        { label: "Crocodiles", value: 2 },
-        { label: "Sharks", value: 3 },
-        { label: "Small crocodiles", value: 4 },
-        { label: "Smallest crocodiles", value: 5 },
-        { label: "Snakes", value: 6 },
-      ]
+      options: []
     };
   }
   componentDidMount() {
@@ -53,7 +46,7 @@ class Garden extends Component {
   };
 
   handleSearch = async (value) => {
-    this.setState({ plant_name: value.label, plant_id: value.value });
+    this.setState({ plant_family: value.label, plant_id: value.value });
   }
 
 
@@ -80,7 +73,8 @@ class Garden extends Component {
     const plant = {
       garden_id: this.state.id,
       outdoor_plant: this.state.outdoor_plant === "outdoor",
-      common_plant: this.state.plant_name
+      common_plant: this.state.plant_family,
+      name: this.state.plant_name
     }
     const res = await searchPlantName(this.state.plant_name);
     console.log(res);
@@ -156,7 +150,9 @@ class Garden extends Component {
           onSubmit={this.addPlant}
         >
           <div className="form-group">
-            <label style={{ fontWeight: "bold" }}>Add Plant</label>
+
+            <br />
+            <label style={{ fontWeight: "bold" }}>Plant Name: </label>
             <input
               type="text"
               className="form-control form-control-lg"
@@ -165,32 +161,22 @@ class Garden extends Component {
               placeholder={"Name"}
               style={{ marginBottom: "20px" }}
             />
-            <AsyncSelect
+            <label style={{ fontWeight: "bold" }}>Plant Family/Type: </label>
+            <AsyncCreatable
               defaultOptions={this.state.options}
               loadOptions={this.promiseOptions}
-              values={[]}
               onChange={value => this.handleSearch(value)}
+              placeholder="Search for plant family/type..."
             />
-            {/* <input
-              type="text"
-              className="form-control form-control-lg"
-              name={"family"}
-              onChange={this.inputHandler}
-              placeholder={"Family"}
-              style={{ marginBottom: "20px" }}
-            />
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              name={"image"}
-              onChange={this.inputHandler}
-              placeholder={"Image"}
-              style={{ marginBottom: "20px" }}
-            /> */}
-            <input type="radio" id="outdoor" name="outdoor_plant" value="outdoor" onChange={this.inputHandler} />
-            <label for="male"> Outdoor Plant</label><br />
-            <input type="radio" id="indoor" name="outdoor_plant" value="indoor" onChange={this.inputHandler} />
-            <label for="female">Indoor Plant</label><br />
+
+            <div style={{ paddingTop: "20px" }}>
+              <label style={{ fontWeight: "bold" }}>Outdoor vs Indoor Plant </label> <br />
+              <input type="radio" id="outdoor" name="outdoor_plant" value="outdoor" onChange={this.inputHandler} />
+              <label for="outdoor" style={{ paddingLeft: "5px" }}> Outdoor Plant</label><br />
+              <input type="radio" id="indoor" name="outdoor_plant" value="indoor" onChange={this.inputHandler} />
+              <label for="indoor" style={{ paddingLeft: "5px" }}>Indoor Plant</label><br />
+            </div>
+
 
           </div>
           <div className="form-group">
