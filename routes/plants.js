@@ -29,9 +29,8 @@ Router.get("/", VerifyToken, async (req, res) => {
 */
 Router.get("/query", async (req, res) => {
   const { plant_query } = req.query;
-  console.log("req is", req.body, req.query);
 
-  if (!req.body.hasOwnProperty("plant_query")) {
+  if (!req.query.hasOwnProperty("plant_query")) {
     return res.status(400).json({
       error: 'you must supply a field "plant_query" when adding a new plant'
     });
@@ -71,7 +70,9 @@ Router.get("/:id", VerifyToken, async (req, res) => {
 */
 Router.post("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
+  console.log(req.body);
   const { trefle_id, garden_id, common_name, outdoor_plant, name } = req.body;
+  console.log(name, "name is here");
 
   if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
     /* checks */
@@ -95,7 +96,7 @@ Router.post("/", VerifyToken, async (req, res) => {
     /* trefle_id not provided */
     if (!req.body.hasOwnProperty("common_name") || typeof name !== "string") {
       return res.status(400).json({
-        error: 'you must supply a field "name" when adding a new plant'
+        error: 'you must supply a field "common_name" when adding a new plant'
       });
     }
 

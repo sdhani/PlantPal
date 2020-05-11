@@ -22,7 +22,6 @@ class Garden extends Component {
     };
   }
   componentDidMount() {
-    console.log("yes");
     getAllPlants().then(data => console.log("fetchedpalnts", data));
     // /api/gardens/:id/plants
     console.log(this.props.plantData);
@@ -46,7 +45,7 @@ class Garden extends Component {
   };
 
   handleSearch = async (value) => {
-    this.setState({ plant_family: value.label, plant_id: value.value });
+    this.setState({ plant_family: value.label, trefle_id: value.value });
   }
 
 
@@ -65,20 +64,19 @@ class Garden extends Component {
 
   addPlant = async (e) => {
     e.preventDefault();
-    const form = {
-      "garden_id": 9, /* number of a garden that belongs to the current user */
-      "outdoor_plant": false,
-      "common_plant": "carrots"
-    }
     const plant = {
       garden_id: this.state.id,
       outdoor_plant: this.state.outdoor_plant === "outdoor",
-      common_plant: this.state.plant_family,
-      name: this.state.plant_name
+      common_name: this.state.plant_family,
+      name: this.state.plant_name,
+      trefle_id: typeof this.state.trefle_id === "number" ? this.state.trefle_id : undefined
     }
-    const res = await searchPlantName(this.state.plant_name);
-    console.log(res);
-    console.log("added plant", plant);
+    try { const added = await addPlant(plant); console.log("added plant", plant, added); }
+    catch (err) {
+      console.log("ERROR ADDING PLANT", err)
+    }
+
+
   };
   // ascending
   sortByName = () => {
@@ -150,8 +148,6 @@ class Garden extends Component {
           onSubmit={this.addPlant}
         >
           <div className="form-group">
-
-            <br />
             <label style={{ fontWeight: "bold" }}>Plant Name: </label>
             <input
               type="text"

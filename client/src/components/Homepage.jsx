@@ -7,6 +7,7 @@ import AlertCard from "./AlertMessage";
 import PlantCard from "./PlantCard";
 import CreateGardenForm from './CreateGardenForm'
 import styles2 from "../styles/cards.css";
+import Gardens from "./Gardens";
 
 /**
  *
@@ -80,6 +81,10 @@ class Homepage extends Component {
         <Container fluid className="grid_container">
           <Row>
             <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
+              {/* <Gardens /> */}
+            </Col>
+
+            {/* <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
               <Row className="preview">
                 <Card
                   style={{
@@ -160,7 +165,7 @@ class Homepage extends Component {
                   </Card.Body>
                 </Card>
               </Row>
-            </Col>
+            </Col> */}
             <Col style={{ height: "100vh" }}>
               <Row className="preview">
                 <Card

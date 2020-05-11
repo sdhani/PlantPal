@@ -55,7 +55,6 @@ class MyNav extends Component {
               {/* <LinkContainer style={styles} to={`/`}> */}
               <NavItem onClick={this.props.logout} eventKey={4}>Logout</NavItem>
               {/* </LinkContainer> */}
-              <p>Hi {this.props.currentUser}</p>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
