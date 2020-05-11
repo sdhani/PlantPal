@@ -18,14 +18,7 @@ class Garden extends Component {
       sorted: [],
       sortedByCat: [],
       categories: [],
-      options: [
-        { label: "Alligators", value: 1 },
-        { label: "Crocodiles", value: 2 },
-        { label: "Sharks", value: 3 },
-        { label: "Small crocodiles", value: 4 },
-        { label: "Smallest crocodiles", value: 5 },
-        { label: "Snakes", value: 6 },
-      ]
+      options: []
     };
   }
   componentDidMount() {
@@ -33,6 +26,7 @@ class Garden extends Component {
     getAllPlants().then(data => console.log("fetchedpalnts", data));
     // /api/gardens/:id/plants
     console.log(this.props.plantData);
+    console.log(this.props.location.state.garden);
     this.setState({ ...this.props.location.state.garden })
     this.setState({
       plants: this.props.plantData || plantData,
@@ -72,19 +66,14 @@ class Garden extends Component {
 
   addPlant = async (e) => {
     e.preventDefault();
-    const form = {
-      "garden_id": 9, /* number of a garden that belongs to the current user */
-      "outdoor_plant": false,
-      "common_plant": "carrots"
-    }
     const plant = {
       garden_id: this.state.id,
       outdoor_plant: this.state.outdoor_plant === "outdoor",
-      common_plant: this.state.plant_name
+      common_name: this.state.plant_name,
+      user_id: this.state.user_id
     }
-    const res = await searchPlantName(this.state.plant_name);
-    console.log(res);
-    console.log("added plant", plant);
+    const added = await addPlant(plant)
+    console.log("added plant", plant, added);
   };
   // ascending
   sortByName = () => {
