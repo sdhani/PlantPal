@@ -64,7 +64,7 @@ Router.get('/forcast2', (req, res) => {
 /* Add zipcode to weather table */
 Router.put('/', async (req, res) => {
     const { zipcode } = req.body;
-    if (!req.body.hasOwnProperty('zipcode') || typeof zipcode !== 'string' || zipcode === undefined || zipcode.length < 5) {
+    if (!req.body.hasOwnProperty('zipcode') || typeof zipcode !== 'string' || zipcode === undefined || zipcode.length != 5) {
         return res.status(400).json({ message: ` "zipcode" must be a valid, 5 digit zipcode! ` });
       }
     else {
