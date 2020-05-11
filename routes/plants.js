@@ -1,27 +1,28 @@
 /* routes/plants.js */
 const Router = require("express").Router();
 const axios = require("axios");
-const db = require("../controllers/plants");
-const VerifyToken = require("./verifyToken");
-const TREFLE_API = "http://trefle.io/api/plants";
+const db = require('../controllers/plants');
+const VerifyToken = require('./verifyToken');
+const TREFLE_API = "http://trefle.io/api/plants"
 const TREFLE_TOKEN = process.env.TREFLE_TOKEN;
+
 
 /* Get all plants from a user */
 Router.get("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-    db.getAllPlantsFromUser(user_id).then(plants => {
-      if (plants.length > 0) {
+		db.getAllPlantsFromUser(user_id).then(plants => {
+      if(plants.length > 0){
         res.status(200).json(plants);
       } else {
-        res.status(200).json({ error: "User does not have any plants." });
+        res.status(200).json({ error: 'User does not have any plants.' });
       }
-    });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to retrieve all user's plants" });
-  }
+		});
+	}
+  catch(err) { res.status(500).json({ error: 'Failed to retrieve all user\'s plants' }); }
 });
+
 
 /* 
   QUERY a plant from the Trefle API 
@@ -30,39 +31,33 @@ Router.get("/", VerifyToken, async (req, res) => {
 Router.get("/query", async (req, res) => {
   const { plant_query } = req.body;
 
-  if (!req.body.hasOwnProperty("plant_query")) {
-    return res.status(400).json({
-      error: 'you must supply a field "plant_query" when adding a new plant'
-    });
+  if (!req.body.hasOwnProperty('plant_query')) {
+    return res.status(400).json({ error: 'you must supply a field "plant_query" when adding a new plant' });
   }
 
   try {
-    const response = await axios.get(
-      `${TREFLE_API}/?q=${plant_query}&complete_data=true&token=${TREFLE_TOKEN}`
-    );
-    res.status(200).json(response.data);
-  } catch (err) {
-    res.status(500).json({ error: "Something went wrong with this query." });
+    const response = await axios.get(`${TREFLE_API}/?q=${plant_query}&complete_data=true&token=${TREFLE_TOKEN}`);
+    res.status(200).json(response.data);    
   }
+  catch(err) { res.status(500).json({ error: 'Something went wrong with this query.' }); }
 });
+
 
 /* Get a specific plant from a user */
 Router.get("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
   try {
     db.getPlantByID(user_id, req.params.id).then(plant => {
-      if (plant.length > 0) {
+      if(plant.length > 0){
         res.status(200).json(plant);
       } else {
-        res
-          .status(200)
-          .json({ error: "Plant does not exist in user's garden." });
+        res.status(200).json({ error: 'Plant does not exist in user\'s garden.'});
       }
     });
-  } catch (err) {
-    res.status(500).json({ error: "Failed to get specific garden." });
   }
+  catch(err) { res.status(500).json({ error: 'Failed to get specific garden.' }); }
 });
+
 
 /* 
   Add a new plant 
@@ -70,151 +65,98 @@ Router.get("/:id", VerifyToken, async (req, res) => {
 */
 Router.post("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
-  const { trefle_id, garden_id, common_name, outdoor_plant, name } = req.body;
-
-  if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
-    /* checks */
-    return res.status(400).json({
-      error: 'you must supply a field "garden_id" when adding a new plant'
-    });
+  const { trefle_id, garden_id, common_name, outdoor_plant } = req.body;
+  
+  if (!req.body.hasOwnProperty('garden_id') || typeof garden_id !== 'number') { /* checks */
+    return res.status(400).json({ error: 'you must supply a field "garden_id" when adding a new plant' });
   }
-
-  if (
-    !req.body.hasOwnProperty("outdoor_plant") ||
-    typeof outdoor_plant !== "boolean"
-  ) {
-    /* checks */
-    return res.status(400).json({
-      error: 'you must supply a field "outdoor_plant" when adding a new plant'
-    });
+  
+  if (!req.body.hasOwnProperty('outdoor_plant') || typeof outdoor_plant !== 'boolean') { /* checks */
+    return res.status(400).json({ error: 'you must supply a field "outdoor_plant" when adding a new plant' });
   }
 
   /* Manually add plant to db */
-  if (!req.body.hasOwnProperty("trefle_id") || typeof trefle_id !== "number") {
-    /* trefle_id not provided */
-    if (!req.body.hasOwnProperty("common_name") || typeof name !== "string") {
-      return res.status(400).json({
-        error: 'you must supply a field "name" when adding a new plant'
-      });
+  if(!req.body.hasOwnProperty('trefle_id') || typeof trefle_id !== 'number'){ /* trefle_id not provided */
+    if (!req.body.hasOwnProperty('common_name') || typeof common_name !== 'string') {
+      return res.status(400).json({ error: 'you must supply a field "common_name" when adding a new plant' });
     }
+  
+    try {
+      db.addPlant(garden_id, user_id, common_name, outdoor_plant).then(res.status(200).json({success: true}))
+    } 
+    catch(err) { res.status(500).json({ error: 'Failed to add plant manually.' }); }
 
+  } else { /* Add Plant Entry from Trefle Query select */
     try {
-      db.addPlant(garden_id, user_id, common_name, outdoor_plant, name).then(
-        res.status(200).json({ success: true })
-      );
-    } catch (err) {
-      res.status(500).json({ error: "Failed to add plant manually." });
-    }
-  } else {
-    /* Add Plant Entry from Trefle Query select */
-    try {
-      const newPlant = await axios.get(
-        `${TREFLE_API}/${trefle_id}/?token=${TREFLE_TOKEN}`
-      );
-      const {
-        common_name,
-        scientific_name,
+      const newPlant = await axios.get(`${TREFLE_API}/${trefle_id}/?token=${TREFLE_TOKEN}`);
+      const { 
+        common_name, 
+        scientific_name, 
         duration,
-        outdoor_plant,
-        family_common_name
+        outdoor_plant, 
+        family_common_name 
       } = newPlant.data;
 
-      const {
-        images,
-        foliage,
-        growth,
-        fruit_or_seed,
-        seed,
-        specifications
+      const { 
+        images, 
+        foliage, 
+        growth, 
+        fruit_or_seed, 
+        seed, 
+        specifications 
       } = newPlant.data.main_species;
-
+      
       const images_json = JSON.stringify(images);
       const foliage_json = JSON.stringify(foliage);
       const growth_json = JSON.stringify(growth);
       const fruit_or_seed_json = JSON.stringify(fruit_or_seed);
       const seed_json = JSON.stringify(seed);
       const specifications_json = JSON.stringify(specifications);
+      
 
-      db.addPlant(
-        user_id,
-        garden_id,
-        name,
-        common_name,
-        scientific_name,
-        trefle_id,
-        duration,
-        outdoor_plant,
-        images_json,
-        foliage_json,
-        fruit_or_seed_json,
-        growth_json,
-        seed_json,
-        specifications_json,
-        family_common_name
-      ).then(res.status(200).json({ success: true }));
-    } catch (err) {
-      res.status(500).json({ error: "something weird happened with the API." });
+      db.addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images_json, 
+        foliage_json, fruit_or_seed_json, growth_json, seed_json, specifications_json, family_common_name)
+      .then(res.status(200).json({success: true}))
     }
+    catch (err) { res.status(500).json({ error: 'something weird happened with the API.' }); }
   }
 });
+
 
 /* Update plant /:id */
 Router.put("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
-  const { garden_id, outdoor_plant, images, last_watered, name } = req.body;
+  const { garden_id, outdoor_plant, images, last_watered } = req.body;
 
-  if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
-    return res.status(400).json({
-      error: 'you must supply a field "garden_id" when updating a plants info'
-    });
+  if (!req.body.hasOwnProperty('garden_id') || typeof garden_id !== 'number') {
+    return res.status(400).json({ error: 'you must supply a field "garden_id" when updating a plants info' });
   }
 
-  if (
-    !req.body.hasOwnProperty("outdoor_plant") ||
-    typeof outdoor_plant !== "boolean"
-  ) {
-    return res.status(400).json({
-      error:
-        'you must supply a field "outdoor_plant" when updating a plants info'
-    });
+  if (!req.body.hasOwnProperty('outdoor_plant') || typeof outdoor_plant !== 'boolean') {
+    return res.status(400).json({ error: 'you must supply a field "outdoor_plant" when updating a plants info' });
   }
 
-  if (
-    !req.body.hasOwnProperty("last_watered") ||
-    typeof last_watered !== "string"
-  ) {
-    return res.status(400).json({
-      error:
-        'you must supply a field "last_watered" of type "yyyy-mm-dd" when updating a plants info'
-    });
+  if (!req.body.hasOwnProperty('last_watered') || typeof last_watered !== 'string') {
+    return res.status(400).json({ error: 'you must supply a field "last_watered" of type "yyyy-mm-dd" when updating a plants info' });
   }
-
+  
   try {
-    db.updatePlant(
-      req.params.id,
-      garden_id,
-      outdoor_plant,
-      user_id,
-      images,
-      last_watered,
-      name
-    ).then(res.status(200).json({ success: true }));
-  } catch (err) {
-    res.status(500).json({ error: "Unable to update plant." });
+    db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images, last_watered)
+    .then(res.status(200).json({success: true}));
   }
+  catch(err) { res.status(500).json({ error: 'Unable to update plant.' }); }
 });
 
+
 /* Delete plant :id */
-Router.delete("/:id/delete", VerifyToken, async (req, res) => {
+Router.delete("/:id/delete", VerifyToken, async(req, res) => {
   const { user_id } = req;
 
   try {
-    db.deletePlant(user_id, req.params.id).then(
-      res.status(200).json({ success: true })
-    );
-  } catch (err) {
-    res.status(500).json({ error: "Unable to delete plant." });
+    db.deletePlant(user_id, req.params.id).then(res.status(200).json({success: true}));
   }
+  catch(err) { res.status(500).json({ error: 'Unable to delete plant.' }); }
 });
+
 
 module.exports = Router; /* export Router */
