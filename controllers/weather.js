@@ -46,6 +46,12 @@ module.exports = {
     return knex('weather')
     .where('zipcode', zip)
     .del()
+  },
+
+  getUserZipByID(id) {
+    return knex('users')
+    .select('zipcode')
+    .where('id', id)
   }
 };
 
