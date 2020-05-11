@@ -22,7 +22,6 @@ class Garden extends Component {
     };
   }
   componentDidMount() {
-    console.log("yes");
     getAllPlants().then(data => console.log("fetchedpalnts", data));
     // /api/gardens/:id/plants
     console.log(this.props.plantData);
@@ -145,7 +144,7 @@ class Garden extends Component {
           onSubmit={this.addPlant}
         >
           <div className="form-group">
-            <label style={{ fontWeight: "bold" }}>Add Plant</label>
+            <label style={{ fontWeight: "bold" }}>Plant Name: </label>
             <input
               type="text"
               className="form-control form-control-lg"

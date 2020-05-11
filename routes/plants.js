@@ -19,8 +19,9 @@ Router.get("/", VerifyToken, async (req, res) => {
         res.status(200).json({ error: 'User does not have any plants.' });
       }
     });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to retrieve all user's plants" });
   }
-  catch (err) { res.status(500).json({ error: 'Failed to retrieve all user\'s plants' }); }
 });
 
 
@@ -30,8 +31,6 @@ Router.get("/", VerifyToken, async (req, res) => {
 */
 Router.get("/query", async (req, res) => {
   const { plant_query } = req.query;
-  console.log("req is", req.body, req.query);
-
   if (!req.query.hasOwnProperty('plant_query')) {
     return res.status(400).json({ error: 'you must supply a field "plant_query" when adding a new plant' });
   }
@@ -52,7 +51,9 @@ Router.get("/:id", VerifyToken, async (req, res) => {
       if (plant.length > 0) {
         res.status(200).json(plant);
       } else {
-        res.status(200).json({ error: 'Plant does not exist in user\'s garden.' });
+        res
+          .status(200)
+          .json({ error: "Plant does not exist in user's garden." });
       }
     });
   }
