@@ -30,6 +30,7 @@ class Garden extends Component {
   }
   componentDidMount() {
     if (this.props.location.state) {
+      console.log(this.props.location.state.garden);
       this.setState({ ...this.props.location.state.garden });
     }
 
@@ -45,26 +46,20 @@ class Garden extends Component {
       this.setState({ plants: data, sorted: data }, () => {
         let categories = new Set();
         this.state.plants.forEach((plant) => {
-          categories.add(plant.family_common_name);
+          categories.add(plant.common_name);
         });
-        this.setState({ categories: Array.from(categories) }, () =>
-          console.log(this.state.categories)
+        let category_options = Array.from(categories).map((cat) => {
+          return { label: cat, value: cat };
+        });
+        category_options = [{ label: "All", value: "All" }].concat(
+          category_options
+        );
+        this.setState(
+          { category_options, categories: Array.from(categories) },
+          () => console.log(this.state.categories)
         );
       })
     );
-
-    // /api/gardens/:id/plants
-
-    // this.setState({
-    //   plants: this.props.plantData || plantData,
-    //   sorted: this.props.plantData || plantData,
-    // }, () => {
-    //   let categories = new Set()
-    //   this.state.plants.forEach(plant => {
-    //     categories.add(plant.family_common_name);
-    //   })
-    //   this.setState({ categories: Array.from(categories) }, () => console.log(this.state.categories))
-    // });
   }
 
   refresh = async () => {
@@ -105,14 +100,13 @@ class Garden extends Component {
           : undefined,
       name: this.state.plant_name,
     };
-    const added = await addPlant(plant);
-    console.log("added plant", plant, added);
+    await addPlant(plant);
   };
   // ascending
   sortByName = () => {
     let sorted = this.state.plants.sort((a, b) => {
-      const nameA = a.common_name.toLowerCase(),
-        nameB = b.common_name.toLowerCase();
+      const nameA = (a.name || a.common_name).toLowerCase(),
+        nameB = (b.name || b.common_name).toLowerCase();
       if (nameA < nameB) return -1;
       if (nameA > nameB) return 1;
       return 0;
@@ -129,12 +123,13 @@ class Garden extends Component {
   };
 
   filterByCategory = (category) => {
-    if (category === "none") {
+    if (category === "All") {
       this.setState({ sorted: this.state.plants });
     } else {
       let filtered = this.state.plants.filter((plant) => {
-        return plant.family_common_name === category;
+        return plant.common_name === category;
       });
+      this.setState({ sorted: filtered });
       return filtered;
     }
   };
@@ -152,7 +147,15 @@ class Garden extends Component {
         </div>
       );
     });
+    this.setState({ sortedByCat });
     return sortedByCat;
+  };
+
+  handleCategorySelect = async (value) => {
+    console.log(value);
+    this.setState({ category_selected: value.value }, () => {
+      this.filterByCategory(value.value);
+    });
   };
 
   displayPlants = (plants) => {
@@ -171,7 +174,6 @@ class Garden extends Component {
   };
 
   render() {
-    console.log("state", this.state);
     let allPlants = this.displayPlants(this.state.sorted);
     const addForm = (
       <div>
@@ -242,9 +244,19 @@ class Garden extends Component {
     );
     return (
       <div style={{ margin: "20px" }}>
-        {/* <button onClick={this.sortByCategory} >Sort By category</button> */}
         <h1 style={{ textAlign: "center" }}>{this.state.garden_name}</h1>
         <button onClick={this.sortByName}>Sort by name</button>
+        <button onClick={this.sortByCategory}>Sort By category</button>
+        <div style={{ width: "300px" }}>
+          <Select
+            options={this.state.category_options}
+            onChange={(value) => {
+              this.handleCategorySelect(value);
+            }}
+            placeholder="Select category..."
+          />
+        </div>
+
         <div style={{ textAlign: "right" }}>
           <Modal
             form={addForm}
@@ -253,7 +265,7 @@ class Garden extends Component {
             refresh={this.refresh}
           />
         </div>
-        {/* {this.state.sortedByCat && this.state.sortedByCat} */}
+        {this.state.sortedByCat && this.state.sortedByCat}
         <div className="card-container-outer">
           <div className="card-container">{allPlants}</div>
         </div>

@@ -30,18 +30,10 @@ class PlantCard extends Component {
       return { label: garden_name, value: id };
     });
     this.setState({ options });
-
-    // const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
-    // console.log("id stuff", id);
     const { id } = this.props.plant;
-    getPlant(id).then((data) =>
-      this.setState({ plant: data }, () => {
-        console.log(data);
-      })
-    );
+    getPlant(id).then((data) => this.setState({ plant: data }));
   }
   handleUpdatedGarden = async (value) => {
-    console.log(value);
     this.setState({ updateGardenId: value.value });
   };
 
@@ -78,14 +70,19 @@ class PlantCard extends Component {
   };
 
   render() {
-    const { id, name, common_name, last_watered, outdoor_plant } =
-      this.state.plant || this.props.plant;
+    const {
+      id,
+      name,
+      common_name,
+      last_watered,
+      outdoor_plant,
+    } = this.props.plant;
 
     const img =
       this.props.plant.images && this.props.plant.images.url
         ? this.props.plant.images.url
         : undefined;
-    const plant = this.state || { ...this.props.plant };
+    const plant = { ...this.props.plant };
 
     const editPlantForm = (
       <div>
