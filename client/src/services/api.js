@@ -196,3 +196,19 @@ export const deletePlant = async (id) => {
     }
   }
 };
+
+export const deleteGarden = async (id) => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    try {
+      const resp = await api.delete(`/api/gardens/${id}/delete`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};
