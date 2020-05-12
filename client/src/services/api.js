@@ -165,6 +165,22 @@ export const getAllPlants = async () => {
   }
 };
 
+export const getAllPriorityPlants = async () => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    try {
+      const resp = await api.get("/api/plants/priority", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};
+
 export const getAllPlantsInGarden = async (id) => {
   const token = localStorage.getItem("jwt");
   if (token) {
