@@ -23,6 +23,7 @@ class Garden extends Component {
       sortedByCat: [],
       categories: [],
       options: [],
+      updates: {},
     };
   }
   componentDidMount() {

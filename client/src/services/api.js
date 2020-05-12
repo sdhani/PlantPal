@@ -212,3 +212,23 @@ export const deleteGarden = async (id) => {
     }
   }
 };
+
+export const editGarden = async (id, editedName) => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    try {
+      const resp = await api.put(
+        `/api/gardens/${id}`,
+        { garden_name: editedName },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};

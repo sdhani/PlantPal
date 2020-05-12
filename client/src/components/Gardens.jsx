@@ -4,6 +4,7 @@ import {
   createGarden,
   fetchGarden,
   deleteGarden,
+  editGarden,
 } from "../../src/services/api.js";
 import { Link } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
@@ -38,14 +39,53 @@ class Gardens extends Component {
       this.refresh();
     });
   };
+  editGarden = async (e, id, editedName) => {
+    e.preventDefault();
+    editGarden(id, editedName).then((data) => console.log("edited"));
+  };
   inputHandler = (e) => {
     e.preventDefault();
     this.setState({ [e.target.name]: e.target.value });
   };
+
   displayGardens = (gardens) => {
     const display = gardens.map((garden) => {
       console.log(garden);
       const { id, garden_name } = garden;
+      const editGardenForm = (
+        <div>
+          <form
+            className="col-md-4 mb-3"
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: "2%",
+            }}
+            onSubmit={(e) => this.editGarden(e, id, this.state.editedName)}
+          >
+            <div className="form-group">
+              <label style={{ fontWeight: "bold" }}>Garden Name</label>
+              <input
+                type="text"
+                className="form-control form-control-lg"
+                name={"editedName"}
+                onChange={this.inputHandler}
+                placeholder={"Name"}
+                style={{ marginBottom: "20px" }}
+              />
+            </div>
+
+            <div className="form-group">
+              <input
+                type="submit"
+                value="Edit Garden"
+                className="btn btn-primary"
+                style={{ backgroundColor: "rgb(46, 202, 95)" }}
+              />
+            </div>
+          </form>
+        </div>
+      );
       return (
         <div style={{ padding: "20px" }}>
           {/* <Link
@@ -81,12 +121,18 @@ class Gardens extends Component {
                     View
                   </Button>
                 </Link>
-                <Button
+                <Modal
+                  form={editGardenForm}
+                  label={"Edit"}
+                  title={`Edit Garden`}
+                  refresh={this.refresh}
+                  style={{ backgroundColor: "#db5c58" }}
                   variant="secondary"
-                  style={{ backgroundColor: "#bfe046", marginRight: "5px" }}
-                >
-                  Edit
-                </Button>
+                  buttonStyles={{
+                    backgroundColor: "#bfe046",
+                    marginRight: "5px",
+                  }}
+                />
                 <Button
                   variant="secondary"
                   style={{ backgroundColor: "#db5c58" }}
