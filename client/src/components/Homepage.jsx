@@ -19,7 +19,7 @@ import { getDateNeedsWater, getDateDifference } from "../utils/helpers";
  * should show preview of gardens
  */
 class Homepage extends Component {
-  state = { users: [], priorityPlants: [] };
+  state = { users: [], priorityPlants: [], alerts: [] };
 
   componentDidMount() {
     getAllPriorityPlants().then((data) =>
@@ -196,7 +196,9 @@ class Homepage extends Component {
                   </Card.Header>
                   <Card.Body>
                     <div style={{ height: "95%", overflow: "auto" }}>
-                      {this.state.alerts}
+                      {!this.state.alerts.length
+                        ? "You Have No Alerts"
+                        : this.state.alerts}
                     </div>
                   </Card.Body>
                 </Card>
