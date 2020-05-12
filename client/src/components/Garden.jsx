@@ -13,6 +13,7 @@ import Modal from "./Modal";
 import { verifyToken } from "../services/api";
 import AsyncCreatable from "react-select/async-creatable";
 import Select from "react-select";
+import { withRouter } from "react-router-dom";
 
 class Garden extends Component {
   state = {};
@@ -28,7 +29,10 @@ class Garden extends Component {
     };
   }
   componentDidMount() {
-    this.setState({ ...this.props.location.state.garden });
+    if (this.props.location.state) {
+      this.setState({ ...this.props.location.state.garden });
+    }
+
     const garden_id =
       parseInt(this.props.match.params.id) ||
       this.props.location.state.garden.id;
@@ -274,4 +278,4 @@ class Garden extends Component {
   }
 }
 
-export default Garden;
+export default withRouter(Garden);
