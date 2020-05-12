@@ -19,15 +19,17 @@ import { getDateNeedsWater, getDateDifference } from "../utils/helpers";
  * should show preview of gardens
  */
 class Homepage extends Component {
-  state = { users: [] };
+  state = { users: [], priorityPlants: [] };
 
   componentDidMount() {
     getAllPriorityPlants().then((data) =>
       this.setState({ priorityPlants: data }, () => {
         console.log(data);
         let alerts =
-          data &&
-          data.map((plant) => <AlertCard width={"95%"} plant={plant} />);
+          Array.isArray(this.state.priorityPlants) &&
+          this.state.priorityPlants.map((plant) => (
+            <AlertCard width={"95%"} plant={plant} />
+          ));
         this.setState({ alerts });
       })
     );
