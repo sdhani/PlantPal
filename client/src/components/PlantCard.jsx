@@ -62,7 +62,7 @@ class PlantCard extends Component {
     e.preventDefault();
     const updates = {
       garden_id: this.state.updateGardenId,
-      outdoor_plant: this.state.updatedOutdoor === "outdoor",
+      outdoor_plant: this.state.plant.outdoor_plant,
       last_watered: this.formatDate(this.state.last_watered_updated),
     };
     editPlant(id, updates).then((data) =>
