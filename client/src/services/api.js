@@ -6,14 +6,14 @@ const api = axios.create({
   // baseURL: process.env.BASE_URL,
     baseURL: "http://localhost:3001",
   headers: {
-    Authorization: `Bearer ${user_token}`
-  }
+    Authorization: `Bearer ${user_token}`,
+  },
 });
 
 //******* AUTH ********
 
 // stores token in local storage
-const storeToken = token => {
+const storeToken = (token) => {
   localStorage.setItem("jwt", token);
   api.defaults.headers.common.authorization = `Bearer ${token}`;
 };
@@ -28,14 +28,14 @@ const getToken = () => {
 // ******* REGISTER/LOGIN FUNCTIONS *******
 
 // sends register data to backend
-export const createUser = async userData => {
+export const createUser = async (userData) => {
   const response = await api.post(`api/auth/register`, userData);
   console.log(response);
   return response;
 };
 
 // sends login data to backend
-export const loginUser = async userData => {
+export const loginUser = async (userData) => {
   const response = await api.post(`api/auth/login`, userData);
   console.log(response);
   const token = response.data.token;
@@ -50,8 +50,8 @@ export const verifyToken = async () => {
     try {
       const resp = await api.get("/api/auth/me", {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       console.log(resp.data);
       return resp.data;
@@ -62,15 +62,15 @@ export const verifyToken = async () => {
 };
 
 // sends data to backend to create a garden, verifie token
-export const createGarden = async gardenName => {
+export const createGarden = async (gardenName) => {
   const token = localStorage.getItem("jwt");
 
   if (token) {
     try {
       const resp = await api.post("/api/gardens", gardenName, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -87,8 +87,8 @@ export const fetchGarden = async () => {
     try {
       const resp = await api.get("/api/gardens", {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -97,7 +97,7 @@ export const fetchGarden = async () => {
   }
 };
 
-export const addPlant = async plant => {
+export const addPlant = async (plant) => {
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
@@ -106,8 +106,8 @@ export const addPlant = async plant => {
         { ...plant },
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       return resp.data;
@@ -117,14 +117,14 @@ export const addPlant = async plant => {
   }
 };
 
-export const getPlant = async id => {
+export const getPlant = async (id) => {
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
-      const resp = await api.get(`/api/plants/?id=${id}`, {
+      const resp = await api.get(`/api/plants/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -139,8 +139,8 @@ export const editPlant = async (id, updates) => {
     try {
       const resp = await api.put(`/api/plants/${id}`, updates, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -155,8 +155,8 @@ export const getAllPlants = async () => {
     try {
       const resp = await api.get("/api/plants", {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -165,14 +165,30 @@ export const getAllPlants = async () => {
   }
 };
 
-export const getAllPlantsInGarden = async id => {
+export const getAllPriorityPlants = async () => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    try {
+      const resp = await api.get("/api/plants/priority", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};
+
+export const getAllPlantsInGarden = async (id) => {
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
       const resp = await api.get(`/api/gardens/${id}/plants`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -181,14 +197,14 @@ export const getAllPlantsInGarden = async id => {
   }
 };
 
-export const searchPlantName = async name => {
+export const searchPlantName = async (name) => {
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
       const resp = await api.get(`/api/plants/query?plant_query=${name}`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -197,14 +213,14 @@ export const searchPlantName = async name => {
   }
 };
 
-export const deletePlant = async id => {
+export const deletePlant = async (id) => {
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
       const resp = await api.delete(`/api/plants/${id}/delete`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -213,14 +229,14 @@ export const deletePlant = async id => {
   }
 };
 
-export const deleteGarden = async id => {
+export const deleteGarden = async (id) => {
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
       const resp = await api.delete(`/api/gardens/${id}/delete`, {
         headers: {
-          Authorization: `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
       return resp.data;
     } catch (e) {
@@ -238,8 +254,8 @@ export const editGarden = async (id, editedName) => {
         { garden_name: editedName },
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       return resp.data;

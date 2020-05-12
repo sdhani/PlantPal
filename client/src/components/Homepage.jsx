@@ -5,9 +5,11 @@ import styles from "../styles/home.css";
 import plantData from "../dummy_plants.json";
 import AlertCard from "./AlertMessage";
 import PlantCard from "./PlantCard";
-import CreateGardenForm from './CreateGardenForm'
+import CreateGardenForm from "./CreateGardenForm";
 import styles2 from "../styles/cards.css";
 import Gardens from "./Gardens";
+import { getAllPriorityPlants } from "../services/api";
+import { getDateNeedsWater, getDateDifference } from "../utils/helpers";
 
 /**
  *
@@ -17,45 +19,24 @@ import Gardens from "./Gardens";
  * should show preview of gardens
  */
 class Homepage extends Component {
-  state = { users: [] };
+  state = { users: [], priorityPlants: [], alerts: [] };
 
   componentDidMount() {
-
+    getAllPriorityPlants().then((data) =>
+      this.setState({ priorityPlants: data }, () => {
+        console.log(data);
+        let alerts =
+          Array.isArray(this.state.priorityPlants) &&
+          this.state.priorityPlants.map((plant) => (
+            <AlertCard width={"95%"} plant={plant} />
+          ));
+        this.setState({ alerts });
+      })
+    );
   }
-
   render() {
-    const dummyAlerts = [
-      {
-        variant: "danger",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "warning",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "warning",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "danger",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "warning",
-        info: "plant x will die soon",
-      },
-    ];
-
     const dummyPreviewIndoor = plantData.slice(1, 6);
     const dummyPreviewOutdoor = plantData.slice(4, 9);
-
-    const alerts = dummyAlerts.map((alert) => {
-      return (
-        <AlertCard width={"95%"} variant={alert.variant} content={alert.info} />
-      );
-    });
-
     const indoorPreview = dummyPreviewIndoor.map((plant) => {
       return (
         <PlantCard
@@ -215,7 +196,9 @@ class Homepage extends Component {
                   </Card.Header>
                   <Card.Body>
                     <div style={{ height: "95%", overflow: "auto" }}>
-                      {alerts}
+                      {!this.state.alerts.length
+                        ? "You Have No Alerts"
+                        : this.state.alerts}
                     </div>
                   </Card.Body>
                 </Card>

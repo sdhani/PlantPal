@@ -11,7 +11,22 @@ Router.get("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-    db.getAllPlantsFromUser(user_id).then(plants => {
+    db.getAllPlantsFromUser(user_id).then((plants) => {
+      if (plants.length > 0) {
+        res.status(200).json(plants);
+      } else {
+        res.status(200).json({ error: "User does not have any plants." });
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to retrieve all user's plants" });
+  }
+});
+
+Router.get("/priority", VerifyToken, async (req, res) => {
+  const { user_id } = req;
+  try {
+    db.getPriorityPlants(user_id).then((plants) => {
       if (plants.length > 0) {
         res.status(200).json(plants);
       } else {
@@ -31,7 +46,7 @@ Router.get("/query", async (req, res) => {
   const { plant_query } = req.query;
   if (!req.query.hasOwnProperty("plant_query")) {
     return res.status(400).json({
-      error: 'you must supply a field "plant_query" when adding a new plant'
+      error: 'you must supply a field "plant_query" when adding a new plant',
     });
   }
 
@@ -49,7 +64,7 @@ Router.get("/query", async (req, res) => {
 Router.get("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
   try {
-    db.getPlantByID(user_id, req.params.id).then(plant => {
+    db.getPlantByID(user_id, req.params.id).then((plant) => {
       if (plant.length > 0) {
         res.status(200).json(plant[0]);
       } else {
@@ -76,13 +91,13 @@ Router.post("/", VerifyToken, async (req, res) => {
     name,
     outdoor_plant,
     last_watered,
-    days_until_needs_water
+    days_until_needs_water,
   } = req.body;
 
   if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
     /* checks */
     return res.status(400).json({
-      error: 'you must supply a field "garden_id" when adding a new plant'
+      error: 'you must supply a field "garden_id" when adding a new plant',
     });
   }
 
@@ -92,7 +107,7 @@ Router.post("/", VerifyToken, async (req, res) => {
   ) {
     /* checks */
     return res.status(400).json({
-      error: 'you must supply a field "outdoor_plant" when adding a new plant'
+      error: 'you must supply a field "outdoor_plant" when adding a new plant',
     });
   }
 
@@ -104,7 +119,7 @@ Router.post("/", VerifyToken, async (req, res) => {
       typeof common_name !== "string"
     ) {
       return res.status(400).json({
-        error: 'you must supply a field "common_name" when adding a new plant'
+        error: 'you must supply a field "common_name" when adding a new plant',
       });
     }
 
@@ -116,7 +131,7 @@ Router.post("/", VerifyToken, async (req, res) => {
         name,
         outdoor_plant,
         last_watered,
-        days_until_needs_water
+        days_until_needs_water,
       }).then(res.status(200).json({ success: true }));
     } catch (err) {
       res.status(500).json({ error: "Failed to add plant manually." });
@@ -131,7 +146,7 @@ Router.post("/", VerifyToken, async (req, res) => {
         common_name,
         scientific_name,
         duration,
-        family_common_name
+        family_common_name,
       } = newPlant.data;
       const {
         images,
@@ -139,7 +154,7 @@ Router.post("/", VerifyToken, async (req, res) => {
         growth,
         fruit_or_seed,
         seed,
-        specifications
+        specifications,
       } = newPlant.data.main_species;
 
       const images_json = JSON.stringify(images);
@@ -166,7 +181,7 @@ Router.post("/", VerifyToken, async (req, res) => {
         specifications_json,
         family_common_name,
         last_watered,
-        days_until_needs_water
+        days_until_needs_water,
       }).then(res.status(200).json({ success: true }));
     } catch (err) {
       res.status(500).json({ error: "something weird happened with the API." });
@@ -184,12 +199,12 @@ Router.put("/:id", VerifyToken, async (req, res) => {
     last_watered,
     common_name,
     name,
-    days_until_needs_water
+    days_until_needs_water,
   } = req.body;
 
   if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
     return res.status(400).json({
-      error: 'you must supply a field "garden_id" when updating a plants info'
+      error: 'you must supply a field "garden_id" when updating a plants info',
     });
   }
 
@@ -199,7 +214,7 @@ Router.put("/:id", VerifyToken, async (req, res) => {
   ) {
     return res.status(400).json({
       error:
-        'you must supply a field "outdoor_plant" when updating a plants info'
+        'you must supply a field "outdoor_plant" when updating a plants info',
     });
   }
 
@@ -209,7 +224,7 @@ Router.put("/:id", VerifyToken, async (req, res) => {
   ) {
     return res.status(400).json({
       error:
-        'you must supply a field "last_watered" of type "yyyy-mm-dd" when updating a plants info'
+        'you must supply a field "last_watered" of type "yyyy-mm-dd" when updating a plants info',
     });
   }
 

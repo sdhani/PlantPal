@@ -6,9 +6,14 @@ module.exports = {
   },
 
   getPlantByID(user_id, id) {
+    return knex("plants").where("user_id", user_id).where("id", id);
+  },
+  getPriorityPlants(user_id, id) {
     return knex("plants")
+      .orderBy("days_until_needs_water")
       .where("user_id", user_id)
-      .where("id", id);
+      .where("outdoor_plant", true)
+      .whereBetween("days_until_needs_water", [0, 3]);
   },
 
   addPlant({
@@ -28,7 +33,7 @@ module.exports = {
     seed = null,
     specifications = null,
     family_common_name = null,
-    days_until_needs_water = null
+    days_until_needs_water = null,
   }) {
     return knex("plants").insert({
       garden_id,
@@ -47,7 +52,7 @@ module.exports = {
       seed,
       specifications,
       family_common_name,
-      days_until_needs_water
+      days_until_needs_water,
     });
   },
 
@@ -62,24 +67,18 @@ module.exports = {
     name,
     days_until_needs_water
   ) {
-    return knex("plants")
-      .where("id", id)
-      .where("user_id", user_id)
-      .update({
-        garden_id,
-        outdoor_plant,
-        images,
-        last_watered,
-        common_name,
-        name,
-        days_until_needs_water
-      });
+    return knex("plants").where("id", id).where("user_id", user_id).update({
+      garden_id,
+      outdoor_plant,
+      images,
+      last_watered,
+      common_name,
+      name,
+      days_until_needs_water,
+    });
   },
 
   deletePlant(user_id, id) {
-    return knex("plants")
-      .where("id", id)
-      .where("user_id", user_id)
-      .del();
-  }
+    return knex("plants").where("id", id).where("user_id", user_id).del();
+  },
 };
