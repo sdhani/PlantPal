@@ -71,13 +71,13 @@ class Plant extends Component {
         <h1>{plant.common_name}</h1>
         <img src={undefined} style={{ width: "400px" }}></img>
         <div style={{ textAlign: "right" }}>
-          <Button
+          {/* <Button
             variant="primary"
             size="lg"
             style={{ backgroundColor: "#006b28" }}
           >
             Edit Plant
-          </Button>
+          </Button> */}
           <br />
           <br />
           <Button
