@@ -3,6 +3,7 @@ import PlantCard from "./PlantCard";
 import styles from "../styles/cards.css";
 import plantData from "../dummy_plants.json";
 import {
+  fetchGarden,
   addPlant,
   getAllPlantsInGarden,
   searchPlantName,
@@ -32,6 +33,10 @@ class Garden extends Component {
       parseInt(this.props.match.params.id) ||
       this.props.location.state.garden.id;
     this.setState({ garden_id });
+
+    if (!this.state.all_gardens) {
+      fetchGarden().then((data) => this.setState({ all_gardens: data }));
+    }
     getAllPlantsInGarden(garden_id).then((data) =>
       this.setState({ plants: data, sorted: data }, () => {
         let categories = new Set();
@@ -150,13 +155,19 @@ class Garden extends Component {
     return plants.map((plant) => {
       return (
         <div style={{ padding: "20px" }}>
-          <PlantCard plant={plant} refresh={this.refresh} />
+          <PlantCard
+            plant={plant}
+            refresh={this.refresh}
+            all_gardens={this.state.all_gardens}
+            garden_id={this.state.id}
+          />
         </div>
       );
     });
   };
 
   render() {
+    console.log("state", this.state);
     let allPlants = this.displayPlants(this.state.sorted);
     const addForm = (
       <div>

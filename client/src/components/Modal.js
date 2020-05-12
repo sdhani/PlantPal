@@ -5,7 +5,6 @@ class MyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      water: 0,
       startDate: new Date(),
     };
   }

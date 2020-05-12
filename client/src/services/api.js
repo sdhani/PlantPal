@@ -133,6 +133,22 @@ export const getPlant = async (id) => {
   }
 };
 
+export const editPlant = async (id, updates) => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    try {
+      const resp = await api.put(`/api/plants/${id}`, updates, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};
+
 export const getAllPlants = async () => {
   const token = localStorage.getItem("jwt");
   if (token) {

@@ -50,8 +50,8 @@ class Gardens extends Component {
 
   displayGardens = (gardens) => {
     const display = gardens.map((garden) => {
-      console.log(garden);
       const { id, garden_name } = garden;
+      garden.all_gardens = gardens;
       const editGardenForm = (
         <div>
           <form
@@ -113,7 +113,12 @@ class Gardens extends Component {
                   Some garden info Some garden info Some garden info Some garden
                   info
                 </Card.Text>
-                <Link to={{ pathname: `/garden/${id}`, state: { garden } }}>
+                <Link
+                  to={{
+                    pathname: `/garden/${id}`,
+                    state: { garden },
+                  }}
+                >
                   <Button
                     variant="secondary"
                     style={{ backgroundColor: "#006b28", marginRight: "5px" }}
