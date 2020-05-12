@@ -122,6 +122,12 @@ class Garden extends Component {
     );
     this.setState({ sorted });
   };
+  sortByLastWatered = () => {
+    let sorted = this.state.plants.sort(
+      (a, b) => new Date(b.last_watered) - new Date(a.last_watered)
+    );
+    this.setState({ sorted });
+  };
 
   filterByCategory = (category) => {
     if (category === "All") {
@@ -263,7 +269,8 @@ class Garden extends Component {
       <div style={{ margin: "20px" }}>
         <h1 style={{ textAlign: "center" }}>{this.state.garden_name}</h1>
         <button onClick={this.sortByName}>Sort by name</button>
-        <button onClick={this.sortByCategory}>Sort By category</button>
+        <button onClick={this.sortByCategory}>Sort by category</button>
+        <button onClick={this.sortByLastWatered}>Sort by last watered</button>
         <div style={{ width: "300px" }}>
           <Select
             options={this.state.category_options}
