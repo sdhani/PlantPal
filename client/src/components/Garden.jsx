@@ -57,6 +57,7 @@ class Garden extends Component {
     }
     getAllPlantsInGarden(garden_id).then((data) =>
       this.setState({ plants: data, sorted: data }, () => {
+        console.log(data);
         let categories = new Set();
         this.state.plants.forEach((plant) => {
           categories.add(plant.common_name);
@@ -76,6 +77,7 @@ class Garden extends Component {
   }
 
   refresh = async () => {
+    console.log("refrshing");
     this.componentDidMount();
   };
   inputHandler = (e) => {

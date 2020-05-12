@@ -22,7 +22,7 @@ class PlantCard extends Component {
   }
   componentDidMount() {
     this.setState({
-      last_watered_updated: new Date(),
+      last_watered_updated: new Date(Date.now()),
       updateGardenId: this.props.garden_id,
     });
     if (!this.state.all_gardens) {
@@ -69,11 +69,18 @@ class PlantCard extends Component {
       console.log("edited plant", id, updates, data)
     );
   };
-  markAsWatered = async (id) => {
+  markAsWatered = async () => {
+    const { id } = this.props.plant;
+    let d = new Date(Date.now());
     const updates = {
-      last_watered_updated: "2020-04-21",
+      garden_id: this.state.garden_id,
+      outdoor_plant: this.state.updatedOutdoor === "outdoor",
+      last_watered: this.formatDate(d),
     };
-    editPlant(id, updates).then((data) => console.log("edited plant", data));
+    editPlant(id, updates).then((data) => {
+      console.log(updates, data);
+      this.props.refresh();
+    });
   };
   inputHandler = (e) => {
     e.preventDefault();
@@ -172,67 +179,77 @@ class PlantCard extends Component {
       </div>
     );
     return (
-      <Card
-        style={{
-          width: "18rem",
-          height: this.props.height || "370px",
-          width: this.props.width || "280px",
-          margin: "5px",
-          color: "#0a3618",
-          borderColor: "#006b28",
-          borderWidth: ".5px",
-          borderBottom: "5px solid #22b550",
-        }}
-        className="cardbox"
-      >
-        <Card.Img variant="top" src={img} style={{ height: "45%" }} />
-        <Card.Body>
-          <Card.Title>{name ? name : common_name}</Card.Title>
-          {!this.props.preview && (
-            <div>
-              <Card.Subtitle className="mb-2 text-muted">
-                {common_name} •{" "}
-                {outdoor_plant ? "Outdoor Plant" : "Indoor plant"}
-              </Card.Subtitle>
-              <Card.Text>
-                {days_until_needs_water &&
-                  `Needs to be watered in ${days_until_needs_water} days`}
-                <br />
-                Last watered:{" "}
-                {new Date(last_watered).toDateString() ||
-                  new Date(Date.now()).toDateString()}
-              </Card.Text>
-              <Link to={{ pathname: `/plant/${id}`, state: { plant } }}>
+      <div>
+        <Card
+          style={{
+            width: "18rem",
+            height: this.props.height || "370px",
+            width: this.props.width || "280px",
+            margin: "5px",
+            color: "#0a3618",
+            borderColor: "#006b28",
+            borderWidth: ".5px",
+            borderBottom: "5px solid #22b550",
+          }}
+          className="cardbox"
+        >
+          <Card.Img variant="top" src={img} style={{ height: "45%" }} />
+          <Card.Body>
+            <Card.Title>{name ? name : common_name}</Card.Title>
+            {!this.props.preview && (
+              <div>
+                <Card.Subtitle className="mb-2 text-muted">
+                  {common_name} •{" "}
+                  {outdoor_plant ? "Outdoor Plant" : "Indoor plant"}
+                </Card.Subtitle>
+                <Card.Text>
+                  {days_until_needs_water &&
+                    `Needs to be watered in ${days_until_needs_water} days`}
+                  <br />
+                  Last watered:{" "}
+                  {new Date(last_watered).toDateString() ||
+                    new Date(Date.now()).toDateString()}
+                </Card.Text>
+                <Link to={{ pathname: `/plant/${id}`, state: { plant } }}>
+                  <Button
+                    variant="secondary"
+                    style={{ backgroundColor: "#006b28", marginRight: "5px" }}
+                  >
+                    View
+                  </Button>
+                </Link>
+                <Modal
+                  form={editPlantForm}
+                  label={"Edit"}
+                  title={`Edit Plant`}
+                  refresh={this.props.refresh}
+                  style={{ backgroundColor: "#db5c58" }}
+                  variant="secondary"
+                  buttonStyles={{
+                    backgroundColor: "#bfe046",
+                    marginRight: "5px",
+                  }}
+                />
                 <Button
                   variant="secondary"
-                  style={{ backgroundColor: "#006b28", marginRight: "5px" }}
+                  style={{ backgroundColor: "#db5c58" }}
+                  onClick={this.deletePlant}
                 >
-                  View
+                  Delete
                 </Button>
-              </Link>
-              <Modal
-                form={editPlantForm}
-                label={"Edit"}
-                title={`Edit Plant`}
-                refresh={this.props.refresh}
-                style={{ backgroundColor: "#db5c58" }}
-                variant="secondary"
-                buttonStyles={{
-                  backgroundColor: "#bfe046",
-                  marginRight: "5px",
-                }}
-              />
-              <Button
-                variant="secondary"
-                style={{ backgroundColor: "#db5c58" }}
-                onClick={this.deletePlant}
-              >
-                Delete
-              </Button>
-            </div>
-          )}
-        </Card.Body>
-      </Card>
+              </div>
+            )}
+          </Card.Body>
+        </Card>
+        <Button
+          variant="secondary"
+          style={{ backgroundColor: "green" }}
+          onClick={this.markAsWatered}
+          id={`plant-button-${id}`}
+        >
+          Mark as watered
+        </Button>
+      </div>
     );
   }
 }
