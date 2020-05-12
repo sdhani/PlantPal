@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   fetchGarden,
   getPlant,
@@ -19,6 +21,7 @@ class PlantCard extends Component {
     };
   }
   componentDidMount() {
+    this.setState({ last_watered: new Date() });
     if (!this.state.all_gardens) {
       fetchGarden().then((data) => this.setState({ all_gardens: data }));
     }
@@ -57,9 +60,11 @@ class PlantCard extends Component {
     e.preventDefault();
     this.setState({ [e.target.name]: e.target.value });
   };
+  handleDateChange = (date) => {
+    this.setState({ last_watered: date });
+  };
 
   render() {
-    console.log(this.state);
     const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
 
     const img =
@@ -90,6 +95,14 @@ class PlantCard extends Component {
               placeholder={"Name"}
               style={{ marginBottom: "20px" }}
             />
+            <label style={{ fontWeight: "bold", paddingRight: "5px" }}>
+              Last Watered:{" "}
+            </label>
+            <DatePicker
+              selected={this.state.last_watered}
+              onChange={this.handleDateChange}
+            />
+            <br />
             <label style={{ fontWeight: "bold" }}>Garden Name: </label>
             <Select
               options={this.state.options}
