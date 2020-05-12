@@ -8,8 +8,16 @@ class PlantCard extends Component {
     super(props);
   }
   render() {
-    const { plant_id, common_name } = this.props.plant;
-    const img = this.props.plant.images.url;
+    const {
+      plant_id,
+      common_name,
+      last_watered,
+      outdoor_plant,
+    } = this.props.plant;
+    const img =
+      this.props.plant.images && this.props.plant.images.url
+        ? this.props.plant.images.url
+        : undefined;
     const plant = { ...this.props.plant };
     return (
       <Link
@@ -35,8 +43,11 @@ class PlantCard extends Component {
             {!this.props.preview && (
               <div>
                 <Card.Text>
+                  {outdoor_plant}
+                  {last_watered}
                   Some plant info some plant info Some plant info some plant
                 </Card.Text>
+                {/* <Card.Text className="text-muted">2 days ago</Card.Text> */}
                 <Link to={{ pathname: `/plant/${plant_id}`, state: { plant } }}>
                   <Button
                     variant="secondary"
