@@ -21,7 +21,10 @@ class PlantCard extends Component {
     };
   }
   componentDidMount() {
-    this.setState({ last_watered: new Date() });
+    this.setState({
+      last_watered_updated: new Date(),
+      updateGardenId: this.props.garden_id,
+    });
     if (!this.state.all_gardens) {
       fetchGarden().then((data) => this.setState({ all_gardens: data }));
     }
@@ -29,7 +32,7 @@ class PlantCard extends Component {
       const { garden_name, id } = option;
       return { label: garden_name, value: id };
     });
-    this.setState({ options });
+    this.setState({ options }, () => {});
     const { id } = this.props.plant;
     getPlant(id).then((data) => this.setState({ plant: data }));
   }
@@ -43,13 +46,24 @@ class PlantCard extends Component {
       return this.props.refresh && this.props.refresh();
     });
   };
+  formatDate = (date) => {
+    let d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  };
 
   editPlant = async (e, id) => {
     e.preventDefault();
     const updates = {
       garden_id: this.state.updateGardenId,
       outdoor_plant: this.state.updatedOutdoor === "outdoor",
-      last_watered: "2020-04-21",
+      last_watered: this.formatDate(this.state.last_watered_updated),
     };
     editPlant(id, updates).then((data) =>
       console.log("edited plant", id, updates, data)
@@ -57,7 +71,7 @@ class PlantCard extends Component {
   };
   markAsWatered = async (id) => {
     const updates = {
-      last_watered: "2020-04-21",
+      last_watered_updated: "2020-04-21",
     };
     editPlant(id, updates).then((data) => console.log("edited plant", data));
   };
@@ -66,7 +80,7 @@ class PlantCard extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
   handleDateChange = (date) => {
-    this.setState({ last_watered: date });
+    this.setState({ last_watered_updated: date });
   };
 
   render() {
@@ -102,7 +116,7 @@ class PlantCard extends Component {
             <br />
 
             <DatePicker
-              selected={this.state.last_watered}
+              selected={this.state.last_watered_updated}
               onChange={this.handleDateChange}
             />
             <br />
@@ -113,6 +127,10 @@ class PlantCard extends Component {
               onChange={(value) => {
                 this.handleUpdatedGarden(value);
               }}
+              defaultValue={
+                this.state.options &&
+                this.state.options.find((g) => (g.value = this.props.garden_id))
+              }
             />
             <br />
             <label style={{ fontWeight: "bold" }}>Indoor vs Outdoor: </label>
@@ -177,7 +195,9 @@ class PlantCard extends Component {
               <Card.Text>
                 {outdoor_plant ? "Outdoor Plant" : "Indoor plant"}
                 <br />
-                Last watered {last_watered || Date.now()}
+                Last watered:{" "}
+                {new Date(last_watered).toDateString() ||
+                  new Date(Date.now()).toDateString()}
               </Card.Text>
               <Link to={{ pathname: `/plant/${id}`, state: { plant } }}>
                 <Button

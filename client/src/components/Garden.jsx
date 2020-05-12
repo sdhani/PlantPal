@@ -232,24 +232,21 @@ class Garden extends Component {
               Indoor Plant
             </label>
             <br />
-            {this.state.outdoor_plant === "outdoor" && (
-              <div>
-                <label style={{ fontWeight: "bold" }}>
-                  Days until plant needs to be watered:{" "}
-                </label>
-                <br />
-                <input
-                  type="number"
-                  className="form-control form-control-lg"
-                  name={"daysUntilNeedsWater"}
-                  onChange={this.inputHandler}
-                  placeholder={"Days"}
-                  pattern="[0-9]*"
-                  defaultValue={0}
-                  style={{ marginBottom: "20px" }}
-                />
-              </div>
-            )}
+
+            <label style={{ fontWeight: "bold" }}>
+              Days until plant needs to be watered:{" "}
+            </label>
+            <br />
+            <input
+              type="number"
+              className="form-control form-control-lg"
+              name={"daysUntilNeedsWater"}
+              onChange={this.inputHandler}
+              placeholder={"Days"}
+              pattern="[0-9]*"
+              defaultValue={0}
+              style={{ marginBottom: "20px" }}
+            />
           </div>
           <div className="form-group">
             <input
