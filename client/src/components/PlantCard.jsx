@@ -33,7 +33,12 @@ class PlantCard extends Component {
 
     // const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
     // console.log("id stuff", id);
-    // getPlant(id).then((data) => this.setState({ plant: data }));
+    const { id } = this.props.plant;
+    getPlant(id).then((data) =>
+      this.setState({ plant: data }, () => {
+        console.log(data);
+      })
+    );
   }
   handleUpdatedGarden = async (value) => {
     console.log(value);
@@ -73,13 +78,14 @@ class PlantCard extends Component {
   };
 
   render() {
-    const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
+    const { id, name, common_name, last_watered, outdoor_plant } =
+      this.state.plant || this.props.plant;
 
     const img =
       this.props.plant.images && this.props.plant.images.url
         ? this.props.plant.images.url
         : undefined;
-    const plant = { ...this.props.plant };
+    const plant = this.state || { ...this.props.plant };
 
     const editPlantForm = (
       <div>
@@ -150,14 +156,10 @@ class PlantCard extends Component {
       </div>
     );
     return (
-      // <Link
-      //   to={{ pathname: `/plant/${id}`, state: { plant } }}
-      //   style={{ textDecoration: "none", color: "black" }}
-      // >
       <Card
         style={{
           width: "18rem",
-          height: this.props.height || "350px",
+          height: this.props.height || "370px",
           width: this.props.width || "280px",
           margin: "5px",
           color: "#0a3618",
@@ -169,15 +171,17 @@ class PlantCard extends Component {
       >
         <Card.Img variant="top" src={img} style={{ height: "45%" }} />
         <Card.Body>
-          <Card.Title>{common_name}</Card.Title>
+          <Card.Title>{name ? name : common_name}</Card.Title>
           {!this.props.preview && (
             <div>
+              <Card.Subtitle className="mb-2 text-muted">
+                {common_name}
+              </Card.Subtitle>
               <Card.Text>
-                {outdoor_plant}
-                {last_watered}
-                Some plant info some plant info Some plant info some plant
+                {outdoor_plant ? "Outdoor Plant" : "Indoor plant"}
+                <br />
+                Last watered {last_watered || Date.now()}
               </Card.Text>
-              {/* <Card.Text className="text-muted">2 days ago</Card.Text> */}
               <Link to={{ pathname: `/plant/${id}`, state: { plant } }}>
                 <Button
                   variant="secondary"
@@ -209,7 +213,6 @@ class PlantCard extends Component {
           )}
         </Card.Body>
       </Card>
-      // </Link>
     );
   }
 }
