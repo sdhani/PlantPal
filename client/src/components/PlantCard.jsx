@@ -90,6 +90,7 @@ class PlantCard extends Component {
       common_name,
       last_watered,
       outdoor_plant,
+      days_until_needs_water,
     } = this.props.plant;
 
     const img =
@@ -190,10 +191,12 @@ class PlantCard extends Component {
           {!this.props.preview && (
             <div>
               <Card.Subtitle className="mb-2 text-muted">
-                {common_name}
+                {common_name} •{" "}
+                {outdoor_plant ? "Outdoor Plant" : "Indoor plant"}
               </Card.Subtitle>
               <Card.Text>
-                {outdoor_plant ? "Outdoor Plant" : "Indoor plant"}
+                {days_until_needs_water &&
+                  `Needs to be watered in ${days_until_needs_water} days`}
                 <br />
                 Last watered:{" "}
                 {new Date(last_watered).toDateString() ||

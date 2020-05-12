@@ -29,6 +29,7 @@ class Garden extends Component {
       sortByOptions: [
         { label: "None", value: "none" },
         { label: "Name", value: "name" },
+        { label: "Needs Water", value: "priority" },
         { label: "Last Watered", value: "last_watered" },
         { label: "Category", value: "Category" },
       ],
@@ -105,9 +106,10 @@ class Garden extends Component {
           ? this.state.trefle_id
           : undefined,
       name: this.state.plant_name,
-      daysUntilNeedsWater: this.state.daysUntilNeedsWater,
+      days_until_needs_water: this.state.days_until_needs_water,
     };
-    await addPlant(plant);
+    const p = await addPlant(plant);
+    console.log("added", p);
   };
   // ascending
   sortByName = () => {
@@ -125,7 +127,9 @@ class Garden extends Component {
   // sort by highest priority
   sortByPriority = () => {
     const copy = Array.from(this.state.plants);
-    let sorted = copy.sort((a, b) => a.last_watered - b.last_watered);
+    let sorted = copy.sort(
+      (a, b) => a.days_until_needs_water - b.days_until_needs_water
+    );
     this.setState({ sorted });
   };
   sortByLastWatered = () => {
@@ -178,6 +182,8 @@ class Garden extends Component {
       this.sortByLastWatered();
     } else if (v === "category") {
       this.sortByCategory();
+    } else if (v === "priority") {
+      this.sortByPriority();
     } else {
       this.setState({ sorted: this.state.plants });
     }
@@ -264,7 +270,7 @@ class Garden extends Component {
             <input
               type="number"
               className="form-control form-control-lg"
-              name={"daysUntilNeedsWater"}
+              name={"days_until_needs_water"}
               onChange={this.inputHandler}
               placeholder={"Days"}
               pattern="[0-9]*"
