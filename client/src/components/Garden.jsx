@@ -26,6 +26,12 @@ class Garden extends Component {
       categories: [],
       options: [],
       updates: {},
+      sortByOptions: [
+        { label: "None", value: "none" },
+        { label: "Name", value: "name" },
+        { label: "Last Watered", value: "last_watered" },
+        { label: "Category", value: "Category" },
+      ],
     };
   }
   componentDidMount() {
@@ -159,10 +165,21 @@ class Garden extends Component {
   };
 
   handleCategorySelect = async (value) => {
-    console.log(value);
     this.setState({ category_selected: value.value }, () => {
       this.filterByCategory(value.value);
     });
+  };
+  handleSortSelect = async (value) => {
+    let v = value.value;
+    if (v === "name") {
+      this.sortByName();
+    } else if (v === "last_watered") {
+      this.sortByLastWatered();
+    } else if (v === "category") {
+      this.sortByCategory();
+    } else {
+      this.setState({ sorted: this.state.plants });
+    }
   };
 
   displayPlants = (plants) => {
@@ -268,29 +285,44 @@ class Garden extends Component {
     return (
       <div style={{ margin: "20px" }}>
         <h1 style={{ textAlign: "center" }}>{this.state.garden_name}</h1>
-        <button onClick={this.sortByName}>Sort by name</button>
-        <button onClick={this.sortByCategory}>Sort by category</button>
-        <button onClick={this.sortByLastWatered}>Sort by last watered</button>
-        <div style={{ width: "300px" }}>
-          <Select
-            options={this.state.category_options}
-            onChange={(value) => {
-              this.handleCategorySelect(value);
+        <br />
+        <div>
+          <div
+            style={{
+              width: "300px",
+              display: "inline-block",
+              marginRight: "10px",
             }}
-            placeholder="Select category..."
-          />
+          >
+            <Select
+              options={this.state.sortByOptions}
+              onChange={(value) => {
+                this.handleSortSelect(value);
+              }}
+              placeholder="Sort By..."
+            />
+          </div>
+          <div style={{ width: "300px", display: "inline-block" }}>
+            <Select
+              options={this.state.category_options}
+              onChange={(value) => {
+                this.handleCategorySelect(value);
+              }}
+              placeholder="Select category..."
+            />
+          </div>
+          <div style={{ float: "right", display: "inline-block" }}>
+            <Modal
+              form={addForm}
+              label={"Add A Plant"}
+              title={`Add A Plant`}
+              refresh={this.refresh}
+            />
+          </div>
         </div>
 
-        <div style={{ textAlign: "right" }}>
-          <Modal
-            form={addForm}
-            label={"Add A Plant"}
-            title={`Add A Plant`}
-            refresh={this.refresh}
-          />
-        </div>
         {this.state.sortedByCat && this.state.sortedByCat}
-        <div className="card-container-outer">
+        <div className="card-container-outer" style={{ width: "100vw" }}>
           <div className="card-container">{allPlants}</div>
         </div>
       </div>
