@@ -69,7 +69,14 @@ Router.get("/:id", VerifyToken, async (req, res) => {
 */
 Router.post("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
-  const { trefle_id, garden_id, common_name, outdoor_plant } = req.body;
+  const {
+    trefle_id,
+    garden_id,
+    common_name,
+    name,
+    outdoor_plant,
+    last_watered
+  } = req.body;
 
   if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
     /* checks */
@@ -101,9 +108,14 @@ Router.post("/", VerifyToken, async (req, res) => {
     }
 
     try {
-      db.addPlant({ garden_id, user_id, common_name, outdoor_plant }).then(
-        res.status(200).json({ success: true })
-      );
+      db.addPlant({
+        garden_id,
+        user_id,
+        common_name,
+        name,
+        outdoor_plant,
+        last_watered
+      }).then(res.status(200).json({ success: true }));
     } catch (err) {
       res.status(500).json({ error: "Failed to add plant manually." });
     }
@@ -139,6 +151,7 @@ Router.post("/", VerifyToken, async (req, res) => {
         garden_id,
         user_id,
         common_name,
+        name,
         scientific_name,
         trefle_id,
         duration,
@@ -149,7 +162,8 @@ Router.post("/", VerifyToken, async (req, res) => {
         growth_json,
         seed_json,
         specifications_json,
-        family_common_name
+        family_common_name,
+        last_watered
       }).then(res.status(200).json({ success: true }));
     } catch (err) {
       res.status(500).json({ error: "something weird happened with the API." });
@@ -160,7 +174,14 @@ Router.post("/", VerifyToken, async (req, res) => {
 /* Update plant /:id */
 Router.put("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
-  const { garden_id, outdoor_plant, images, last_watered } = req.body;
+  const {
+    garden_id,
+    outdoor_plant,
+    images,
+    last_watered,
+    common_name,
+    name
+  } = req.body;
 
   if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
     return res.status(400).json({
@@ -195,7 +216,9 @@ Router.put("/:id", VerifyToken, async (req, res) => {
       outdoor_plant,
       user_id,
       images,
-      last_watered
+      last_watered,
+      common_name,
+      name
     ).then(res.status(200).json({ success: true }));
   } catch (err) {
     res.status(500).json({ error: "Unable to update plant." });

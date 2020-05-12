@@ -15,6 +15,7 @@ module.exports = {
     garden_id = null,
     user_id = null,
     common_name = null,
+    name = null,
     outdoor_plant = null,
     scientific_name = null,
     trefle_id = null,
@@ -32,6 +33,7 @@ module.exports = {
       garden_id,
       user_id,
       common_name,
+      name,
       scientific_name,
       trefle_id,
       duration,
@@ -47,7 +49,16 @@ module.exports = {
     });
   },
 
-  updatePlant(id, garden_id, outdoor_plant, user_id, images, last_watered) {
+  updatePlant(
+    id,
+    garden_id,
+    outdoor_plant,
+    user_id,
+    images,
+    last_watered,
+    common_name,
+    name
+  ) {
     return knex("plants")
       .where("id", id)
       .where("user_id", user_id)
@@ -55,7 +66,9 @@ module.exports = {
         garden_id,
         outdoor_plant,
         images,
-        last_watered
+        last_watered,
+        common_name,
+        name
       });
   },
 
