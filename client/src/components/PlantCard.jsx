@@ -1,27 +1,33 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button, Card } from "react-bootstrap";
+import { getPlant } from "../../src/services/api.js";
 
 class PlantCard extends Component {
   state = {};
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    console.log("plant props", this.props.plant);
+    // const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
+    // console.log("id stuff", id);
+    // getPlant(id).then((data) => this.setState({ plant: data }));
+  }
   render() {
-    const {
-      plant_id,
-      common_name,
-      last_watered,
-      outdoor_plant,
-    } = this.props.plant;
+    const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
+
     const img =
       this.props.plant.images && this.props.plant.images.url
         ? this.props.plant.images.url
         : undefined;
     const plant = { ...this.props.plant };
+
+    // const { plant } = this.state;
+    console.log("plant is", plant);
     return (
       <Link
-        to={{ pathname: `/plant/${plant_id}`, state: { plant } }}
+        to={{ pathname: `/plant/${id}`, state: { plant } }}
         style={{ textDecoration: "none", color: "black" }}
       >
         <Card
@@ -48,7 +54,7 @@ class PlantCard extends Component {
                   Some plant info some plant info Some plant info some plant
                 </Card.Text>
                 {/* <Card.Text className="text-muted">2 days ago</Card.Text> */}
-                <Link to={{ pathname: `/plant/${plant_id}`, state: { plant } }}>
+                <Link to={{ pathname: `/plant/${id}`, state: { plant } }}>
                   <Button
                     variant="secondary"
                     style={{ backgroundColor: "#006b28", marginRight: "5px" }}

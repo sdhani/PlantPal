@@ -4,7 +4,7 @@ import styles from "../styles/cards.css";
 import plantData from "../dummy_plants.json";
 import {
   addPlant,
-  getAllPlants,
+  getAllPlantsInGarden,
   searchPlantName,
 } from "../../src/services/api.js";
 import { Button } from "react-bootstrap";
@@ -27,7 +27,12 @@ class Garden extends Component {
   }
   componentDidMount() {
     this.setState({ ...this.props.location.state.garden });
-    getAllPlants().then((data) =>
+    const garden_id =
+      parseInt(this.props.match.params.id) ||
+      this.props.location.state.garden.id;
+    this.setState({ garden_id });
+    console.log(garden_id);
+    getAllPlantsInGarden(garden_id).then((data) =>
       this.setState({ plants: data, sorted: data }, () => {
         let categories = new Set();
         this.state.plants.forEach((plant) => {
@@ -38,6 +43,7 @@ class Garden extends Component {
         );
       })
     );
+
     // /api/gardens/:id/plants
 
     // this.setState({
@@ -84,10 +90,10 @@ class Garden extends Component {
       outdoor_plant: this.state.outdoor_plant === "outdoor",
       common_name: this.state.plant_family,
       user_id: this.state.user_id,
-      // trefle_id:
-      //   typeof this.state.trefle_id === "number"
-      //     ? this.state.trefle_id
-      //     : undefined,
+      trefle_id:
+        typeof this.state.trefle_id === "number"
+          ? this.state.trefle_id
+          : undefined,
       name: this.state.plant_name,
     };
     const added = await addPlant(plant);
@@ -239,6 +245,7 @@ class Garden extends Component {
       <div style={{ margin: "20px" }}>
         {/* <button onClick={this.sortByCategory} >Sort By category</button> */}
         <h1>{this.state.garden_name}</h1>
+        <button onClick={this.sortByName}>Sort by name</button>
         <div style={{ textAlign: "right" }}>
           <Modal
             form={addForm}

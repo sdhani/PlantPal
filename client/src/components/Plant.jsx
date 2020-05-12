@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
+import { getPlant } from "../../src/services/api.js";
 
 class Plant extends Component {
   state = {};
@@ -9,34 +10,50 @@ class Plant extends Component {
   }
   componentDidMount() {
     // WOULD NEED TO MAKE TREFLE API CALL HERE TO GET MORE DATA
+    console.log("ALL PROPS", this.props);
+    // const { plant_id } = this.props.plant;
+    const id =
+      parseInt(this.props.match.params.id) ||
+      this.props.location.state.plant.id;
+    getPlant(id).then((data) => {
+      console.log("in", data);
+      const plant = data.find((plant) => plant.id === id);
+      console.log(plant);
+      this.setState({ plant });
+    });
   }
 
   render() {
-    const { plant } = this.props.location.state;
-    let plantData = Object.keys(plant).map((key) => {
-      if (typeof plant[key] === "object") {
-        return <li>{key}</li>;
-      } else {
-        return (
-          <div style={{ fontSize: "25px" }}>
-            {key} : {plant[key]}
-          </div>
-        );
-      }
-    });
-    const {
-      plant_id,
-      trefle_id,
-      common_name,
-      scientific_name,
-      duration,
-      family_common_name,
-    } = plant;
-    return (
+    console.log("state plant", this.state.plant);
+    const { plant } = this.state;
+    const plantData = [];
+    if (plant) {
+      const {
+        id,
+        trefle_id,
+        common_name,
+        scientific_name,
+        duration,
+        family_common_name,
+        outdoor_plant,
+        last_watered,
+      } = this.state.plant;
+      let plantData = Object.keys(plant).map((key) => {
+        if (typeof plant[key] === "object") {
+          return <li>{key}</li>;
+        } else {
+          return (
+            <div style={{ fontSize: "25px" }}>
+              {key} : {plant[key]}
+            </div>
+          );
+        }
+      });
+    }
+    return plant ? (
       <div style={{ margin: 50 }}>
         <h1>{plant.common_name}</h1>
-
-        <img src={plant.images.url} style={{ width: "400px" }}></img>
+        <img src={undefined} style={{ width: "400px" }}></img>
         <div style={{ textAlign: "right" }}>
           <Button
             variant="primary"
@@ -59,6 +76,8 @@ class Plant extends Component {
         <ul>{plantData}</ul>
         <div>{JSON.stringify(plant)}</div>
       </div>
+    ) : (
+      <div></div>
     );
   }
 }
