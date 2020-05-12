@@ -322,6 +322,7 @@ req.body = {
 |     |     garden_id      |   smallint    |
 |     |      user_id       |   smallint    |
 |     |    common_name     | varchar(255)  |
+|     |    days_until_needs_water     | smallint  |
 |     |  scientific_name   | varchar(255)  |
 |     |     trefle_id      |   smallint    |
 |     |      duration      | varchar(255)  |
