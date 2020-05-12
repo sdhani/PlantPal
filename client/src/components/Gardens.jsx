@@ -194,8 +194,8 @@ class Gardens extends Component {
     const allGardens = this.displayGardens(this.state.all_gardens);
     return (
       <div>
-        Gardens
-        <div style={{ textAlign: "right" }}>
+        <h1 style={{ textAlign: "center", padding: "10px" }}>My Gardens</h1>
+        <div style={{ textAlign: "right", paddingRight: "20px" }}>
           <Modal
             form={createGardenForm}
             label={"Create A Garden"}

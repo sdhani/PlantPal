@@ -202,22 +202,6 @@ class Garden extends Component {
               loadOptions={this.promiseOptions}
               onChange={(value) => this.handleSearch(value)}
             />
-            {/* <input
-              type="text"
-              className="form-control form-control-lg"
-              name={"family"}
-              onChange={this.inputHandler}
-              placeholder={"Family"}
-              style={{ marginBottom: "20px" }}
-            />
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              name={"image"}
-              onChange={this.inputHandler}
-              placeholder={"Image"}
-              style={{ marginBottom: "20px" }}
-            /> */}
             <br />
             <label style={{ fontWeight: "bold" }}>Indoor vs Outdoor: </label>
             <br />
@@ -259,7 +243,7 @@ class Garden extends Component {
     return (
       <div style={{ margin: "20px" }}>
         {/* <button onClick={this.sortByCategory} >Sort By category</button> */}
-        <h1>{this.state.garden_name}</h1>
+        <h1 style={{ textAlign: "center" }}>{this.state.garden_name}</h1>
         <button onClick={this.sortByName}>Sort by name</button>
         <div style={{ textAlign: "right" }}>
           <Modal
