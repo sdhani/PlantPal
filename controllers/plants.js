@@ -27,7 +27,8 @@ module.exports = {
     growth = null,
     seed = null,
     specifications = null,
-    family_common_name = null
+    family_common_name = null,
+    days_until_needs_water = null
   }) {
     return knex("plants").insert({
       garden_id,
@@ -45,7 +46,8 @@ module.exports = {
       growth,
       seed,
       specifications,
-      family_common_name
+      family_common_name,
+      days_until_needs_water
     });
   },
 
@@ -57,7 +59,8 @@ module.exports = {
     images,
     last_watered,
     common_name,
-    name
+    name,
+    days_until_needs_water
   ) {
     return knex("plants")
       .where("id", id)
@@ -68,7 +71,8 @@ module.exports = {
         images,
         last_watered,
         common_name,
-        name
+        name,
+        days_until_needs_water
       });
   },
 

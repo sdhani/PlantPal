@@ -322,6 +322,7 @@ req.body = {
 |     |     garden_id      |   smallint    |
 |     |      user_id       |   smallint    |
 |     |    common_name     | varchar(255)  |
+|     |    days_until_needs_water     | smallint  |
 |     |  scientific_name   | varchar(255)  |
 |     |     trefle_id      |   smallint    |
 |     |      duration      | varchar(255)  |
@@ -691,7 +692,8 @@ Expecting:
 	"name": "2020-04-21", /* Optional */
 	"common_name": "2020-04-21", /* Optional */
 	"outdoor_plant": true,
-	"garden_id": 8 	 /* required */
+  "garden_id": 8 	 /* required */
+  "days_until_needs_water": 100 /* Optional */
 }
 ```
 
