@@ -54,6 +54,14 @@ class PlantCard extends Component {
       outdoor_plant: this.state.updatedOutdoor === "outdoor",
       last_watered: "2020-04-21",
     };
+    editPlant(id, updates).then((data) =>
+      console.log("edited plant", id, updates, data)
+    );
+  };
+  markAsWatered = async (id) => {
+    const updates = {
+      last_watered: "2020-04-21",
+    };
     editPlant(id, updates).then((data) => console.log("edited plant", data));
   };
   inputHandler = (e) => {
@@ -82,26 +90,19 @@ class PlantCard extends Component {
             marginRight: "auto",
             marginTop: "2%",
           }}
-          onSubmit={(e) => this.editPlant(e, this.state.garden_id)}
+          onSubmit={(e) => this.editPlant(e, id)}
         >
           <div className="form-group">
-            <label style={{ fontWeight: "bold" }}>Plant Name: </label>
-            <br />
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              name={"plant_name"}
-              onChange={this.inputHandler}
-              placeholder={"Name"}
-              style={{ marginBottom: "20px" }}
-            />
             <label style={{ fontWeight: "bold", paddingRight: "5px" }}>
               Last Watered:{" "}
             </label>
+            <br />
+
             <DatePicker
               selected={this.state.last_watered}
               onChange={this.handleDateChange}
             />
+            <br />
             <br />
             <label style={{ fontWeight: "bold" }}>Garden Name: </label>
             <Select
@@ -110,7 +111,7 @@ class PlantCard extends Component {
                 this.handleUpdatedGarden(value);
               }}
             />
-
+            <br />
             <label style={{ fontWeight: "bold" }}>Indoor vs Outdoor: </label>
             <br />
             <input
@@ -185,17 +186,11 @@ class PlantCard extends Component {
                   View
                 </Button>
               </Link>
-              {/* <Button
-                variant="secondary"
-                style={{ backgroundColor: "#bfe046", marginRight: "5px" }}
-              >
-                Edit
-              </Button> */}
               <Modal
                 form={editPlantForm}
                 label={"Edit"}
                 title={`Edit Plant`}
-                refresh={this.refresh}
+                refresh={this.props.refresh}
                 style={{ backgroundColor: "#db5c58" }}
                 variant="secondary"
                 buttonStyles={{
