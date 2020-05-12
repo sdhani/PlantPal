@@ -1,22 +1,97 @@
 import React, { Component } from 'react';
 import axios from "axios";
 import { createGarden, fetchGarden } from "../../src/services/api.js"
-import { Button } from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import { Button, Card } from "react-bootstrap";
 import Modal from "./Modal";
+import CreateGardenForm from './CreateGardenForm.jsx';
+import styles from "../styles/cards.css";
 
 class Gardens extends Component {
-    state = {}
+    state = { all_gardens: [] }
     componentDidMount() {
-        fetchGarden().then(data => console.log(data))
+        fetchGarden().then(data => this.setState({ all_gardens: data }))
     }
-    addGarden = (e) => {
+    addGarden = async (e) => {
         e.preventDefault();
-        return createGarden(this.state.name).then(data => { console.log("created"); return data })
+        const token = localStorage.getItem('jwt')
+        if (token) {
+            try {
+                const garden_name = await createGarden({
+                    "garden_name": this.state.name
+                });
+                console.log(garden_name);
+            }
+            catch (e) {
+                console.log(e)
+            }
+        }
+
+    }
+    refresh = () => {
+        fetchGarden().then(data => this.setState({ all_gardens: data }));
     }
     inputHandler = (e) => {
         e.preventDefault();
         this.setState({ [e.target.name]: e.target.value });
     };
+    displayGardens = (gardens) => {
+        const display = gardens.map(garden => {
+            console.log(garden);
+            const { id, garden_name } = garden;
+            return <div style={{ padding: "20px" }}>
+                <Link
+                    to={{ pathname: `/garden/${id}`, state: { garden } }}
+                    style={{ textDecoration: "none", color: "black" }}
+                >
+                    <Card
+                        style={{
+                            width: "18rem",
+                            height: "350px",
+                            width: "280px",
+                            margin: "5px",
+                            color: "#0a3618",
+                            borderColor: "#006b28",
+                            borderWidth: ".5px",
+                            borderBottom: "5px solid #22b550",
+                        }}
+                        className="cardbox"
+                    >
+                        <Card.Img variant="top" style={{ height: "45%" }} />
+                        <Card.Body>
+                            <Card.Title>{garden_name}</Card.Title>
+                            <div>
+                                <Card.Text>
+                                    Some garden info Some garden info Some garden info Some garden info
+                            </Card.Text>
+                                <Link to={{ pathname: `/garden/${id}`, state: { garden } }}>
+                                    <Button
+                                        variant="secondary"
+                                        style={{ backgroundColor: "#006b28", marginRight: "5px" }}
+                                    >
+                                        View
+                                </Button>
+                                </Link>
+                                <Button
+                                    variant="secondary"
+                                    style={{ backgroundColor: "#bfe046", marginRight: "5px" }}
+                                >
+                                    Edit
+                            </Button>
+                                <Button
+                                    variant="secondary"
+                                    style={{ backgroundColor: "#db5c58" }}
+                                >
+                                    Delete
+                            </Button>
+                            </div>
+                        </Card.Body>
+                    </Card>
+                </Link>
+            </div>
+        })
+        return display;
+    }
 
     render() {
 
@@ -55,15 +130,20 @@ class Gardens extends Component {
             </div >
         );
 
+        const allGardens = this.displayGardens(this.state.all_gardens);
         return (<div>Gardens
             <div style={{ textAlign: "right" }}>
                 <Modal
                     form={createGardenForm}
                     label={"Create A Garden"}
                     title={`Create A Garden`}
-                // refresh={this.refresh}
+                    refresh={this.refresh}
                 />
             </div>
+            <div className="card-container-outer">
+                <div className="card-container">{allGardens}</div>
+            </div>
+
         </div>);
     }
 }

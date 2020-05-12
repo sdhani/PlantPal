@@ -62,7 +62,7 @@ class App extends React.Component {
     if (userInfo.request.status === 200) {
       this.props.history.push('/');
     }
-}
+  }
 
   // ******FUNCTIONS TO HANDLE LOGIN FORM******
 
@@ -95,7 +95,7 @@ class App extends React.Component {
     if (userInfo.request.status === 200) {
       this.props.history.push('/home');
     }
-}
+  }
 
   componentDidMount = () => {
     const user = localStorage.getItem('user');
@@ -143,8 +143,8 @@ class App extends React.Component {
         )}
         />
         <Route exact path="/allusers" component={Homepage} />
-        <Route exact path="/gardens" component={CreateGardenForm} />{" "}
-        {/* /garden SHOULD POTENTIALLY SHOW ALL PLANTS */}
+        <Route exact path="/gardens" component={Gardens} />
+        <Route exact path="/garden/:id" component={Garden} />
         <Route exact path="/outdoorgarden" component={OutdoorGarden} />
         <Route exact path="/indoorgarden" component={IndoorGarden} />
         <Route exact path="/profile" component={Profile} />

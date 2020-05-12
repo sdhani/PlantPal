@@ -45,7 +45,7 @@ class PlantCard extends Component {
                     View
                   </Button>
                 </Link>
-                {/* <Button
+                <Button
                   variant="secondary"
                   style={{ backgroundColor: "#bfe046", marginRight: "5px" }}
                 >
@@ -56,7 +56,7 @@ class PlantCard extends Component {
                   style={{ backgroundColor: "#db5c58" }}
                 >
                   Delete
-                </Button> */}
+                </Button>
               </div>
             )}
           </Card.Body>

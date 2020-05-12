@@ -12,15 +12,16 @@ Router.get("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-		db.getAllPlantsFromUser(user_id).then(plants => {
-      if(plants.length > 0){
+    db.getAllPlantsFromUser(user_id).then(plants => {
+      if (plants.length > 0) {
         res.status(200).json(plants);
       } else {
         res.status(200).json({ error: 'User does not have any plants.' });
       }
-		});
-	}
-  catch(err) { res.status(500).json({ error: 'Failed to retrieve all user\'s plants' }); }
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to retrieve all user's plants" });
+  }
 });
 
 
@@ -29,17 +30,16 @@ Router.get("/", VerifyToken, async (req, res) => {
   Use the "id" field of a selected plant from query to add plant via post.  
 */
 Router.get("/query", async (req, res) => {
-  const { plant_query } = req.body;
-
-  if (!req.body.hasOwnProperty('plant_query')) {
+  const { plant_query } = req.query;
+  if (!req.query.hasOwnProperty('plant_query')) {
     return res.status(400).json({ error: 'you must supply a field "plant_query" when adding a new plant' });
   }
 
   try {
     const response = await axios.get(`${TREFLE_API}/?q=${plant_query}&complete_data=true&token=${TREFLE_TOKEN}`);
-    res.status(200).json(response.data);    
+    res.status(200).json(response.data);
   }
-  catch(err) { res.status(500).json({ error: 'Something went wrong with this query.' }); }
+  catch (err) { res.status(500).json({ error: 'Something went wrong with this query.' }); }
 });
 
 
@@ -48,14 +48,16 @@ Router.get("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
   try {
     db.getPlantByID(user_id, req.params.id).then(plant => {
-      if(plant.length > 0){
+      if (plant.length > 0) {
         res.status(200).json(plant);
       } else {
-        res.status(200).json({ error: 'Plant does not exist in user\'s garden.'});
+        res
+          .status(200)
+          .json({ error: "Plant does not exist in user's garden." });
       }
     });
   }
-  catch(err) { res.status(500).json({ error: 'Failed to get specific garden.' }); }
+  catch (err) { res.status(500).json({ error: 'Failed to get specific garden.' }); }
 });
 
 
@@ -66,57 +68,57 @@ Router.get("/:id", VerifyToken, async (req, res) => {
 Router.post("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
   const { trefle_id, garden_id, common_name, outdoor_plant } = req.body;
-  
+
   if (!req.body.hasOwnProperty('garden_id') || typeof garden_id !== 'number') { /* checks */
     return res.status(400).json({ error: 'you must supply a field "garden_id" when adding a new plant' });
   }
-  
+
   if (!req.body.hasOwnProperty('outdoor_plant') || typeof outdoor_plant !== 'boolean') { /* checks */
     return res.status(400).json({ error: 'you must supply a field "outdoor_plant" when adding a new plant' });
   }
 
   /* Manually add plant to db */
-  if(!req.body.hasOwnProperty('trefle_id') || typeof trefle_id !== 'number'){ /* trefle_id not provided */
+  if (!req.body.hasOwnProperty('trefle_id') || typeof trefle_id !== 'number') { /* trefle_id not provided */
     if (!req.body.hasOwnProperty('common_name') || typeof common_name !== 'string') {
       return res.status(400).json({ error: 'you must supply a field "common_name" when adding a new plant' });
     }
-  
+
     try {
-      db.addPlant(garden_id, user_id, common_name, outdoor_plant).then(res.status(200).json({success: true}))
-    } 
-    catch(err) { res.status(500).json({ error: 'Failed to add plant manually.' }); }
+      db.addPlant(garden_id, user_id, common_name, outdoor_plant).then(res.status(200).json({ success: true }))
+    }
+    catch (err) { res.status(500).json({ error: 'Failed to add plant manually.' }); }
 
   } else { /* Add Plant Entry from Trefle Query select */
     try {
       const newPlant = await axios.get(`${TREFLE_API}/${trefle_id}/?token=${TREFLE_TOKEN}`);
-      const { 
-        common_name, 
-        scientific_name, 
+      const {
+        common_name,
+        scientific_name,
         duration,
-        outdoor_plant, 
-        family_common_name 
+        outdoor_plant,
+        family_common_name
       } = newPlant.data;
 
-      const { 
-        images, 
-        foliage, 
-        growth, 
-        fruit_or_seed, 
-        seed, 
-        specifications 
+      const {
+        images,
+        foliage,
+        growth,
+        fruit_or_seed,
+        seed,
+        specifications
       } = newPlant.data.main_species;
-      
+
       const images_json = JSON.stringify(images);
       const foliage_json = JSON.stringify(foliage);
       const growth_json = JSON.stringify(growth);
       const fruit_or_seed_json = JSON.stringify(fruit_or_seed);
       const seed_json = JSON.stringify(seed);
       const specifications_json = JSON.stringify(specifications);
-      
 
-      db.addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images_json, 
+
+      db.addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images_json,
         foliage_json, fruit_or_seed_json, growth_json, seed_json, specifications_json, family_common_name)
-      .then(res.status(200).json({success: true}))
+        .then(res.status(200).json({ success: true }))
     }
     catch (err) { res.status(500).json({ error: 'something weird happened with the API.' }); }
   }
@@ -139,23 +141,23 @@ Router.put("/:id", VerifyToken, async (req, res) => {
   if (!req.body.hasOwnProperty('last_watered') || typeof last_watered !== 'string') {
     return res.status(400).json({ error: 'you must supply a field "last_watered" of type "yyyy-mm-dd" when updating a plants info' });
   }
-  
+
   try {
     db.updatePlant(req.params.id, garden_id, outdoor_plant, user_id, images, last_watered)
-    .then(res.status(200).json({success: true}));
+      .then(res.status(200).json({ success: true }));
   }
-  catch(err) { res.status(500).json({ error: 'Unable to update plant.' }); }
+  catch (err) { res.status(500).json({ error: 'Unable to update plant.' }); }
 });
 
 
 /* Delete plant :id */
-Router.delete("/:id/delete", VerifyToken, async(req, res) => {
+Router.delete("/:id/delete", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-    db.deletePlant(user_id, req.params.id).then(res.status(200).json({success: true}));
+    db.deletePlant(user_id, req.params.id).then(res.status(200).json({ success: true }));
   }
-  catch(err) { res.status(500).json({ error: 'Unable to delete plant.' }); }
+  catch (err) { res.status(500).json({ error: 'Unable to delete plant.' }); }
 });
 
 
