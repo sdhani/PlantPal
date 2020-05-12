@@ -17,8 +17,13 @@ class PlantCard extends Component {
 
   deletePlant = async () => {
     const { id } = this.props.plant;
-    deletePlant(id).then((data) => console.log("deleted", data));
-    this.props.refresh && this.props.refresh();
+    deletePlant(id).then((data) => {
+      console.log("deleted", data);
+      console.log("refresshing", this.props.refresh);
+      return this.props.refresh && this.props.refresh();
+    });
+
+    // this.props.refresh && this.props.refresh();
   };
   render() {
     const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
@@ -30,7 +35,6 @@ class PlantCard extends Component {
     const plant = { ...this.props.plant };
 
     // const { plant } = this.state;
-    console.log("plant is", plant);
     return (
       // <Link
       //   to={{ pathname: `/plant/${id}`, state: { plant } }}
