@@ -26,6 +26,12 @@ class Garden extends Component {
       categories: [],
       options: [],
       updates: {},
+      outdoor_plant_filter: "all",
+      filterByOutdoorOptions: [
+        { label: "Outdoor Plants", value: "outdoor" },
+        { label: "Indoor Plants", value: "indoor" },
+        { label: "All Plants", value: "all" },
+      ],
       sortByOptions: [
         { label: "None", value: "none" },
         { label: "Name", value: "name" },
@@ -144,11 +150,28 @@ class Garden extends Component {
     if (category === "All") {
       this.setState({ sorted: this.state.plants });
     } else {
-      let filtered = this.state.plants.filter((plant) => {
+      const copy = Array.from(this.state.plants);
+      let filtered = copy.filter((plant) => {
         return plant.common_name === category;
       });
       this.setState({ sorted: filtered });
       return filtered;
+    }
+  };
+  filterByOutdoor = (outdoor) => {
+    const copy = Array.from(this.state.plants);
+    if (outdoor === "outdoor") {
+      let filtered = copy.filter((plant) => {
+        return plant.outdoor_plant === true;
+      });
+      this.setState({ sorted: filtered });
+    } else if (outdoor === "indoor") {
+      let filtered = copy.filter((plant) => {
+        return plant.outdoor_plant === false;
+      });
+      this.setState({ sorted: filtered });
+    } else {
+      this.setState({ sorted: this.state.plants });
     }
   };
 
@@ -173,6 +196,9 @@ class Garden extends Component {
     this.setState({ category_selected: value.value }, () => {
       this.filterByCategory(value.value);
     });
+  };
+  handleOutdoorSelect = (value) => {
+    this.filterByOutdoor(value.value);
   };
   handleSortSelect = async (value) => {
     let v = value.value;
@@ -309,13 +335,28 @@ class Garden extends Component {
               placeholder="Sort By..."
             />
           </div>
-          <div style={{ width: "300px", display: "inline-block" }}>
+          <div
+            style={{
+              width: "300px",
+              display: "inline-block",
+              marginRight: "10px",
+            }}
+          >
             <Select
               options={this.state.category_options}
               onChange={(value) => {
                 this.handleCategorySelect(value);
               }}
               placeholder="Select category..."
+            />
+          </div>
+          <div style={{ width: "300px", display: "inline-block" }}>
+            <Select
+              options={this.state.filterByOutdoorOptions}
+              onChange={(value) => {
+                this.handleOutdoorSelect(value);
+              }}
+              placeholder="Filter by environmet..."
             />
           </div>
           <div style={{ float: "right", display: "inline-block" }}>
