@@ -12,7 +12,11 @@ class Plant extends Component {
   componentDidMount() {
     console.log("ALL PROPS", this.props);
     // const { plant_id } = this.props.plant;
-    if (this.props.location && this.props.location.state.plant) {
+    if (
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.plant
+    ) {
       this.setState({ plant: this.props.location.state.plant });
     } else {
       const id =
