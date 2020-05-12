@@ -5,7 +5,6 @@ class MyModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      water: 0,
       startDate: new Date(),
     };
   }
@@ -18,13 +17,16 @@ class MyModal extends Component {
     };
     const handleShow = () => setShow(true);
 
+    const buttonStyles = this.props.buttonStyles
+      ? this.props.buttonStyles
+      : { backgroundColor: "#006b28" };
     return (
       <>
         <Button
-          variant="primary"
-          size="lg"
+          variant={this.props.variant || "primary"}
+          size={this.props.variant ? "m" : "lg"}
           onClick={handleShow}
-          style={{ backgroundColor: "#006b28" }}
+          style={buttonStyles}
         >
           {this.props.label}
         </Button>
