@@ -75,7 +75,8 @@ Router.post("/", VerifyToken, async (req, res) => {
     common_name,
     name,
     outdoor_plant,
-    last_watered
+    last_watered,
+    days_until_needs_water
   } = req.body;
 
   if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
@@ -114,7 +115,8 @@ Router.post("/", VerifyToken, async (req, res) => {
         common_name,
         name,
         outdoor_plant,
-        last_watered
+        last_watered,
+        days_until_needs_water
       }).then(res.status(200).json({ success: true }));
     } catch (err) {
       res.status(500).json({ error: "Failed to add plant manually." });
@@ -163,7 +165,8 @@ Router.post("/", VerifyToken, async (req, res) => {
         seed_json,
         specifications_json,
         family_common_name,
-        last_watered
+        last_watered,
+        days_until_needs_water
       }).then(res.status(200).json({ success: true }));
     } catch (err) {
       res.status(500).json({ error: "something weird happened with the API." });
@@ -180,7 +183,8 @@ Router.put("/:id", VerifyToken, async (req, res) => {
     images,
     last_watered,
     common_name,
-    name
+    name,
+    days_until_needs_water
   } = req.body;
 
   if (!req.body.hasOwnProperty("garden_id") || typeof garden_id !== "number") {
@@ -218,7 +222,8 @@ Router.put("/:id", VerifyToken, async (req, res) => {
       images,
       last_watered,
       common_name,
-      name
+      name,
+      days_until_needs_water
     ).then(res.status(200).json({ success: true }));
   } catch (err) {
     res.status(500).json({ error: "Unable to update plant." });

@@ -17,6 +17,7 @@ exports.up = function(knex) {
     table.string("name");
     table.string("scientific_name");
     table.integer("trefle_id");
+    table.integer("days_until_needs_water");
     table.string("duration");
     table.boolean("outdoor_plant").notNullable();
     table.date(
