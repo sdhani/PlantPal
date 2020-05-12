@@ -10,7 +10,7 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
-import { createUser, loginUser, verifyToken } from "./services/api"
+import { createUser, loginUser, verifyZipcode} from "./services/api"
 import Gardens from "./components/Gardens";
 import CreateGardenForm from './components/CreateGardenForm'
 
@@ -49,7 +49,10 @@ class App extends React.Component {
   // will submit inputted data to backend
   handleRegisterSubmit = async (ev) => {
     ev.preventDefault();
-    const userInfo = await createUser(this.state.registerFormData);
+    const zip = {zipcode: this.state.registerFormData.zipcode}
+    const zipresponse = await verifyZipcode(zip);
+    console.log(zipresponse);
+    // const userInfo = await createUser(this.state.registerFormData);
     this.setState({
       registerFormData: {
         email: '',
@@ -59,9 +62,9 @@ class App extends React.Component {
       }
     });
     //reroute user to login if registration successfull
-    if (userInfo.request.status === 200) {
-      this.props.history.push('/');
-    }
+    // if (userInfo.request.status === 200) {
+    //   this.props.history.push('/');
+    // }
   }
 
   // ******FUNCTIONS TO HANDLE LOGIN FORM******
