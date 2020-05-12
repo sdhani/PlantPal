@@ -12,14 +12,14 @@ module.exports = {
     .where('id', id)
   },
 
-  addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name, name) {
+  addPlant(user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name) {
     return knex('plants')
     .insert({ 
-      user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name, name
+      user_id, garden_id, common_name, scientific_name, trefle_id, duration, outdoor_plant, images, foliage, fruit_or_seed, growth, seed, specifications, family_common_name
     })
   },
 
-  updatePlant(id, garden_id, outdoor_plant, user_id, images, last_watered, name) {
+  updatePlant(id, garden_id, outdoor_plant, user_id, images, last_watered) {
     return knex('plants')
     .where('id', id)
     .where('user_id', user_id)
@@ -27,8 +27,7 @@ module.exports = {
      garden_id,
      outdoor_plant,
      images,
-     last_watered, 
-     name
+     last_watered
     })
   },  
 

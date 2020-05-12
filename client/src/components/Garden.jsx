@@ -2,10 +2,18 @@ import React, { Component } from "react";
 import PlantCard from "./PlantCard";
 import styles from "../styles/cards.css";
 import plantData from "../dummy_plants.json";
+import {
+  fetchGarden,
+  addPlant,
+  getAllPlantsInGarden,
+  searchPlantName,
+} from "../../src/services/api.js";
 import { Button } from "react-bootstrap";
 import Modal from "./Modal";
-import CreateGardenForm from "./CreateGardenForm";
-import {verifyToken} from '../services/api'
+import { verifyToken } from "../services/api";
+import AsyncCreatable from "react-select/async-creatable";
+import Select from "react-select";
+import { withRouter } from "react-router-dom";
 
 class Garden extends Component {
   state = {};
@@ -15,51 +23,110 @@ class Garden extends Component {
       plants: [],
       sorted: [],
       sortedByCat: [],
-      categories: []
+      categories: [],
+      options: [],
+      updates: {},
     };
   }
   componentDidMount() {
-    console.log(this.props.plantData);
-    this.setState({
-      plants: this.props.plantData || plantData,
-      sorted: this.props.plantData || plantData,
-    }, () => {
-      let categories = new Set()
-      this.state.plants.forEach(plant => {
-        categories.add(plant.family_common_name);
-      })
-      this.setState({ categories: Array.from(categories) }, () => console.log(this.state.categories))
-    });
+    if (this.props.location.state) {
+      this.setState({ ...this.props.location.state.garden });
+    }
 
+    const garden_id =
+      parseInt(this.props.match.params.id) ||
+      this.props.location.state.garden.id;
+    this.setState({ garden_id });
+
+    if (!this.state.all_gardens) {
+      fetchGarden().then((data) => this.setState({ all_gardens: data }));
+    }
+    getAllPlantsInGarden(garden_id).then((data) =>
+      this.setState({ plants: data, sorted: data }, () => {
+        let categories = new Set();
+        this.state.plants.forEach((plant) => {
+          categories.add(plant.family_common_name);
+        });
+        this.setState({ categories: Array.from(categories) }, () =>
+          console.log(this.state.categories)
+        );
+      })
+    );
+
+    // /api/gardens/:id/plants
+
+    // this.setState({
+    //   plants: this.props.plantData || plantData,
+    //   sorted: this.props.plantData || plantData,
+    // }, () => {
+    //   let categories = new Set()
+    //   this.state.plants.forEach(plant => {
+    //     categories.add(plant.family_common_name);
+    //   })
+    //   this.setState({ categories: Array.from(categories) }, () => console.log(this.state.categories))
+    // });
   }
 
+  refresh = async () => {
+    this.componentDidMount();
+  };
   inputHandler = (e) => {
     e.preventDefault();
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  addPlant = (e) => {
+  handleSearch = async (value) => {
+    this.setState({ plant_family: value.label, trefle_id: value.value });
+  };
+
+  promiseOptions = (inputValue) => {
+    return searchPlantName(inputValue.toLowerCase()).then((ops) => {
+      const options = ops.map((option) => {
+        console.log(option);
+        const label = option.common_name;
+        const value = option.id;
+        return { label, value };
+      });
+      this.setState({ options });
+      return options;
+    });
+  };
+
+  addPlant = async (e) => {
     e.preventDefault();
-    console.log("added plant");
+    const plant = {
+      garden_id: this.state.id,
+      outdoor_plant: this.state.outdoor_plant === "outdoor",
+      common_name: this.state.plant_family,
+      user_id: this.state.user_id,
+      trefle_id:
+        typeof this.state.trefle_id === "number"
+          ? this.state.trefle_id
+          : undefined,
+      name: this.state.plant_name,
+    };
+    const added = await addPlant(plant);
+    console.log("added plant", plant, added);
   };
   // ascending
   sortByName = () => {
     let sorted = this.state.plants.sort((a, b) => {
       const nameA = a.common_name.toLowerCase(),
         nameB = b.common_name.toLowerCase();
-      if (nameA < nameB)
-        return -1;
+      if (nameA < nameB) return -1;
       if (nameA > nameB) return 1;
       return 0;
     });
     this.setState({ sorted });
-  }
+  };
 
   // sort by highest priority
   sortByPriority = () => {
-    let sorted = this.state.plants.sort((a, b) => a.last_watered - b.last_watered);
+    let sorted = this.state.plants.sort(
+      (a, b) => a.last_watered - b.last_watered
+    );
     this.setState({ sorted });
-  }
+  };
 
   filterByCategory = (category) => {
     if (category === "none") {
@@ -73,37 +140,43 @@ class Garden extends Component {
   };
 
   sortByCategory = () => {
-    let sortedByCat = this.state.categories.map(category => {
+    let sortedByCat = this.state.categories.map((category) => {
       let sub = this.filterByCategory(category);
       console.log(sub);
-      return <div>
-        <h1 style={{ width: "100vw" }}>{category}</h1>
-        <div className="card-container">
-          {sub ? this.displayPlants(sub) : "None"}
+      return (
+        <div>
+          <h1 style={{ width: "100vw" }}>{category}</h1>
+          <div className="card-container">
+            {sub ? this.displayPlants(sub) : "None"}
+          </div>
         </div>
-      </div>
-    })
+      );
+    });
     return sortedByCat;
-
-  }
+  };
 
   displayPlants = (plants) => {
     return plants.map((plant) => {
       return (
         <div style={{ padding: "20px" }}>
-          <PlantCard plant={plant} />
+          <PlantCard
+            plant={plant}
+            refresh={this.refresh}
+            all_gardens={this.state.all_gardens}
+            garden_id={this.state.id}
+          />
         </div>
       );
     });
-  }
-
+  };
 
   render() {
+    console.log("state", this.state);
     let allPlants = this.displayPlants(this.state.sorted);
     const addForm = (
       <div>
         <form
-          className="col-md-4 mb-3"
+          className="col-md-8 mb-3"
           style={{
             marginLeft: "auto",
             marginRight: "auto",
@@ -112,36 +185,50 @@ class Garden extends Component {
           onSubmit={this.addPlant}
         >
           <div className="form-group">
-            <label style={{ fontWeight: "bold" }}>Add Plant</label>
+            <label style={{ fontWeight: "bold" }}>Plant Name: </label>
+            <br />
             <input
               type="text"
               className="form-control form-control-lg"
-              name={"name"}
-              pattern="[0-9]*"
+              name={"plant_name"}
               onChange={this.inputHandler}
               placeholder={"Name"}
               style={{ marginBottom: "20px" }}
             />
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              name={"family"}
-              pattern="[0-9]*"
-              onChange={this.inputHandler}
-              placeholder={"Family"}
-              style={{ marginBottom: "20px" }}
+            <label style={{ fontWeight: "bold" }}>Plant Family/Type: </label>
+            <br />
+            <AsyncCreatable
+              defaultOptions={this.state.options}
+              loadOptions={this.promiseOptions}
+              onChange={(value) => this.handleSearch(value)}
             />
+            <br />
+            <label style={{ fontWeight: "bold" }}>Indoor vs Outdoor: </label>
+            <br />
             <input
-              type="text"
-              className="form-control form-control-lg"
-              name={"image"}
-              pattern="[0-9]*"
+              type="radio"
+              id="outdoor"
+              name="outdoor_plant"
+              value="outdoor"
               onChange={this.inputHandler}
-              placeholder={"Image"}
-              style={{ marginBottom: "20px" }}
             />
+            <label for="outdoor" style={{ padding: "5px" }}>
+              {" "}
+              Outdoor Plant
+            </label>
+            <br />
+            <input
+              type="radio"
+              id="indoor"
+              name="outdoor_plant"
+              value="indoor"
+              onChange={this.inputHandler}
+            />
+            <label for="indoor" style={{ padding: "5px" }}>
+              Indoor Plant
+            </label>
+            <br />
           </div>
-
           <div className="form-group">
             <input
               type="submit"
@@ -156,12 +243,14 @@ class Garden extends Component {
     return (
       <div style={{ margin: "20px" }}>
         {/* <button onClick={this.sortByCategory} >Sort By category</button> */}
+        <h1 style={{ textAlign: "center" }}>{this.state.garden_name}</h1>
+        <button onClick={this.sortByName}>Sort by name</button>
         <div style={{ textAlign: "right" }}>
           <Modal
             form={addForm}
             label={"Add A Plant"}
             title={`Add A Plant`}
-          // refresh={this.refresh}
+            refresh={this.refresh}
           />
         </div>
         {/* {this.state.sortedByCat && this.state.sortedByCat} */}
@@ -173,4 +262,4 @@ class Garden extends Component {
   }
 }
 
-export default Garden;
+export default withRouter(Garden);
