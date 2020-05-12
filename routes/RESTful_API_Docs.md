@@ -691,7 +691,8 @@ Expecting:
 	"name": "2020-04-21", /* Optional */
 	"common_name": "2020-04-21", /* Optional */
 	"outdoor_plant": true,
-	"garden_id": 8 	 /* required */
+  "garden_id": 8 	 /* required */
+  "days_until_needs_water": 100 /* Optional */
 }
 ```
 
