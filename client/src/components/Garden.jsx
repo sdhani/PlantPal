@@ -26,10 +26,24 @@ class Garden extends Component {
       categories: [],
       options: [],
       updates: {},
+      outdoor_plant_filter: "all",
+      filterByOutdoorOptions: [
+        { label: "Outdoor Plants", value: "outdoor" },
+        { label: "Indoor Plants", value: "indoor" },
+        { label: "All Plants", value: "all" },
+      ],
+      sortByOptions: [
+        { label: "None", value: "none" },
+        { label: "Name", value: "name" },
+        { label: "Needs Water", value: "priority" },
+        { label: "Last Watered", value: "last_watered" },
+        { label: "Category", value: "Category" },
+      ],
     };
   }
   componentDidMount() {
     if (this.props.location.state) {
+      console.log(this.props.location.state.garden);
       this.setState({ ...this.props.location.state.garden });
     }
 
@@ -45,26 +59,20 @@ class Garden extends Component {
       this.setState({ plants: data, sorted: data }, () => {
         let categories = new Set();
         this.state.plants.forEach((plant) => {
-          categories.add(plant.family_common_name);
+          categories.add(plant.common_name);
         });
-        this.setState({ categories: Array.from(categories) }, () =>
-          console.log(this.state.categories)
+        let category_options = Array.from(categories).map((cat) => {
+          return { label: cat, value: cat };
+        });
+        category_options = [{ label: "All", value: "All" }].concat(
+          category_options
+        );
+        this.setState(
+          { category_options, categories: Array.from(categories) },
+          () => console.log(this.state.categories)
         );
       })
     );
-
-    // /api/gardens/:id/plants
-
-    // this.setState({
-    //   plants: this.props.plantData || plantData,
-    //   sorted: this.props.plantData || plantData,
-    // }, () => {
-    //   let categories = new Set()
-    //   this.state.plants.forEach(plant => {
-    //     categories.add(plant.family_common_name);
-    //   })
-    //   this.setState({ categories: Array.from(categories) }, () => console.log(this.state.categories))
-    // });
   }
 
   refresh = async () => {
@@ -104,15 +112,17 @@ class Garden extends Component {
           ? this.state.trefle_id
           : undefined,
       name: this.state.plant_name,
+      days_until_needs_water: this.state.days_until_needs_water,
     };
-    const added = await addPlant(plant);
-    console.log("added plant", plant, added);
+    const p = await addPlant(plant);
+    console.log("added", p);
   };
   // ascending
   sortByName = () => {
-    let sorted = this.state.plants.sort((a, b) => {
-      const nameA = a.common_name.toLowerCase(),
-        nameB = b.common_name.toLowerCase();
+    const copy = Array.from(this.state.plants);
+    let sorted = copy.sort((a, b) => {
+      const nameA = (a.name || a.common_name).toLowerCase(),
+        nameB = (b.name || b.common_name).toLowerCase();
       if (nameA < nameB) return -1;
       if (nameA > nameB) return 1;
       return 0;
@@ -122,20 +132,46 @@ class Garden extends Component {
 
   // sort by highest priority
   sortByPriority = () => {
-    let sorted = this.state.plants.sort(
-      (a, b) => a.last_watered - b.last_watered
+    const copy = Array.from(this.state.plants);
+    let sorted = copy.sort(
+      (a, b) => a.days_until_needs_water - b.days_until_needs_water
+    );
+    this.setState({ sorted });
+  };
+  sortByLastWatered = () => {
+    const copy = Array.from(this.state.plants);
+    let sorted = copy.sort(
+      (a, b) => new Date(b.last_watered) - new Date(a.last_watered)
     );
     this.setState({ sorted });
   };
 
   filterByCategory = (category) => {
-    if (category === "none") {
+    if (category === "All") {
       this.setState({ sorted: this.state.plants });
     } else {
-      let filtered = this.state.plants.filter((plant) => {
-        return plant.family_common_name === category;
+      const copy = Array.from(this.state.plants);
+      let filtered = copy.filter((plant) => {
+        return plant.common_name === category;
       });
+      this.setState({ sorted: filtered });
       return filtered;
+    }
+  };
+  filterByOutdoor = (outdoor) => {
+    const copy = Array.from(this.state.plants);
+    if (outdoor === "outdoor") {
+      let filtered = copy.filter((plant) => {
+        return plant.outdoor_plant === true;
+      });
+      this.setState({ sorted: filtered });
+    } else if (outdoor === "indoor") {
+      let filtered = copy.filter((plant) => {
+        return plant.outdoor_plant === false;
+      });
+      this.setState({ sorted: filtered });
+    } else {
+      this.setState({ sorted: this.state.plants });
     }
   };
 
@@ -152,7 +188,31 @@ class Garden extends Component {
         </div>
       );
     });
+    this.setState({ sortedByCat });
     return sortedByCat;
+  };
+
+  handleCategorySelect = async (value) => {
+    this.setState({ category_selected: value.value }, () => {
+      this.filterByCategory(value.value);
+    });
+  };
+  handleOutdoorSelect = (value) => {
+    this.filterByOutdoor(value.value);
+  };
+  handleSortSelect = async (value) => {
+    let v = value.value;
+    if (v === "name") {
+      this.sortByName();
+    } else if (v === "last_watered") {
+      this.sortByLastWatered();
+    } else if (v === "category") {
+      this.sortByCategory();
+    } else if (v === "priority") {
+      this.sortByPriority();
+    } else {
+      this.setState({ sorted: this.state.plants });
+    }
   };
 
   displayPlants = (plants) => {
@@ -171,7 +231,6 @@ class Garden extends Component {
   };
 
   render() {
-    console.log("state", this.state);
     let allPlants = this.displayPlants(this.state.sorted);
     const addForm = (
       <div>
@@ -195,6 +254,7 @@ class Garden extends Component {
               placeholder={"Name"}
               style={{ marginBottom: "20px" }}
             />
+
             <label style={{ fontWeight: "bold" }}>Plant Family/Type: </label>
             <br />
             <AsyncCreatable
@@ -228,6 +288,21 @@ class Garden extends Component {
               Indoor Plant
             </label>
             <br />
+
+            <label style={{ fontWeight: "bold" }}>
+              Days until plant needs to be watered:{" "}
+            </label>
+            <br />
+            <input
+              type="number"
+              className="form-control form-control-lg"
+              name={"days_until_needs_water"}
+              onChange={this.inputHandler}
+              placeholder={"Days"}
+              pattern="[0-9]*"
+              defaultValue={0}
+              style={{ marginBottom: "20px" }}
+            />
           </div>
           <div className="form-group">
             <input
@@ -242,19 +317,60 @@ class Garden extends Component {
     );
     return (
       <div style={{ margin: "20px" }}>
-        {/* <button onClick={this.sortByCategory} >Sort By category</button> */}
         <h1 style={{ textAlign: "center" }}>{this.state.garden_name}</h1>
-        <button onClick={this.sortByName}>Sort by name</button>
-        <div style={{ textAlign: "right" }}>
-          <Modal
-            form={addForm}
-            label={"Add A Plant"}
-            title={`Add A Plant`}
-            refresh={this.refresh}
-          />
+        <br />
+        <div>
+          <div
+            style={{
+              width: "300px",
+              display: "inline-block",
+              marginRight: "10px",
+            }}
+          >
+            <Select
+              options={this.state.sortByOptions}
+              onChange={(value) => {
+                this.handleSortSelect(value);
+              }}
+              placeholder="Sort By..."
+            />
+          </div>
+          <div
+            style={{
+              width: "300px",
+              display: "inline-block",
+              marginRight: "10px",
+            }}
+          >
+            <Select
+              options={this.state.category_options}
+              onChange={(value) => {
+                this.handleCategorySelect(value);
+              }}
+              placeholder="Select category..."
+            />
+          </div>
+          <div style={{ width: "300px", display: "inline-block" }}>
+            <Select
+              options={this.state.filterByOutdoorOptions}
+              onChange={(value) => {
+                this.handleOutdoorSelect(value);
+              }}
+              placeholder="Filter by environmet..."
+            />
+          </div>
+          <div style={{ float: "right", display: "inline-block" }}>
+            <Modal
+              form={addForm}
+              label={"Add A Plant"}
+              title={`Add A Plant`}
+              refresh={this.refresh}
+            />
+          </div>
         </div>
-        {/* {this.state.sortedByCat && this.state.sortedByCat} */}
-        <div className="card-container-outer">
+
+        {this.state.sortedByCat && this.state.sortedByCat}
+        <div className="card-container-outer" style={{ width: "100vw" }}>
           <div className="card-container">{allPlants}</div>
         </div>
       </div>

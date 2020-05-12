@@ -9,18 +9,19 @@ class Plant extends Component {
     this.state = {};
   }
   componentDidMount() {
-    // WOULD NEED TO MAKE TREFLE API CALL HERE TO GET MORE DATA
     console.log("ALL PROPS", this.props);
     // const { plant_id } = this.props.plant;
-    const id =
-      parseInt(this.props.match.params.id) ||
-      this.props.location.state.plant.id;
-    getPlant(id).then((data) => {
-      console.log("in", data);
-      const plant = data.find((plant) => plant.id === id);
-      console.log(plant);
-      this.setState({ plant });
-    });
+    if (this.props.location && this.props.location.state.plant) {
+      this.setState({ plant: this.props.location.state.plant });
+    } else {
+      const id =
+        parseInt(this.props.match.params.id) ||
+        this.props.location.state.plant.id;
+      getPlant(id).then((data) => {
+        console.log(data);
+        this.setState({ plant: data });
+      });
+    }
   }
 
   render() {

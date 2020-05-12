@@ -21,7 +21,10 @@ class PlantCard extends Component {
     };
   }
   componentDidMount() {
-    this.setState({ last_watered: new Date() });
+    this.setState({
+      last_watered_updated: new Date(),
+      updateGardenId: this.props.garden_id,
+    });
     if (!this.state.all_gardens) {
       fetchGarden().then((data) => this.setState({ all_gardens: data }));
     }
@@ -29,14 +32,11 @@ class PlantCard extends Component {
       const { garden_name, id } = option;
       return { label: garden_name, value: id };
     });
-    this.setState({ options });
-
-    // const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
-    // console.log("id stuff", id);
-    // getPlant(id).then((data) => this.setState({ plant: data }));
+    this.setState({ options }, () => {});
+    const { id } = this.props.plant;
+    getPlant(id).then((data) => this.setState({ plant: data }));
   }
   handleUpdatedGarden = async (value) => {
-    console.log(value);
     this.setState({ updateGardenId: value.value });
   };
 
@@ -46,13 +46,24 @@ class PlantCard extends Component {
       return this.props.refresh && this.props.refresh();
     });
   };
+  formatDate = (date) => {
+    let d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  };
 
   editPlant = async (e, id) => {
     e.preventDefault();
     const updates = {
       garden_id: this.state.updateGardenId,
       outdoor_plant: this.state.updatedOutdoor === "outdoor",
-      last_watered: "2020-04-21",
+      last_watered: this.formatDate(this.state.last_watered_updated),
     };
     editPlant(id, updates).then((data) =>
       console.log("edited plant", id, updates, data)
@@ -60,7 +71,7 @@ class PlantCard extends Component {
   };
   markAsWatered = async (id) => {
     const updates = {
-      last_watered: "2020-04-21",
+      last_watered_updated: "2020-04-21",
     };
     editPlant(id, updates).then((data) => console.log("edited plant", data));
   };
@@ -69,11 +80,18 @@ class PlantCard extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
   handleDateChange = (date) => {
-    this.setState({ last_watered: date });
+    this.setState({ last_watered_updated: date });
   };
 
   render() {
-    const { id, common_name, last_watered, outdoor_plant } = this.props.plant;
+    const {
+      id,
+      name,
+      common_name,
+      last_watered,
+      outdoor_plant,
+      days_until_needs_water,
+    } = this.props.plant;
 
     const img =
       this.props.plant.images && this.props.plant.images.url
@@ -99,7 +117,7 @@ class PlantCard extends Component {
             <br />
 
             <DatePicker
-              selected={this.state.last_watered}
+              selected={this.state.last_watered_updated}
               onChange={this.handleDateChange}
             />
             <br />
@@ -110,6 +128,10 @@ class PlantCard extends Component {
               onChange={(value) => {
                 this.handleUpdatedGarden(value);
               }}
+              defaultValue={
+                this.state.options &&
+                this.state.options.find((g) => (g.value = this.props.garden_id))
+              }
             />
             <br />
             <label style={{ fontWeight: "bold" }}>Indoor vs Outdoor: </label>
@@ -150,14 +172,10 @@ class PlantCard extends Component {
       </div>
     );
     return (
-      // <Link
-      //   to={{ pathname: `/plant/${id}`, state: { plant } }}
-      //   style={{ textDecoration: "none", color: "black" }}
-      // >
       <Card
         style={{
           width: "18rem",
-          height: this.props.height || "350px",
+          height: this.props.height || "370px",
           width: this.props.width || "280px",
           margin: "5px",
           color: "#0a3618",
@@ -169,15 +187,21 @@ class PlantCard extends Component {
       >
         <Card.Img variant="top" src={img} style={{ height: "45%" }} />
         <Card.Body>
-          <Card.Title>{common_name}</Card.Title>
+          <Card.Title>{name ? name : common_name}</Card.Title>
           {!this.props.preview && (
             <div>
+              <Card.Subtitle className="mb-2 text-muted">
+                {common_name} •{" "}
+                {outdoor_plant ? "Outdoor Plant" : "Indoor plant"}
+              </Card.Subtitle>
               <Card.Text>
-                {outdoor_plant}
-                {last_watered}
-                Some plant info some plant info Some plant info some plant
+                {days_until_needs_water &&
+                  `Needs to be watered in ${days_until_needs_water} days`}
+                <br />
+                Last watered:{" "}
+                {new Date(last_watered).toDateString() ||
+                  new Date(Date.now()).toDateString()}
               </Card.Text>
-              {/* <Card.Text className="text-muted">2 days ago</Card.Text> */}
               <Link to={{ pathname: `/plant/${id}`, state: { plant } }}>
                 <Button
                   variant="secondary"
@@ -209,7 +233,6 @@ class PlantCard extends Component {
           )}
         </Card.Body>
       </Card>
-      // </Link>
     );
   }
 }
