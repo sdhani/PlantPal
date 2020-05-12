@@ -14,13 +14,14 @@ exports.up = function(knex) {
       .inTable("users")
       .onDelete("CASCADE"); // FK
     table.string("common_name");
+    table.string("name");
     table.string("scientific_name");
     table.integer("trefle_id");
     table.string("duration");
     table.boolean("outdoor_plant").notNullable();
-    table
-      .date("last_watered")
-      .notNullable(); /* Expecting input: "yyyy-mm-dd"; response format: "2020-04-01T04:00:00.000Z" */
+    table.date(
+      "last_watered"
+    ); /* Expecting input: "yyyy-mm-dd"; response format: "2020-04-01T04:00:00.000Z" */
     table.json("images");
     table.json("foliage");
     table.json("fruit_or_seed");
