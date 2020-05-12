@@ -31,7 +31,6 @@ class Garden extends Component {
       parseInt(this.props.match.params.id) ||
       this.props.location.state.garden.id;
     this.setState({ garden_id });
-    console.log(garden_id);
     getAllPlantsInGarden(garden_id).then((data) =>
       this.setState({ plants: data, sorted: data }, () => {
         let categories = new Set();
@@ -58,7 +57,7 @@ class Garden extends Component {
     // });
   }
 
-  refresh = () => {
+  refresh = async () => {
     this.componentDidMount();
   };
   inputHandler = (e) => {
@@ -150,7 +149,7 @@ class Garden extends Component {
     return plants.map((plant) => {
       return (
         <div style={{ padding: "20px" }}>
-          <PlantCard plant={plant} />
+          <PlantCard plant={plant} refresh={this.refresh} />
         </div>
       );
     });

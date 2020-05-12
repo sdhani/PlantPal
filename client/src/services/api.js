@@ -166,11 +166,26 @@ export const getAllPlantsInGarden = async (id) => {
 };
 
 export const searchPlantName = async (name) => {
-  console.log(name);
   const token = localStorage.getItem("jwt");
   if (token) {
     try {
       const resp = await api.get(`/api/plants/query?plant_query=${name}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};
+
+export const deletePlant = async (id) => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    try {
+      const resp = await api.delete(`/api/plants/${id}/delete`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
