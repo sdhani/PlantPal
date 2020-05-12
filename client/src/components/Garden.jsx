@@ -111,7 +111,8 @@ class Garden extends Component {
   };
   // ascending
   sortByName = () => {
-    let sorted = this.state.plants.sort((a, b) => {
+    const copy = Array.from(this.state.plants);
+    let sorted = copy.sort((a, b) => {
       const nameA = (a.name || a.common_name).toLowerCase(),
         nameB = (b.name || b.common_name).toLowerCase();
       if (nameA < nameB) return -1;
@@ -123,13 +124,13 @@ class Garden extends Component {
 
   // sort by highest priority
   sortByPriority = () => {
-    let sorted = this.state.plants.sort(
-      (a, b) => a.last_watered - b.last_watered
-    );
+    const copy = Array.from(this.state.plants);
+    let sorted = copy.sort((a, b) => a.last_watered - b.last_watered);
     this.setState({ sorted });
   };
   sortByLastWatered = () => {
-    let sorted = this.state.plants.sort(
+    const copy = Array.from(this.state.plants);
+    let sorted = copy.sort(
       (a, b) => new Date(b.last_watered) - new Date(a.last_watered)
     );
     this.setState({ sorted });
