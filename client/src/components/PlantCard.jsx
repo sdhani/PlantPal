@@ -32,7 +32,7 @@ class PlantCard extends Component {
       const { garden_name, id } = option;
       return { label: garden_name, value: id };
     });
-    this.setState({ options }, () => {});
+    this.setState({ options });
     const { id } = this.props.plant;
     getPlant(id).then((data) => this.setState({ plant: data }));
   }

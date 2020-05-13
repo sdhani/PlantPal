@@ -1,33 +1,89 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
-import { getPlant, editPlant } from "../../src/services/api.js";
 import { formatDate } from "../utils/helpers";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import {
+  fetchGarden,
+  getPlant,
+  deletePlant,
+  editPlant,
+} from "../../src/services/api.js";
+import Select from "react-select";
+import Modal from "./Modal";
 
 class Plant extends Component {
   state = {};
   constructor(props) {
     super(props);
-    this.state = { plant: {} };
+    this.state = { plant: {}, all_gardens: [], options: [] };
   }
   componentDidMount() {
     console.log("ALL PROPS", this.props);
     // const { plant_id } = this.props.plant;
-    if (
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.plant
-    ) {
-      this.setState({ plant: this.props.location.state.plant });
-    } else {
-      const id =
-        parseInt(this.props.match.params.id) ||
-        this.props.location.state.plant.id;
-      getPlant(id).then((data) => {
-        console.log(data);
-        this.setState({ plant: data });
+    // if (
+    //   this.props.location &&
+    //   this.props.location.state &&
+    //   this.props.location.state.plant
+    // ) {
+    //   this.setState({
+    //     plant: this.props.location.state.plant,
+    //     garden_id: this.props.location.state.plant.garden_id,
+    //   });
+    // } else {
+    const id =
+      parseInt(this.props.match.params.id) ||
+      this.props.location.state.plant.id;
+    getPlant(id).then((data) => {
+      console.log(data);
+      this.setState({
+        plant: data,
+        garden_id: data.garden_id,
+        updateGardenId: data.garden_id,
       });
-    }
+    });
+    // }
+    fetchGarden().then((data) =>
+      this.setState({ all_gardens: data }, () => {
+        console.log("ALL GARDENS", this.state.all_gardens);
+        const options = this.state.all_gardens.map((option) => {
+          const { garden_name, id } = option;
+          return { label: garden_name, value: id };
+        });
+        this.setState({ options }, () => {
+          const garden_name = this.state.options.find(
+            (g) => (g.value = this.state.garden_id)
+          );
+          console.log("gname", garden_name);
+          this.setState({ garden_name: garden_name && garden_name.label });
+        });
+      })
+    );
   }
+
+  refresh = () => {
+    getPlant(this.state.plant.id).then((data) => {
+      console.log(data);
+      this.setState({ plant: data, garden_id: data.garden_id });
+    });
+  };
+  handleDateChange = (date) => {
+    this.setState({ last_watered_updated: date });
+  };
+  editPlant = async (e, id) => {
+    e.preventDefault();
+    const updates = {
+      garden_id: this.state.updateGardenId,
+      outdoor_plant: this.state.plant.outdoor_plant,
+      last_watered: formatDate(this.state.last_watered_updated),
+    };
+    editPlant(id, updates).then((data) =>
+      console.log("edited plant", id, updates, data)
+    );
+  };
+  handleUpdatedGarden = async (value) => {
+    this.setState({ updateGardenId: value.value });
+  };
 
   markAsWatered = async () => {
     const { id } = this.state.plant;
@@ -45,7 +101,7 @@ class Plant extends Component {
 
   render() {
     console.log("state plant", this.state.plant);
-    const { plant } = this.state;
+    const { plant, garden_name } = this.state;
     const {
       id,
       trefle_id,
@@ -73,6 +129,78 @@ class Plant extends Component {
         }
       });
     }
+    const editPlantForm = (
+      <div>
+        <form
+          className="col-md-8 mb-3"
+          style={{
+            marginLeft: "auto",
+            marginRight: "auto",
+            marginTop: "2%",
+          }}
+          onSubmit={(e) => this.editPlant(e, id)}
+        >
+          <div className="form-group">
+            <label style={{ fontWeight: "bold", paddingRight: "5px" }}>
+              Last Watered:{" "}
+            </label>
+            <br />
+
+            <DatePicker
+              selected={this.state.last_watered_updated}
+              onChange={this.handleDateChange}
+            />
+            <br />
+            <br />
+            <label style={{ fontWeight: "bold" }}>Garden Name: </label>
+            <Select
+              options={this.state.options}
+              onChange={(value) => {
+                this.handleUpdatedGarden(value);
+              }}
+              defaultValue={
+                this.state.options &&
+                this.state.options.find((g) => (g.value = this.state.garden_id))
+              }
+            />
+            <br />
+            <label style={{ fontWeight: "bold" }}>Indoor vs Outdoor: </label>
+            <br />
+            <input
+              type="radio"
+              id="outdoor"
+              name="updatedOutdoor"
+              value="outdoor"
+              onChange={this.inputHandler}
+            />
+            <label for="outdoor" style={{ padding: "5px" }}>
+              {" "}
+              Outdoor Plant
+            </label>
+            <br />
+            <input
+              type="radio"
+              id="indoor"
+              name="updatedOutdoor"
+              value="indoor"
+              onChange={this.inputHandler}
+            />
+            <label for="indoor" style={{ padding: "5px" }}>
+              Indoor Plant
+            </label>
+            <br />
+          </div>
+          <div className="form-group">
+            <input
+              type="submit"
+              value="Edit plant"
+              className="btn btn-primary"
+              style={{ backgroundColor: "rgb(46, 202, 95)" }}
+            />
+          </div>
+        </form>
+      </div>
+    );
     return plant ? (
       <div style={{ margin: 50 }}>
         <h1 style={{ marginBottom: "20px", fontSize: "5em", color: "#006b28" }}>
@@ -111,6 +239,9 @@ class Plant extends Component {
                   </li>
                 )}
                 <li>
+                  <strong>Garden:</strong> {garden_name}
+                </li>
+                <li>
                   <strong>Common Name:</strong> {common_name}
                 </li>
                 <li>
@@ -141,13 +272,26 @@ class Plant extends Component {
               </Button>
               <br />
               <br />
-              <Button
+              {/* <Button
                 variant="primary"
                 size="lg"
                 style={{ backgroundColor: "#006b28", width: "16vw" }}
               >
                 Edit Plant Information
-              </Button>
+              </Button> */}
+              <Modal
+                form={editPlantForm}
+                label={"Edit Plant Information"}
+                title={`Edit Plant`}
+                refresh={this.refresh}
+                style={{ backgroundColor: "#db5c58" }}
+                variant="primary"
+                buttonStyles={{
+                  backgroundColor: "#bfe046",
+                  fontSize: "1.2em",
+                  width: "16vw",
+                }}
+              />
             </div>
           </div>
         </div>
