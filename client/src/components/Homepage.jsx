@@ -165,21 +165,17 @@ class Homepage extends Component {
                     borderColor: "darkgrey",
                   }}
                 >
-                  <Link
-                    to="/indoorgarden"
-                    style={{ textDecoration: "none", color: "black" }}
+                  <Card.Header
+                    as="h4"
+                    style={{
+                      color: "white",
+                      backgroundColor: "rgb(137, 218, 31)",
+                      opacity: ".7",
+                    }}
                   >
-                    <Card.Header
-                      as="h4"
-                      style={{
-                        color: "white",
-                        backgroundColor: "rgb(137, 218, 31)",
-                        opacity: ".7",
-                      }}
-                    >
-                      Your Gardens
-                    </Card.Header>
-                  </Link>
+                    Your Gardens
+                  </Card.Header>
+
                   <Card.Body>
                     <div>
                       <GardensGrid />
