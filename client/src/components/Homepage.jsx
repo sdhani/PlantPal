@@ -5,9 +5,20 @@ import styles from "../styles/home.css";
 import plantData from "../dummy_plants.json";
 import AlertCard from "./AlertMessage";
 import PlantCard from "./PlantCard";
-import CreateGardenForm from './CreateGardenForm'
+import CreateGardenForm from "./CreateGardenForm";
 import styles2 from "../styles/cards.css";
 import Gardens from "./Gardens";
+import {
+  getAllPriorityPlants,
+  fetchWeather,
+  getPlantCounts,
+} from "../services/api";
+import {
+  getDateNeedsWater,
+  getDateDifference,
+  convertKelvinToFarenheight,
+} from "../utils/helpers";
+import GardensGrid from "./GardensGrid";
 
 /**
  *
@@ -17,45 +28,64 @@ import Gardens from "./Gardens";
  * should show preview of gardens
  */
 class Homepage extends Component {
-  state = { users: [] };
+  state = {
+    users: [],
+    priorityPlants: [],
+    alerts: [],
+    temp: "",
+    weather: [],
+    plantsCount: 0,
+    outdoorCount: 0,
+    indoorCount: 0,
+  };
 
-  componentDidMount() {
-
-  }
-
+  componentDidMount = async () => {
+    getPlantCounts().then((data) =>
+      this.setState({ plantsCount: data[0].count })
+    );
+    getPlantCounts("indoor").then((data) =>
+      this.setState({ indoorCount: data[0].count })
+    );
+    getPlantCounts("outdoor").then((data) =>
+      this.setState({ outdoorCount: data[0].count })
+    );
+    const weather_data = await fetchWeather();
+    this.setState({
+      temp: convertKelvinToFarenheight(weather_data.data.main.temp),
+      weather: weather_data.data.weather[0],
+    });
+    getAllPriorityPlants().then((data) =>
+      this.setState({ priorityPlants: data }, () => {
+        console.log(data);
+        let alerts =
+          Array.isArray(this.state.priorityPlants) &&
+          this.state.priorityPlants.map((plant) => (
+            <AlertCard
+              width={"95%"}
+              plant={plant}
+              temp={convertKelvinToFarenheight(weather_data.data.main.temp)}
+            />
+          ));
+        let weatherAlert = "";
+        if (this.state.weather.main.toLowerCase().includes("rain")) {
+          weatherAlert = "It will rain today! Don't water your plants.";
+        } else if (this.state.temp > 87) {
+          weatherAlert = "Its very hot today!";
+        }
+        if (weatherAlert.length) {
+          const wAlert = [
+            <AlertCard width={"95%"} weatherAlert={weatherAlert} />,
+          ];
+          alerts = wAlert.concat(alerts);
+        }
+        this.setState({ alerts });
+      })
+    );
+  };
   render() {
-    const dummyAlerts = [
-      {
-        variant: "danger",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "warning",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "warning",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "danger",
-        info: "plant x will die soon",
-      },
-      {
-        variant: "warning",
-        info: "plant x will die soon",
-      },
-    ];
-
+    const { temp, weather } = this.state;
     const dummyPreviewIndoor = plantData.slice(1, 6);
     const dummyPreviewOutdoor = plantData.slice(4, 9);
-
-    const alerts = dummyAlerts.map((alert) => {
-      return (
-        <AlertCard width={"95%"} variant={alert.variant} content={alert.info} />
-      );
-    });
-
     const indoorPreview = dummyPreviewIndoor.map((plant) => {
       return (
         <PlantCard
@@ -76,96 +106,87 @@ class Homepage extends Component {
         />
       );
     });
+    const weatherMessage =
+      weather && weather.main && weather.main.toLowerCase().includes("rain")
+        ? "No need to water your plants today!"
+        : temp > 87
+        ? "It's super hot today! Don't miss out on watering your plants"
+        : "No extreme weather conditions today!";
     return (
       <div>
         <Container fluid className="grid_container">
           <Row>
-            <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
-              {/* <Gardens /> */}
-            </Col>
-
             {/* <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
-              <Row className="preview">
-                <Card
-                  style={{
-                    width: "inherit",
-                    minHeight: "37vh",
-                    borderColor: "darkgrey",
-                  }}
-                >
-                  <Link
-                    to="/outdoorgarden"
-                    style={{ textDecoration: "none", color: "black" }}
-                  >
-                    <Card.Header
-                      as="h4"
-                      style={{
-                        color: "white",
-                        backgroundColor: "#0c9437",
-                        opacity: ".7",
-                      }}
-                    >
-                      Outdoor Garden
-                    </Card.Header>{" "}
-                  </Link>
-                  <Card.Body>
-                    <Card.Title>You have no plants to water today!</Card.Title>
-                    <div className="card-container-outer">
-                      <div
-                        className="card-container"
-                        style={{
-                          height: "40%",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        {outdoorPreview}
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Row>
-              <Row className="preview">
-                <Card
-                  style={{
-                    width: "inherit",
-                    minHeight: "37vh",
-                    borderColor: "darkgrey",
-                  }}
-                >
-                  <Link
-                    to="/indoorgarden"
-                    style={{ textDecoration: "none", color: "black" }}
-                  >
-                    <Card.Header
-                      as="h4"
-                      style={{
-                        color: "white",
-                        backgroundColor: "rgb(137, 218, 31)",
-                        opacity: ".7",
-                      }}
-                    >
-                      Indoor Garden
-                    </Card.Header>
-                  </Link>
-                  <Card.Body>
-                    <Card.Title>You have no plants to water today!</Card.Title>
-                    <div className="card-container-outer">
-                      <div
-                        className="card-container"
-                        style={{
-                          height: "40%",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        {indoorPreview}
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Row>
+              {<GardensGrid />}
             </Col> */}
+
+            <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
+              <Row className="preview">
+                <Card
+                  style={{
+                    width: "inherit",
+                    minHeight: "30vh",
+                    borderColor: "darkgrey",
+                  }}
+                >
+                  <Card.Header
+                    as="h4"
+                    style={{
+                      color: "white",
+                      backgroundColor: "#0c9437",
+                      opacity: ".7",
+                    }}
+                  >
+                    Your Summary
+                  </Card.Header>{" "}
+                  <Card.Body>
+                    <Card.Title>
+                      Today is {new Date(Date.now()).toDateString()}{" "}
+                    </Card.Title>
+                    <Card.Text>
+                      <h6>
+                        You have a total of {this.state.plantsCount} plants.
+                      </h6>
+                    </Card.Text>
+                    <Card.Text>
+                      {this.state.outdoorCount} outdoor plants
+                    </Card.Text>
+                    <Card.Text>
+                      {this.state.indoorCount} indoor plants
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Row>
+              <Row className="preview">
+                <Card
+                  style={{
+                    width: "inherit",
+                    minHeight: "37vh",
+                    borderColor: "darkgrey",
+                  }}
+                >
+                  <Card.Header
+                    as="h4"
+                    style={{
+                      color: "white",
+                      backgroundColor: "rgb(137, 218, 31)",
+                      opacity: ".7",
+                    }}
+                  >
+                    Your Gardens
+                  </Card.Header>
+
+                  <Card.Body>
+                    <div>
+                      <GardensGrid />
+                      <Link to="/gardens" style={{ float: "right" }}>
+                        View All Gardens ->
+                      </Link>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Row>
+            </Col>
             <Col style={{ height: "100vh" }}>
               <Row className="preview">
                 <Card
@@ -186,19 +207,20 @@ class Homepage extends Component {
                     Weather
                   </Card.Header>
                   <Card.Body>
-                    <Card.Title>
-                      {new Date(Date.now()).toDateString()}
+                    <Card.Title style={{ fontSize: "3em" }}>
+                      {temp} °F
                     </Card.Title>
-                    <Card.Text>It is super hot today</Card.Text>
-                    <Card.Text>It is super hot today</Card.Text>
-                    <Card.Text>It is super hot today</Card.Text>
+
+                    <Card.Text>Forecast: {weather.main}</Card.Text>
+                    <Card.Text>Description: {weather.description}</Card.Text>
+                    <Card.Text>{weatherMessage}</Card.Text>
                   </Card.Body>
                 </Card>
               </Row>
               <Row className="preview">
                 <Card
                   style={{
-                    height: "50vh",
+                    height: "70vh",
                     width: "inherit",
                     borderColor: "darkgrey",
                   }}
@@ -215,7 +237,9 @@ class Homepage extends Component {
                   </Card.Header>
                   <Card.Body>
                     <div style={{ height: "95%", overflow: "auto" }}>
-                      {alerts}
+                      {!this.state.alerts.length
+                        ? "You Have No Alerts"
+                        : this.state.alerts}
                     </div>
                   </Card.Body>
                 </Card>

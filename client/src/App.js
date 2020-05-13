@@ -10,7 +10,7 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
-import { createUser, loginUser, verifyToken } from "./services/api"
+import { createUser, loginUser, verifyToken, fetchWeather, verifyZipcode } from "./services/api"
 import Gardens from "./components/Gardens";
 import CreateGardenForm from './components/CreateGardenForm'
 
@@ -30,6 +30,7 @@ class App extends React.Component {
       },
       currentUser: null,
       loggedIn: false,
+      error: false
     }
   }
 
@@ -49,7 +50,16 @@ class App extends React.Component {
   // will submit inputted data to backend
   handleRegisterSubmit = async (ev) => {
     ev.preventDefault();
-    const userInfo = await createUser(this.state.registerFormData);
+    const zip = {zipcode: this.state.registerFormData.zipcode}
+    const zipresponse = await verifyZipcode(zip);
+    console.log(zipresponse);
+    if (zipresponse.request.status === 200){
+      const userInfo = await createUser(this.state.registerFormData);
+        // reroute user to login if registration successfull
+      if (userInfo.request.status === 200) {
+        this.props.history.push('/');
+      }
+    }
     this.setState({
       registerFormData: {
         email: '',
@@ -58,10 +68,6 @@ class App extends React.Component {
         zipcode: ''
       }
     });
-    //reroute user to login if registration successfull
-    if (userInfo.request.status === 200) {
-      this.props.history.push('/');
-    }
   }
 
   // ******FUNCTIONS TO HANDLE LOGIN FORM******
@@ -97,11 +103,13 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     const user = localStorage.getItem('user');
     this.setState({
       currentUser: user
     })
+    const data = await fetchWeather();
+    console.log(data);
   }
 
   logout = () => {
@@ -139,6 +147,7 @@ class App extends React.Component {
             registerFormData={this.state.registerFormData}
             handleRegisterChange={this.handleRegisterChange}
             handleRegisterSubmit={this.handleRegisterSubmit}
+            error={this.state.error}
           />
         )}
         />
