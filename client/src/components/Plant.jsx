@@ -7,7 +7,7 @@ class Plant extends Component {
   state = {};
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { plant: {} };
   }
   componentDidMount() {
     console.log("ALL PROPS", this.props);
@@ -46,19 +46,22 @@ class Plant extends Component {
   render() {
     console.log("state plant", this.state.plant);
     const { plant } = this.state;
-    const plantData = [];
+    const {
+      id,
+      trefle_id,
+      name,
+      common_name,
+      scientific_name,
+      duration,
+      family_common_name,
+      outdoor_plant,
+      last_watered,
+      days_until_needs_water,
+    } = this.state.plant;
+    let plantData = [];
     if (plant) {
-      const {
-        id,
-        trefle_id,
-        common_name,
-        scientific_name,
-        duration,
-        family_common_name,
-        outdoor_plant,
-        last_watered,
-      } = this.state.plant;
-      let plantData = Object.keys(plant).map((key) => {
+      console.log("yes");
+      plantData = Object.keys(plant).map((key) => {
         if (typeof plant[key] === "object") {
           return <li>{key}</li>;
         } else {
@@ -95,6 +98,20 @@ class Plant extends Component {
         </div>
 
         <ul>{plantData}</ul>
+        <div>
+          <h1>Your plant: {name || common_name}</h1>
+          <h3>Common Name: {common_name}</h3>
+          <h5>
+            You last watered your plant on{" "}
+            {new Date(last_watered).toDateString()}
+          </h5>
+          <p>
+            Your plant needs to be watered every {days_until_needs_water} days.
+          </p>
+          <ul>
+            <li>Scientific Name: {scientific_name}</li>
+          </ul>
+        </div>
         <div>{JSON.stringify(plant)}</div>
       </div>
     ) : (
