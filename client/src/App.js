@@ -55,21 +55,11 @@ class App extends React.Component {
     console.log(zipresponse);
     if (zipresponse.request.status === 200){
       const userInfo = await createUser(this.state.registerFormData);
+        // reroute user to login if registration successfull
       if (userInfo.request.status === 200) {
         this.props.history.push('/');
       }
-      if (userInfo.request.status === 400) {
-        this.setState({
-          error: true
-        })
-      }
     }
-    else{
-      this.setState({error: true});
-    }
-
-    // reroute user to login if registration successfull
-
     this.setState({
       registerFormData: {
         email: '',
