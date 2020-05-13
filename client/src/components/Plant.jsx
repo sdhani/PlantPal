@@ -75,44 +75,91 @@ class Plant extends Component {
     }
     return plant ? (
       <div style={{ margin: 50 }}>
-        <h1>{plant.common_name}</h1>
-        <img src={undefined} style={{ width: "400px" }}></img>
-        <div style={{ textAlign: "right" }}>
-          {/* <Button
-            variant="primary"
-            size="lg"
-            style={{ backgroundColor: "#006b28" }}
-          >
-            Edit Plant
-          </Button> */}
-          <br />
-          <br />
-          <Button
-            variant="secondary"
-            style={{ backgroundColor: "green" }}
-            onClick={this.markAsWatered}
-            id={`plant-button-${this.state.id}`}
-          >
-            Mark as watered
-          </Button>
-        </div>
-
-        <ul>{plantData}</ul>
+        <h1 style={{ marginBottom: "20px", fontSize: "5em", color: "#006b28" }}>
+          {name || common_name}
+        </h1>
         <div>
-          <h1>Your plant: {name || common_name}</h1>
-          <h3>Common Name: {common_name}</h3>
+          <div style={{ display: "inline-block", width: "30vw" }}>
+            <img
+              src={
+                outdoor_plant
+                  ? require("../images/stock_plant.png")
+                  : require("../images/stock_indoor.jpg")
+              }
+              style={{ width: "500px", display: "inline-block" }}
+            ></img>
+          </div>
+
+          <div
+            style={{ float: "right", display: "inline-block", width: "55vw" }}
+          >
+            <div style={{ float: "left" }}>
+              <h2
+                style={{
+                  marginLeft: "40px",
+                  fontSize: "2.5em",
+                  color: "#006b28",
+                }}
+              >
+                Plant Information
+              </h2>
+              <ul style={{ listStyle: "none", fontSize: "20px" }}>
+                {name && (
+                  <li>
+                    <strong>Name: </strong>
+                    {name}
+                  </li>
+                )}
+                <li>
+                  <strong>Common Name:</strong> {common_name}
+                </li>
+                <li>
+                  <strong>Scientific Name</strong>: {scientific_name}
+                </li>
+                <li>
+                  <strong>Family Common Name: </strong>
+                  {family_common_name}
+                </li>
+                <li>
+                  <strong>Type:</strong>{" "}
+                  {outdoor_plant ? "outdoor " : "indoor "} plant
+                </li>
+                <li>
+                  <strong>Duration:</strong> {duration}
+                </li>
+              </ul>
+            </div>
+            <div style={{ textAlign: "left", float: "right" }}>
+              <Button
+                variant="primary"
+                size="lg"
+                style={{ backgroundColor: "green", width: "16vw" }}
+                onClick={this.markAsWatered}
+                id={`plant-button-${this.state.id}`}
+              >
+                Mark as watered
+              </Button>
+              <br />
+              <br />
+              <Button
+                variant="primary"
+                size="lg"
+                style={{ backgroundColor: "#006b28", width: "16vw" }}
+              >
+                Edit Plant Information
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div style={{ marginTop: "30px" }}>
           <h5>
             You last watered your plant on{" "}
             {new Date(last_watered).toDateString()}
           </h5>
-          <p>
+          <h7>
             Your plant needs to be watered every {days_until_needs_water} days.
-          </p>
-          <ul>
-            <li>Scientific Name: {scientific_name}</li>
-          </ul>
+          </h7>
         </div>
-        <div>{JSON.stringify(plant)}</div>
       </div>
     ) : (
       <div></div>
