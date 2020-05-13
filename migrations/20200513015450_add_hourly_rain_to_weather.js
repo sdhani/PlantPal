@@ -1,0 +1,15 @@
+exports.up = function (knex, Promise) {
+    return Promise.all([
+        knex.schema.table('weather', function (table) {
+            table.decimal('hourly_rain', 5, 2);
+        })
+    ])
+};
+
+exports.down = function (knex, Promise) {
+    return Promise.all([
+        knex.schema.table('weather', function (table){
+            table.dropColumn('hourly_rain');
+        })
+    ])
+};
