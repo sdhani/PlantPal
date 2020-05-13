@@ -30,6 +30,7 @@ class App extends React.Component {
       },
       currentUser: null,
       loggedIn: false,
+      error: false
     }
   }
 
@@ -52,7 +53,23 @@ class App extends React.Component {
     const zip = {zipcode: this.state.registerFormData.zipcode}
     const zipresponse = await verifyZipcode(zip);
     console.log(zipresponse);
-    // const userInfo = await createUser(this.state.registerFormData);
+    if (zipresponse.request.status === 200){
+      const userInfo = await createUser(this.state.registerFormData);
+      if (userInfo.request.status === 200) {
+        this.props.history.push('/');
+      }
+      if (userInfo.request.status === 400) {
+        this.setState({
+          error: true
+        })
+      }
+    }
+    else{
+      this.setState({error: true});
+    }
+
+    // reroute user to login if registration successfull
+
     this.setState({
       registerFormData: {
         email: '',
@@ -61,10 +78,6 @@ class App extends React.Component {
         zipcode: ''
       }
     });
-    //reroute user to login if registration successfull
-    // if (userInfo.request.status === 200) {
-    //   this.props.history.push('/');
-    // }
   }
 
   // ******FUNCTIONS TO HANDLE LOGIN FORM******
@@ -142,6 +155,7 @@ class App extends React.Component {
             registerFormData={this.state.registerFormData}
             handleRegisterChange={this.handleRegisterChange}
             handleRegisterSubmit={this.handleRegisterSubmit}
+            error={this.state.error}
           />
         )}
         />

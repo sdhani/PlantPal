@@ -67,6 +67,9 @@ class Register extends Component {
             </Link>
           </form>
         </div>
+        {this.props.error && (
+          <p>Error logging in</p>
+        )}
       </div>
     );
   }
