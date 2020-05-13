@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Button } from "react-bootstrap";
-import { formatDate } from "../utils/helpers";
+import {
+  formatDate,
+  getDateDifference,
+  getDateNeedsWater,
+} from "../utils/helpers";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import {
@@ -129,6 +133,12 @@ class Plant extends Component {
         }
       });
     }
+
+    const dateNeedsWater = getDateNeedsWater(
+      last_watered,
+      days_until_needs_water
+    );
+    const daysLeft = getDateDifference(new Date(Date.now()), dateNeedsWater);
     const editPlantForm = (
       <div>
         <form
@@ -219,7 +229,11 @@ class Plant extends Component {
           </div>
 
           <div
-            style={{ float: "right", display: "inline-block", width: "55vw" }}
+            style={{
+              float: "right",
+              display: "inline-block",
+              width: "55vw",
+            }}
           >
             <div style={{ float: "left" }}>
               <h2
@@ -257,6 +271,15 @@ class Plant extends Component {
                 </li>
                 <li>
                   <strong>Duration:</strong> {duration}
+                </li>
+                <br />
+                <li>
+                  <strong>Next Watering Date:</strong>{" "}
+                  {dateNeedsWater.toDateString()}
+                </li>
+                <li>
+                  <strong>Days Left Until Needs Water:</strong>{" "}
+                  {daysLeft > 0 ? daysLeft : 0}
                 </li>
               </ul>
             </div>
@@ -296,10 +319,16 @@ class Plant extends Component {
           </div>
         </div>
         <div style={{ marginTop: "30px" }}>
-          <h5>
+          {daysLeft < 0 && (
+            <h5 style={{ color: "red" }}>
+              You should have watered your plant {Math.abs(daysLeft)} days ago.
+            </h5>
+          )}
+          <h7>
             You last watered your plant on{" "}
             {new Date(last_watered).toDateString()}
-          </h5>
+          </h7>
+          <br />
           <h7>
             Your plant needs to be watered every {days_until_needs_water} days.
           </h7>
