@@ -49,11 +49,13 @@ class MyNav extends Component {
               <LinkContainer style={styles} to={`/gardens`}>
                 <NavItem eventKey={2}>Gardens</NavItem>
               </LinkContainer>
-              <LinkContainer style={styles} to={`/profile`}>
+              {/* <LinkContainer style={styles} to={`/profile`}>
                 <NavItem eventKey={3}>Profile</NavItem>
-              </LinkContainer>
+              </LinkContainer> */}
               {/* <LinkContainer style={styles} to={`/`}> */}
-              <NavItem onClick={this.props.logout} eventKey={4}>Logout</NavItem>
+              <NavItem onClick={this.props.logout} eventKey={3}>
+                Logout
+              </NavItem>
               {/* </LinkContainer> */}
             </Nav>
           </Navbar.Collapse>
