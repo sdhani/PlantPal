@@ -4,7 +4,7 @@ const user_token = localStorage.getItem("jwt") || null;
 // baseURL will change to heroku link
 const api = axios.create({
   baseURL: process.env.BASE_URL,
-  //   baseURL: "http://localhost:3001",
+  // baseURL: "http://localhost:3001",
   headers: {
     Authorization: `Bearer ${user_token}`,
   },
@@ -301,4 +301,10 @@ export const fetchWeather = async () => {
     );
     return response;
   }
+};
+
+export const verifyZipcode = async (zipcode) => {
+  const response = await api.put(`api/weather`, zipcode);
+  console.log(response);
+  return response;
 };
