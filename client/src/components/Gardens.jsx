@@ -208,7 +208,13 @@ class Gardens extends Component {
           />
         </div>
         <div className="card-container-outer">
-          <div className="card-container">{allGardens}</div>
+          <div className="card-container">
+            {allGardens.length ? (
+              allGardens
+            ) : (
+              <h1>You have no gardens yet..</h1>
+            )}
+          </div>
         </div>
       </div>
     );
