@@ -32,9 +32,16 @@ class PlantCard extends Component {
       const { garden_name, id } = option;
       return { label: garden_name, value: id };
     });
-    this.setState({ options });
+    this.setState({ options }, () => {});
     const { id } = this.props.plant;
-    getPlant(id).then((data) => this.setState({ plant: data }));
+    getPlant(id).then((data) =>
+      this.setState({
+        plant: data,
+        updateGardenId: data.garden_id,
+        last_watered_updated: new Date(data.last_watered),
+        updatedOutdoor: data.outdoor_plant === true ? "outdoor" : "indoor",
+      })
+    );
   }
   handleUpdatedGarden = async (value) => {
     this.setState({ updateGardenId: value.value });
@@ -62,7 +69,7 @@ class PlantCard extends Component {
     e.preventDefault();
     const updates = {
       garden_id: this.state.updateGardenId,
-      outdoor_plant: this.state.plant.outdoor_plant,
+      outdoor_plant: this.state.plant.updatedOutdoor === "outdoor",
       last_watered: this.formatDate(this.state.last_watered_updated),
     };
     editPlant(id, updates).then((data) =>

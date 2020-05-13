@@ -39,12 +39,15 @@ class Plant extends Component {
       parseInt(this.props.match.params.id) ||
       this.props.location.state.plant.id;
     getPlant(id).then((data) => {
-      console.log(data);
+      console.log("DAATA IS", data);
       this.setState({
         plant: data,
         garden_id: data.garden_id,
         updateGardenId: data.garden_id,
+        last_watered_updated: new Date(data.last_watered),
+        updatedOutdoor: data.outdoor_plant === true ? "outdoor" : "indoor",
       });
+      console.log(this.state.updatedOutdoor);
     });
     // }
     fetchGarden().then((data) =>
@@ -68,17 +71,26 @@ class Plant extends Component {
   refresh = () => {
     getPlant(this.state.plant.id).then((data) => {
       console.log(data);
-      this.setState({ plant: data, garden_id: data.garden_id });
+      this.setState({
+        plant: data,
+        garden_id: data.garden_id,
+        updateGardenId: data.garden_id,
+        last_watered_updated: new Date(data.last_watered),
+      });
     });
   };
   handleDateChange = (date) => {
     this.setState({ last_watered_updated: date });
   };
+  inputHandler = (e) => {
+    e.preventDefault();
+    this.setState({ [e.target.name]: e.target.value });
+  };
   editPlant = async (e, id) => {
     e.preventDefault();
     const updates = {
       garden_id: this.state.updateGardenId,
-      outdoor_plant: this.state.plant.outdoor_plant,
+      outdoor_plant: this.state.updatedOutdoor === "outdoor",
       last_watered: formatDate(this.state.last_watered_updated),
     };
     editPlant(id, updates).then((data) =>
@@ -267,7 +279,7 @@ class Plant extends Component {
                 </li>
                 <li>
                   <strong>Type:</strong>{" "}
-                  {outdoor_plant ? "outdoor " : "indoor "} plant
+                  {outdoor_plant ? "Outdoor " : "Indoor "} plant
                 </li>
                 <li>
                   <strong>Duration:</strong> {duration}
