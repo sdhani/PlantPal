@@ -211,7 +211,9 @@ class Homepage extends Component {
                     Weather
                   </Card.Header>
                   <Card.Body>
-                    <Card.Title>{temp} 'F</Card.Title>
+                    <Card.Title style={{ fontSize: "3em" }}>
+                      {temp} °F
+                    </Card.Title>
 
                     <Card.Text>Forecast: {weather.main}</Card.Text>
                     <Card.Text>Description: {weather.description}</Card.Text>
