@@ -34,7 +34,14 @@ class PlantCard extends Component {
     });
     this.setState({ options }, () => {});
     const { id } = this.props.plant;
-    getPlant(id).then((data) => this.setState({ plant: data }));
+    getPlant(id).then((data) =>
+      this.setState({
+        plant: data,
+        updateGardenId: data.garden_id,
+        last_watered_updated: new Date(data.last_watered),
+        updatedOutdoor: data.outdoor_plant === true ? "outdoor" : "indoor",
+      })
+    );
   }
   handleUpdatedGarden = async (value) => {
     this.setState({ updateGardenId: value.value });
@@ -62,7 +69,7 @@ class PlantCard extends Component {
     e.preventDefault();
     const updates = {
       garden_id: this.state.updateGardenId,
-      outdoor_plant: this.state.plant.outdoor_plant,
+      outdoor_plant: this.state.plant.updatedOutdoor === "outdoor",
       last_watered: this.formatDate(this.state.last_watered_updated),
     };
     editPlant(id, updates).then((data) =>
@@ -193,7 +200,15 @@ class PlantCard extends Component {
           }}
           className="cardbox"
         >
-          <Card.Img variant="top" src={img} style={{ height: "45%" }} />
+          <Card.Img
+            variant="top"
+            src={
+              img || outdoor_plant
+                ? require("../images/stock_plant.png")
+                : require("../images/stock_indoor.jpg")
+            }
+            style={{ height: "45%", opacity: "80%" }}
+          />
           <Card.Body>
             <Card.Title>{name ? name : common_name}</Card.Title>
             {!this.props.preview && (

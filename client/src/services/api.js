@@ -3,8 +3,8 @@ import axios from "axios";
 const user_token = localStorage.getItem("jwt") || null;
 // baseURL will change to heroku link
 const api = axios.create({
-    baseURL: process.env.BASE_URL,
-    // baseURL: "http://localhost:3001",
+  baseURL: process.env.BASE_URL,
+  // baseURL: "http://localhost:3001",
   headers: {
     Authorization: `Bearer ${user_token}`,
   },
@@ -196,6 +196,22 @@ export const getAllPlantsInGarden = async (id) => {
     }
   }
 };
+export const getPlantCounts = async (type) => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    const query = type ? `?type=${type}` : "";
+    try {
+      const resp = await api.get(`/api/plants/count${query}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};
 
 export const searchPlantName = async (name) => {
   const token = localStorage.getItem("jwt");
@@ -265,14 +281,30 @@ export const editGarden = async (id, editedName) => {
   }
 };
 
+export const fetchWeather = async () => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    let zipcode = "11229";
+    try {
+      const resp = await api.get("/api/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(resp.data[0].zipcode);
+      zipcode = resp.data[0].zipcode;
+    } catch (e) {
+      return e.message;
+    }
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode}&APPID=03280779bfc099755378d100b1024c18`
+    );
+    return response;
+  }
+};
 
 export const verifyZipcode = async (zipcode) => {
   const response = await api.put(`api/weather`, zipcode);
   console.log(response);
   return response;
-}
-
-export const fetchWeather = async() => {
-  const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=11229&APPID=03280779bfc099755378d100b1024c18`)
-  return response;
-}
+};

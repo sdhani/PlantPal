@@ -105,7 +105,11 @@ class Gardens extends Component {
             }}
             className="cardbox"
           >
-            <Card.Img variant="top" style={{ height: "45%" }} />
+            <Card.Img
+              src={require("../images/stock_garden.jpg")}
+              variant="top"
+              style={{ height: "45%", opacity: "80%" }}
+            />
             <Card.Body>
               <Card.Title>{garden_name}</Card.Title>
               <div>
@@ -204,7 +208,13 @@ class Gardens extends Component {
           />
         </div>
         <div className="card-container-outer">
-          <div className="card-container">{allGardens}</div>
+          <div className="card-container">
+            {allGardens.length ? (
+              allGardens
+            ) : (
+              <h1>You have no gardens yet..</h1>
+            )}
+          </div>
         </div>
       </div>
     );

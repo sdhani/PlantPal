@@ -37,7 +37,7 @@ class Garden extends Component {
         { label: "Name", value: "name" },
         { label: "Needs Water", value: "priority" },
         { label: "Last Watered", value: "last_watered" },
-        { label: "Category", value: "Category" },
+        { label: "Category", value: "category" },
       ],
     };
   }
@@ -204,6 +204,7 @@ class Garden extends Component {
   };
   handleSortSelect = async (value) => {
     let v = value.value;
+    this.setState({ sortedByCat: [] });
     if (v === "name") {
       this.sortByName();
     } else if (v === "last_watered") {
@@ -373,7 +374,9 @@ class Garden extends Component {
 
         {this.state.sortedByCat && this.state.sortedByCat}
         <div className="card-container-outer" style={{ width: "100vw" }}>
-          <div className="card-container">{allPlants}</div>
+          <div className="card-container">
+            {allPlants.length ? allPlants : <h1>You have no plants yet.</h1>}
+          </div>
         </div>
       </div>
     );

@@ -21,3 +21,8 @@ export const formatDate = (date) => {
 
   return [year, month, day].join("-");
 };
+
+export const convertKelvinToFarenheight = (kelvin) => {
+  const f = (9 * (kelvin - 273)) / 5 + 32;
+  return parseInt(f);
+};

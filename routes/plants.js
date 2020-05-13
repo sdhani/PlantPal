@@ -38,6 +38,48 @@ Router.get("/priority", VerifyToken, async (req, res) => {
   }
 });
 
+Router.get("/count", VerifyToken, async (req, res) => {
+  const { user_id } = req;
+  const { type } = req.query;
+  if (type === "outdoor") {
+    try {
+      db.getPlantsCountOutdoor(user_id).then((plants) => {
+        if (plants.length > 0) {
+          res.status(200).json(plants);
+        } else {
+          res.status(200).json({ error: "User does not have any plants." });
+        }
+      });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to retrieve all user's plants" });
+    }
+  } else if (type === "indoor") {
+    try {
+      db.getPlantsCountIndoor(user_id).then((plants) => {
+        if (plants.length > 0) {
+          res.status(200).json(plants);
+        } else {
+          res.status(200).json({ error: "User does not have any plants." });
+        }
+      });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to retrieve all user's plants" });
+    }
+  } else {
+    try {
+      db.getPlantsCount(user_id).then((plants) => {
+        if (plants.length > 0) {
+          res.status(200).json(plants);
+        } else {
+          res.status(200).json({ error: "User does not have any plants." });
+        }
+      });
+    } catch (err) {
+      res.status(500).json({ error: "Failed to retrieve all user's plants" });
+    }
+  }
+});
+
 /* 
   QUERY a plant from the Trefle API 
   Use the "id" field of a selected plant from query to add plant via post.  
