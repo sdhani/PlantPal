@@ -10,7 +10,7 @@ import Profile from "./components/Profile";
 import Plant from "./components/Plant";
 import OutdoorGarden from "./components/OutdoorGarden";
 import IndoorGarden from "./components/IndoorGarden";
-import { createUser, loginUser, verifyZipcode} from "./services/api"
+import { createUser, loginUser, verifyToken, fetchWeather, verifyZipcode } from "./services/api"
 import Gardens from "./components/Gardens";
 import CreateGardenForm from './components/CreateGardenForm'
 
@@ -103,11 +103,13 @@ class App extends React.Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async() => {
     const user = localStorage.getItem('user');
     this.setState({
       currentUser: user
     })
+    const data = await fetchWeather();
+    console.log(data);
   }
 
   logout = () => {

@@ -8,7 +8,7 @@ import PlantCard from "./PlantCard";
 import CreateGardenForm from "./CreateGardenForm";
 import styles2 from "../styles/cards.css";
 import Gardens from "./Gardens";
-import { getAllPriorityPlants } from "../services/api";
+import { getAllPriorityPlants, fetchWeather } from "../services/api";
 import { getDateNeedsWater, getDateDifference } from "../utils/helpers";
 
 /**
@@ -19,9 +19,9 @@ import { getDateNeedsWater, getDateDifference } from "../utils/helpers";
  * should show preview of gardens
  */
 class Homepage extends Component {
-  state = { users: [], priorityPlants: [], alerts: [] };
+  state = { users: [], priorityPlants: [], alerts: [], temp: '', weather: [] };
 
-  componentDidMount() {
+  componentDidMount = async()=> {
     getAllPriorityPlants().then((data) =>
       this.setState({ priorityPlants: data }, () => {
         console.log(data);
@@ -33,6 +33,15 @@ class Homepage extends Component {
         this.setState({ alerts });
       })
     );
+    
+    const weather_data = await fetchWeather();
+    this.setState({
+      temp: weather_data.data.main.temp,
+      weather: weather_data.data.weather
+    });
+
+    console.log(this.state.temp);
+    console.log(this.state.weather);
   }
   render() {
     const dummyPreviewIndoor = plantData.slice(1, 6);
