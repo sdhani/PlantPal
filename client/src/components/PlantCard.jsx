@@ -193,7 +193,15 @@ class PlantCard extends Component {
           }}
           className="cardbox"
         >
-          <Card.Img variant="top" src={img} style={{ height: "45%" }} />
+          <Card.Img
+            variant="top"
+            src={
+              img || outdoor_plant
+                ? require("../images/stock_plant.png")
+                : require("../images/stock_indoor.jpg")
+            }
+            style={{ height: "45%", opacity: "80%" }}
+          />
           <Card.Body>
             <Card.Title>{name ? name : common_name}</Card.Title>
             {!this.props.preview && (

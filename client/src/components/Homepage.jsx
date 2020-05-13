@@ -222,7 +222,7 @@ class Homepage extends Component {
               <Row className="preview">
                 <Card
                   style={{
-                    height: "50vh",
+                    height: "70vh",
                     width: "inherit",
                     borderColor: "darkgrey",
                   }}

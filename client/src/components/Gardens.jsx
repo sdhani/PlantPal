@@ -105,7 +105,11 @@ class Gardens extends Component {
             }}
             className="cardbox"
           >
-            <Card.Img variant="top" style={{ height: "45%" }} />
+            <Card.Img
+              src={require("../images/stock_garden.jpg")}
+              variant="top"
+              style={{ height: "45%", opacity: "80%" }}
+            />
             <Card.Body>
               <Card.Title>{garden_name}</Card.Title>
               <div>

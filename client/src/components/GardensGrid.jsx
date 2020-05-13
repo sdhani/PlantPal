@@ -28,7 +28,7 @@ class GardensGrid extends Component {
             style={{
               width: "18rem",
               height: "300px",
-              width: "200px",
+              width: "220px",
               margin: "5px",
               color: "#0a3618",
               borderColor: "#006b28",
@@ -37,7 +37,11 @@ class GardensGrid extends Component {
             }}
             className="cardbox"
           >
-            <Card.Img variant="top" style={{ height: "45%" }} />
+            <Card.Img
+              src={require("../images/stock_garden.jpg")}
+              variant="top"
+              style={{ height: "45%", opacity: "80%" }}
+            />
             <Card.Body>
               <Card.Title>{garden_name}</Card.Title>
               <div>
