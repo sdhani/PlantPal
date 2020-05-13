@@ -3,8 +3,8 @@ import axios from "axios";
 const user_token = localStorage.getItem("jwt") || null;
 // baseURL will change to heroku link
 const api = axios.create({
-  baseURL: process.env.BASE_URL,
-  //   baseURL: "http://localhost:3001",
+    baseURL: process.env.BASE_URL,
+    // baseURL: "http://localhost:3001",
   headers: {
     Authorization: `Bearer ${user_token}`,
   },
@@ -264,6 +264,13 @@ export const editGarden = async (id, editedName) => {
     }
   }
 };
+
+
+export const verifyZipcode = async (zipcode) => {
+  const response = await api.put(`api/weather`, zipcode);
+  console.log(response);
+  return response;
+}
 
 export const fetchWeather = async() => {
   const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=11229&APPID=03280779bfc099755378d100b1024c18`)
