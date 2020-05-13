@@ -264,3 +264,8 @@ export const editGarden = async (id, editedName) => {
     }
   }
 };
+
+export const fetchWeather = async() => {
+  const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=11229&APPID=03280779bfc099755378d100b1024c18`)
+  return response;
+}
