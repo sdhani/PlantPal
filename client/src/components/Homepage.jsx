@@ -9,7 +9,11 @@ import CreateGardenForm from "./CreateGardenForm";
 import styles2 from "../styles/cards.css";
 import Gardens from "./Gardens";
 import { getAllPriorityPlants, fetchWeather } from "../services/api";
-import { getDateNeedsWater, getDateDifference } from "../utils/helpers";
+import {
+  getDateNeedsWater,
+  getDateDifference,
+  convertKelvinToFarenheight,
+} from "../utils/helpers";
 
 /**
  *
@@ -19,9 +23,9 @@ import { getDateNeedsWater, getDateDifference } from "../utils/helpers";
  * should show preview of gardens
  */
 class Homepage extends Component {
-  state = { users: [], priorityPlants: [], alerts: [], temp: '', weather: [] };
+  state = { users: [], priorityPlants: [], alerts: [], temp: "", weather: [] };
 
-  componentDidMount = async()=> {
+  componentDidMount = async () => {
     getAllPriorityPlants().then((data) =>
       this.setState({ priorityPlants: data }, () => {
         console.log(data);
@@ -33,17 +37,18 @@ class Homepage extends Component {
         this.setState({ alerts });
       })
     );
-    
+
     const weather_data = await fetchWeather();
     this.setState({
-      temp: weather_data.data.main.temp,
-      weather: weather_data.data.weather
+      temp: convertKelvinToFarenheight(weather_data.data.main.temp),
+      weather: weather_data.data.weather[0],
     });
 
-    console.log(this.state.temp);
-    console.log(this.state.weather);
-  }
+    console.log("temp", this.state.temp);
+    console.log("weather", this.state.weather[0]);
+  };
   render() {
+    const { temp, weather } = this.state;
     const dummyPreviewIndoor = plantData.slice(1, 6);
     const dummyPreviewOutdoor = plantData.slice(4, 9);
     const indoorPreview = dummyPreviewIndoor.map((plant) => {
@@ -66,6 +71,12 @@ class Homepage extends Component {
         />
       );
     });
+    const weatherMessage =
+      weather && weather.main && weather.main.toLowerCase().includes("rain")
+        ? "No need to water your plants today!"
+        : temp > 90
+        ? "It's super hot today! Don't miss out on watering your plants"
+        : "No extreme weather conditions today!";
     return (
       <div>
         <Container fluid className="grid_container">
@@ -173,15 +184,14 @@ class Homepage extends Component {
                       opacity: ".7",
                     }}
                   >
-                    Weather
+                    Weather for {new Date(Date.now()).toDateString()}
                   </Card.Header>
                   <Card.Body>
-                    <Card.Title>
-                      {new Date(Date.now()).toDateString()}
-                    </Card.Title>
-                    <Card.Text>It is super hot today</Card.Text>
-                    <Card.Text>It is super hot today</Card.Text>
-                    <Card.Text>It is super hot today</Card.Text>
+                    <Card.Title>{temp} 'F</Card.Title>
+
+                    <Card.Text>Forecast: {weather.main}</Card.Text>
+                    <Card.Text>Description: {weather.description}</Card.Text>
+                    <Card.Text>{weatherMessage}</Card.Text>
                   </Card.Body>
                 </Card>
               </Row>

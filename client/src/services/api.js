@@ -265,7 +265,24 @@ export const editGarden = async (id, editedName) => {
   }
 };
 
-export const fetchWeather = async() => {
-  const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=11229&APPID=03280779bfc099755378d100b1024c18`)
-  return response;
-}
+export const fetchWeather = async () => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    let zipcode = "11229";
+    try {
+      const resp = await api.get("/api/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(resp.data[0].zipcode);
+      zipcode = resp.data[0].zipcode;
+    } catch (e) {
+      return e.message;
+    }
+    const response = await axios.get(
+      `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode}&APPID=03280779bfc099755378d100b1024c18`
+    );
+    return response;
+  }
+};
