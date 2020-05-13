@@ -265,13 +265,14 @@ export const editGarden = async (id, editedName) => {
   }
 };
 
-<<<<<<< HEAD
+
 export const verifyZipcode = async (zipcode) => {
   const response = await api.put(`api/weather`, zipcode);
   console.log(response);
-=======
+  return response;
+}
+
 export const fetchWeather = async() => {
   const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?zip=11229&APPID=03280779bfc099755378d100b1024c18`)
->>>>>>> master
   return response;
 }
