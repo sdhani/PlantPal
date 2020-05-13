@@ -123,7 +123,9 @@ class Homepage extends Component {
                     </Card.Header>{" "}
                   </Link>
                   <Card.Body>
-                    <Card.Title>This is your summary</Card.Title>
+                    <Card.Title>
+                      Today is {new Date(Date.now()).toDateString()}{" "}
+                    </Card.Title>
                     <div className="card-container-outer">
                       <div
                         className="card-container"
@@ -188,7 +190,7 @@ class Homepage extends Component {
                       opacity: ".7",
                     }}
                   >
-                    Weather for {new Date(Date.now()).toDateString()}
+                    Weather
                   </Card.Header>
                   <Card.Body>
                     <Card.Title>{temp} 'F</Card.Title>
