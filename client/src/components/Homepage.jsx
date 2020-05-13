@@ -14,6 +14,7 @@ import {
   getDateDifference,
   convertKelvinToFarenheight,
 } from "../utils/helpers";
+import GardensGrid from "./GardensGrid";
 
 /**
  *
@@ -93,11 +94,11 @@ class Homepage extends Component {
       <div>
         <Container fluid className="grid_container">
           <Row>
-            <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
-              {/* <Gardens /> */}
-            </Col>
-
             {/* <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
+              {<GardensGrid />}
+            </Col> */}
+
+            <Col xs={8} style={{ marginLeft: "25px", height: "100vh" }}>
               <Row className="preview">
                 <Card
                   style={{
@@ -118,11 +119,11 @@ class Homepage extends Component {
                         opacity: ".7",
                       }}
                     >
-                      Outdoor Garden
+                      Your Summary
                     </Card.Header>{" "}
                   </Link>
                   <Card.Body>
-                    <Card.Title>You have no plants to water today!</Card.Title>
+                    <Card.Title>This is your summary</Card.Title>
                     <div className="card-container-outer">
                       <div
                         className="card-container"
@@ -131,9 +132,7 @@ class Homepage extends Component {
                           width: "100%",
                           justifyContent: "space-evenly",
                         }}
-                      >
-                        {outdoorPreview}
-                      </div>
+                      ></div>
                     </div>
                   </Card.Body>
                 </Card>
@@ -158,27 +157,20 @@ class Homepage extends Component {
                         opacity: ".7",
                       }}
                     >
-                      Indoor Garden
+                      Your Gardens
                     </Card.Header>
                   </Link>
                   <Card.Body>
-                    <Card.Title>You have no plants to water today!</Card.Title>
-                    <div className="card-container-outer">
-                      <div
-                        className="card-container"
-                        style={{
-                          height: "40%",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        {indoorPreview}
-                      </div>
+                    <div>
+                      <GardensGrid />
+                      <Link to="/gardens" style={{ float: "right" }}>
+                        View All Gardens ->
+                      </Link>
                     </div>
                   </Card.Body>
                 </Card>
               </Row>
-            </Col> */}
+            </Col>
             <Col style={{ height: "100vh" }}>
               <Row className="preview">
                 <Card
