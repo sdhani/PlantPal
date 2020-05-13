@@ -125,25 +125,20 @@ class Homepage extends Component {
                 <Card
                   style={{
                     width: "inherit",
-                    minHeight: "37vh",
+                    minHeight: "30vh",
                     borderColor: "darkgrey",
                   }}
                 >
-                  <Link
-                    to="/outdoorgarden"
-                    style={{ textDecoration: "none", color: "black" }}
+                  <Card.Header
+                    as="h4"
+                    style={{
+                      color: "white",
+                      backgroundColor: "#0c9437",
+                      opacity: ".7",
+                    }}
                   >
-                    <Card.Header
-                      as="h4"
-                      style={{
-                        color: "white",
-                        backgroundColor: "#0c9437",
-                        opacity: ".7",
-                      }}
-                    >
-                      Your Summary
-                    </Card.Header>{" "}
-                  </Link>
+                    Your Summary
+                  </Card.Header>{" "}
                   <Card.Body>
                     <Card.Title>
                       Today is {new Date(Date.now()).toDateString()}{" "}
@@ -159,16 +154,6 @@ class Homepage extends Component {
                     <Card.Text>
                       {this.state.indoorCount} indoor plants
                     </Card.Text>
-                    <div className="card-container-outer">
-                      <div
-                        className="card-container"
-                        style={{
-                          height: "40%",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      ></div>
-                    </div>
                   </Card.Body>
                 </Card>
               </Row>
