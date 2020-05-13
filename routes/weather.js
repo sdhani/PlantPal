@@ -108,7 +108,7 @@ Router.put('/', async (req, res) => {
   } else {
     db.checkWeatherZip(zipcode).then(response => {
       if (response.length > 0) {
-        return res.status(400).json({
+        return res.status(200).json({
           message: "Zipcode already exists on server."
         })
       } else {
