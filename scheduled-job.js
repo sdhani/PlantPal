@@ -1,3 +1,11 @@
+/* OpenWeatherMap API calls using Heroku config vars
+ * reads weather table zipcode collumn and grabs local 
+ * weather from the current weather API and also grabs
+ * lat/lon coordinates for zipcode to feed into the "one call"
+ * API where the forcast information is collected
+ * currently just logs info to console.
+ */
+
 var request = require('request');
 const {
 	Client
@@ -13,10 +21,12 @@ var zipcode;
 var lat;
 var lon;
 
+//establish db connect parameters
 const db = new Client({
 	connectionString: connectionString
 });
 
+//takes lat/lon variables from getWeather function and queries "one call api"
 function setLatLon() {
 	let url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${units}&exclude=current,hourly&appid=${apiKey}`;
 	request(url, function (err, response, body) {
@@ -25,6 +35,7 @@ function setLatLon() {
 		} else {
 			var forcast = JSON.parse(body);
 			var message = `Max Temp today is: ${forcast.daily[0].temp.max}F and Min Temp today is: ${forcast.daily[0].temp.min}F and Day Temp today is: ${forcast.daily[0].temp.day}F`;
+			//determine if forcast weather contains rain info, field isn't alway present
 			if (forcast.daily[1].rain !== undefined) {
 				var one_day = `Max Temp tomorrow is: ${forcast.daily[1].temp.max}F and Min Temp tomorrow is: ${forcast.daily[1].temp.min}F, and tomorrow will rain: ${forcast.daily[1].rain}mm`;
 			} else {
@@ -48,6 +59,7 @@ function setLatLon() {
 	})
 };
 
+//reads feeds zipcode into current weather API
 function getWeather() {
 	console.log(zipcode);
 	zip = zipcode;
@@ -77,6 +89,7 @@ function getWeather() {
 	});
 };
 
+//reads zipcode column from weather table into zipcode variable
 function pullZipFromDB() {
 	db.connect();
 
@@ -95,4 +108,5 @@ function pullZipFromDB() {
 	});
 };
 
+// run functions
 pullZipFromDB();

@@ -1,3 +1,8 @@
+/* OpenWeatherMap API calls using Heroku config vars
+ * reads weather table zipcode collumn and grabs local 
+ * weather from the current weather API and writes current
+ * weather into weather table matching zipcodes
+ */
 const request = require('request');
 const {
     Client
@@ -22,6 +27,7 @@ const db = new Client({
 });
 db.connect();
 
+// read zipcode from weather table and feed into getWeather fucntion, API call
 db.query('SELECT zipcode FROM weather', (err, res) => {
     if (err) {
         console.log(err.stack);
@@ -45,6 +51,7 @@ function killConnection() {
     db.end();
 };
 
+// takes zipcode value from db.query and executes current weather api call
 function getWeather() {
     zip = zipcode;
     let weather_url = `http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&units=${units}&appid=${apiKey}`;
@@ -62,6 +69,7 @@ function getWeather() {
             } else {
                 rain = '0.00';
             }
+            // write results into weather table by zipcode
             db.query("UPDATE weather SET day_current_temp = '" + current_temp + "', weather_description = '" + description + "',  hourly_rain = '" + rain + "' WHERE zipcode = '" + zipcode + "'", (err, res) => {
                 if (err)
                     console.log(err.stack);
