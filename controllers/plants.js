@@ -5,14 +5,29 @@ module.exports = {
     return knex("plants").where("user_id", user_id);
   },
 
+  getPlantsCount(user_id) {
+    return knex("plants").count("id").where("user_id", user_id);
+  },
+  getPlantsCountIndoor(user_id) {
+    return knex("plants")
+      .count("id")
+      .where("user_id", user_id)
+      .where("outdoor_plant", false);
+  },
+  getPlantsCountOutdoor(user_id) {
+    return knex("plants")
+      .count("id")
+      .where("user_id", user_id)
+      .where("outdoor_plant", true);
+  },
+
   getPlantByID(user_id, id) {
     return knex("plants").where("user_id", user_id).where("id", id);
   },
-  getPriorityPlants(user_id, id) {
+  getPriorityPlants(user_id) {
     return knex("plants")
       .orderBy("days_until_needs_water")
       .where("user_id", user_id)
-      .where("outdoor_plant", true)
       .whereBetween("days_until_needs_water", [0, 3]);
   },
 

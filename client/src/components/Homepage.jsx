@@ -8,7 +8,11 @@ import PlantCard from "./PlantCard";
 import CreateGardenForm from "./CreateGardenForm";
 import styles2 from "../styles/cards.css";
 import Gardens from "./Gardens";
-import { getAllPriorityPlants, fetchWeather } from "../services/api";
+import {
+  getAllPriorityPlants,
+  fetchWeather,
+  getPlantCounts,
+} from "../services/api";
 import {
   getDateNeedsWater,
   getDateDifference,
@@ -24,9 +28,27 @@ import GardensGrid from "./GardensGrid";
  * should show preview of gardens
  */
 class Homepage extends Component {
-  state = { users: [], priorityPlants: [], alerts: [], temp: "", weather: [] };
+  state = {
+    users: [],
+    priorityPlants: [],
+    alerts: [],
+    temp: "",
+    weather: [],
+    plantsCount: 0,
+    outdoorCount: 0,
+    indoorCount: 0,
+  };
 
   componentDidMount = async () => {
+    getPlantCounts().then((data) =>
+      this.setState({ plantsCount: data[0].count })
+    );
+    getPlantCounts("indoor").then((data) =>
+      this.setState({ indoorCount: data[0].count })
+    );
+    getPlantCounts("outdoor").then((data) =>
+      this.setState({ outdoorCount: data[0].count })
+    );
     const weather_data = await fetchWeather();
     this.setState({
       temp: convertKelvinToFarenheight(weather_data.data.main.temp),
@@ -126,6 +148,17 @@ class Homepage extends Component {
                     <Card.Title>
                       Today is {new Date(Date.now()).toDateString()}{" "}
                     </Card.Title>
+                    <Card.Text>
+                      <h6>
+                        You have a total of {this.state.plantsCount} plants.
+                      </h6>
+                    </Card.Text>
+                    <Card.Text>
+                      {this.state.outdoorCount} outdoor plants
+                    </Card.Text>
+                    <Card.Text>
+                      {this.state.indoorCount} indoor plants
+                    </Card.Text>
                     <div className="card-container-outer">
                       <div
                         className="card-container"

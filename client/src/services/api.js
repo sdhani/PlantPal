@@ -196,6 +196,22 @@ export const getAllPlantsInGarden = async (id) => {
     }
   }
 };
+export const getPlantCounts = async (type) => {
+  const token = localStorage.getItem("jwt");
+  if (token) {
+    const query = type ? `?type=${type}` : "";
+    try {
+      const resp = await api.get(`/api/plants/count${query}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return resp.data;
+    } catch (e) {
+      return e.message;
+    }
+  }
+};
 
 export const searchPlantName = async (name) => {
   const token = localStorage.getItem("jwt");

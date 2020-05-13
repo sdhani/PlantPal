@@ -36,9 +36,9 @@ class AlertCard extends Component {
           }}
         >
           <Card.Header>
-            {daysLeft === 1
+            {daysLeft === 0
               ? "Your plant needs to be watered today!"
-              : daysLeft > 0
+              : daysLeft >= 1
               ? `Your plant needs to be watered in ${daysLeft} days`
               : `Your plant should've been watered ${Math.abs(
                   daysLeft
