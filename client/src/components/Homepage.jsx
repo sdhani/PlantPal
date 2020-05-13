@@ -26,26 +26,38 @@ class Homepage extends Component {
   state = { users: [], priorityPlants: [], alerts: [], temp: "", weather: [] };
 
   componentDidMount = async () => {
+    const weather_data = await fetchWeather();
+    this.setState({
+      temp: convertKelvinToFarenheight(weather_data.data.main.temp),
+      weather: weather_data.data.weather[0],
+    });
     getAllPriorityPlants().then((data) =>
       this.setState({ priorityPlants: data }, () => {
         console.log(data);
         let alerts =
           Array.isArray(this.state.priorityPlants) &&
           this.state.priorityPlants.map((plant) => (
-            <AlertCard width={"95%"} plant={plant} />
+            <AlertCard
+              width={"95%"}
+              plant={plant}
+              temp={convertKelvinToFarenheight(weather_data.data.main.temp)}
+            />
           ));
+        let weatherAlert = "";
+        if (this.state.weather.main.toLowerCase().includes("rain")) {
+          weatherAlert = "It will rain today! Don't water your plants.";
+        } else if (this.state.temp > 87) {
+          weatherAlert = "Its very hot today!";
+        }
+        if (weatherAlert.length) {
+          const wAlert = [
+            <AlertCard width={"95%"} weatherAlert={weatherAlert} />,
+          ];
+          alerts = wAlert.concat(alerts);
+        }
         this.setState({ alerts });
       })
     );
-
-    const weather_data = await fetchWeather();
-    this.setState({
-      temp: convertKelvinToFarenheight(weather_data.data.main.temp),
-      weather: weather_data.data.weather[0],
-    });
-
-    console.log("temp", this.state.temp);
-    console.log("weather", this.state.weather[0]);
   };
   render() {
     const { temp, weather } = this.state;
@@ -74,7 +86,7 @@ class Homepage extends Component {
     const weatherMessage =
       weather && weather.main && weather.main.toLowerCase().includes("rain")
         ? "No need to water your plants today!"
-        : temp > 90
+        : temp > 87
         ? "It's super hot today! Don't miss out on watering your plants"
         : "No extreme weather conditions today!";
     return (
