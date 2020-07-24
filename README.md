@@ -14,7 +14,7 @@
 - [@anumhsn](https://github.com/anumhsn) **`Frontend Developer`**
 - [@benevolentPreta](https://github.com/benevolentPreta) **`Heroku Schedule Jobs`**
 
----
+
 ## Install and Run
 1. Clone this repository.
     ```
@@ -48,5 +48,4 @@
 
 ---
 
-## [Check Out PlantPal's RESTful API Docs](https://github.com/sdhani/PlantPal/blob/master/routes/RESTful_API_Docs.md)
-# :tada:
+## [Check Out PlantPal's RESTful API Docs](https://github.com/sdhani/PlantPal/blob/master/routes/RESTful_API_Docs.md) :tada:
