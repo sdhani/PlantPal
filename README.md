@@ -5,15 +5,17 @@
 - [x] Sift through care tips for their particular plant. (via the Trefle API)
 - [x] Get WEATHER and CARE indications for outdoor plants (via the OpenWeatherMap API)
 
-## :tv: [DEMO](https://plant-pals.herokuapp.com)
+### :tv: [DEMO](https://plant-pals.herokuapp.com)
 
+---
 ### Contributors
 - [@sdhani](https://github.com/sdhani) **`Backend Developer`**
 - [@Marjan154](https://github.com/Marjan154) **`Frontend Developer`**
 - [@anumhsn](https://github.com/anumhsn) **`Frontend Developer`**
 - [@benevolentPreta](https://github.com/benevolentPreta) **`Heroku Schedule Jobs`**
 
-### Install and Run
+---
+## Install and Run
 1. Clone this repository.
     ```
     HTTP: git clone https://github.com/sdhani/PlantPal.git
@@ -43,6 +45,8 @@
 1. Run `knex seed:run` in the root directory (note: see above regarding npx).
 1. Run `yarn start-all` in the root directory. 
 1. Open `http://localhost:3000` in your browser to view seed data of all users.
+
+---
 
 ## [Check Out PlantPal's RESTful API Docs](https://github.com/sdhani/PlantPal/blob/master/routes/RESTful_API_Docs.md)
 # :tada:
