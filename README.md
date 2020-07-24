@@ -1,24 +1,22 @@
 # :seedling::sunflower:PlantPal
 
 ### A garden maintenance app where users can
-- Store a virtual garden list of both their indoor and outdoor plants (CRUD)
-- Sift through care tips for their particular plant. (via the Trefle API)
-- Get WEATHER and CARE indications for outdoor plants (via the OpenWeatherMap API)
+- [x] Store a virtual garden list of both their indoor and outdoor plants (CRUD)
+- [x] Sift through care tips for their particular plant. (via the Trefle API)
+- [x] Get WEATHER and CARE indications for outdoor plants (via the OpenWeatherMap API)
 
-***:tv: [Demo](https://plant-pals.herokuapp.com)***
+## :tv: [DEMO](https://plant-pals.herokuapp.com)
 
 ## Install and Run
-
 1. Clone this repository.
     ```
-        HTTP: git clone https://github.com/sdhani/PlantPal.git
-        SSH: git clone git@github.com:sdhani/PlantPal.git
+    HTTP: git clone https://github.com/sdhani/PlantPal.git
+    SSH: git clone git@github.com:sdhani/PlantPal.git
     ``` 
 1. Run `yarn install-all` in root directory.
 1. Run `yarn start-all` in root directory.
 
-### Running with a Local PostgreSQL DB
-
+## Running with a Local PostgreSQL DB
 1. Create a local PostgreSQL DB (i.e. `createdb newDB`).
 1. Create a .env file in the root directory, and add replace with your tokens.
 
@@ -40,5 +38,4 @@
 1. Open `http://localhost:3000` in your browser to view seed data of all users.
 
 ### [Check Out PlantPal's RESTful API Docs](https://github.com/sdhani/PlantPal/blob/master/routes/RESTful_API_Docs.md)
-
 # :tada:
