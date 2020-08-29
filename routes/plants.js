@@ -11,7 +11,7 @@ Router.get("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-    db.getAllPlantsFromUser(user_id).then((plants) => {
+    await db.getAllPlantsFromUser(user_id).then((plants) => {
       if (plants.length > 0) {
         res.status(200).json(plants);
       } else {
@@ -26,7 +26,7 @@ Router.get("/", VerifyToken, async (req, res) => {
 Router.get("/priority", VerifyToken, async (req, res) => {
   const { user_id } = req;
   try {
-    db.getPriorityPlants(user_id).then((plants) => {
+    await db.getPriorityPlants(user_id).then((plants) => {
       if (plants.length > 0) {
         res.status(200).json(plants);
       } else {
@@ -43,7 +43,7 @@ Router.get("/count", VerifyToken, async (req, res) => {
   const { type } = req.query;
   if (type === "outdoor") {
     try {
-      db.getPlantsCountOutdoor(user_id).then((plants) => {
+      await db.getPlantsCountOutdoor(user_id).then((plants) => {
         if (plants.length > 0) {
           res.status(200).json(plants);
         } else {
@@ -55,7 +55,7 @@ Router.get("/count", VerifyToken, async (req, res) => {
     }
   } else if (type === "indoor") {
     try {
-      db.getPlantsCountIndoor(user_id).then((plants) => {
+      await db.getPlantsCountIndoor(user_id).then((plants) => {
         if (plants.length > 0) {
           res.status(200).json(plants);
         } else {
@@ -67,7 +67,7 @@ Router.get("/count", VerifyToken, async (req, res) => {
     }
   } else {
     try {
-      db.getPlantsCount(user_id).then((plants) => {
+      await db.getPlantsCount(user_id).then((plants) => {
         if (plants.length > 0) {
           res.status(200).json(plants);
         } else {
@@ -106,7 +106,7 @@ Router.get("/query", async (req, res) => {
 Router.get("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
   try {
-    db.getPlantByID(user_id, req.params.id).then((plant) => {
+    await db.getPlantByID(user_id, req.params.id).then((plant) => {
       if (plant.length > 0) {
         res.status(200).json(plant[0]);
       } else {
@@ -166,7 +166,7 @@ Router.post("/", VerifyToken, async (req, res) => {
     }
 
     try {
-      db.addPlant({
+      await db.addPlant({
         garden_id,
         user_id,
         common_name,
@@ -206,7 +206,7 @@ Router.post("/", VerifyToken, async (req, res) => {
       const seed_json = JSON.stringify(seed);
       const specifications_json = JSON.stringify(specifications);
 
-      db.addPlant({
+      await db.addPlant({
         garden_id,
         user_id,
         common_name,
@@ -271,7 +271,7 @@ Router.put("/:id", VerifyToken, async (req, res) => {
   }
 
   try {
-    db.updatePlant(
+    await db.updatePlant(
       req.params.id,
       garden_id,
       outdoor_plant,
@@ -292,7 +292,7 @@ Router.delete("/:id/delete", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-    db.deletePlant(user_id, req.params.id).then(
+    await db.deletePlant(user_id, req.params.id).then(
       res.status(200).json({ success: true })
     );
   } catch (err) {
