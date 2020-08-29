@@ -19,7 +19,7 @@ Router.post("/register", async (req, res) => {
     return res.status(400).json({ error: 'you must supply a field "password" of type string when registering.' });
   }
 
-  db.checkEmail(email).then(response => {
+  await db.checkEmail(email).then(response => {
     if(response.length > 0){
       return res.status(400).json({ error: 'Email already exists on server.' })
     } else {
@@ -45,7 +45,7 @@ Router.get('/me', VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-    db.getUserByID(user_id).then(me => { res.status(200).send(me); });
+    await db.getUserByID(user_id).then(me => { res.status(200).send(me); });
   }
   catch(err) { 
     res.status(500).json({ error: 'There was a problem getting the current user\'s info.' }); 
@@ -66,7 +66,7 @@ Router.post('/login',  async(req, res) => {
   }
 
   try {   
-    db.checkEmail(email).then(dbPassword => { 
+    await db.checkEmail(email).then(dbPassword => { 
       if(dbPassword.length === 0) {
         return res.status(400).json({ error: 'The "email" provided does not exist.' });
       }
@@ -74,7 +74,7 @@ Router.post('/login',  async(req, res) => {
       const passwordIsValid = bcrypt.compareSync(password, dbPassword[0].password);
       if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
 
-      db.loginUser(email,dbPassword[0].password).then(id => {
+      await db.loginUser(email,dbPassword[0].password).then(id => {
       console.log("ID in login", id)
 
         const token = jwt.sign({ id: id }, config.secret, {
