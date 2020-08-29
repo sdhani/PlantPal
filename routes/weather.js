@@ -6,7 +6,7 @@ const VerifyToken = require('./verifyToken');
 /* Get all weather */
 Router.get("/", async (req, res) => {
   try {
-    db.getAllWeather().then(weather => {
+    await db.getAllWeather().then(weather => {
       res.status(200).json(weather);
     });
   } catch (err) {
@@ -23,9 +23,9 @@ Router.get('/current', VerifyToken, async (req, res) => {
   } = req;
   let zip;
   try {
-    db.getUserZipByID(user_id).then(zipcode => {
+    await db.getUserZipByID(user_id).then(zipcode => {
       zip = `${zipcode[0].zipcode}`;
-      db.getCurrentWeatherByZip(zip).then(weather => {
+      await db.getCurrentWeatherByZip(zip).then(weather => {
         res.status(200).json(weather);
       });
     });
@@ -43,9 +43,9 @@ Router.get('/rain', VerifyToken, async (req, res) => {
   } = req;
   let zip;
   try {
-    db.getUserZipByID(user_id).then(zipcode => {
+    await db.getUserZipByID(user_id).then(zipcode => {
       zip = `${zipcode[0].zipcode}`;
-      db.getWeekTotalRain(zip).then(weather => {
+      await db.getWeekTotalRain(zip).then(weather => {
         res.status(200).json(weather);
       });
     });
@@ -63,9 +63,9 @@ Router.get('/forcast1', VerifyToken, async (req, res) => {
   } = req;
   let zip;
   try {
-    db.getUserZipByID(user_id).then(zipcode => {
+    await db.getUserZipByID(user_id).then(zipcode => {
       zip = `${zipcode[0].zipcode}`;
-      db.getTomorrowsForcast(zip).then(weather => {
+      await db.getTomorrowsForcast(zip).then(weather => {
         res.status(200).json(weather);
       });
     });
@@ -83,9 +83,9 @@ Router.get('/forcast2', VerifyToken, async (req, res) => {
   } = req;
   let zip;
   try {
-    db.getUserZipByID(user_id).then(zipcode => {
+    await db.getUserZipByID(user_id).then(zipcode => {
       zip = `${zipcode[0].zipcode}`;
-      db.getOvermorrowsForcast(zip).then(weather => {
+      await db.getOvermorrowsForcast(zip).then(weather => {
         res.status(200).json(weather);
       });
     });
@@ -106,14 +106,14 @@ Router.put('/', async (req, res) => {
       message: ` "zipcode" must be a valid, 5 digit zipcode! `
     });
   } else {
-    db.checkWeatherZip(zipcode).then(response => {
+    await db.checkWeatherZip(zipcode).then(response => {
       if (response.length > 0) {
         return res.status(200).json({
           message: "Zipcode already exists on server."
         })
       } else {
         try {
-          db.addWeather(zipcode).then(res.status(200).json({
+          await db.addWeather(zipcode).then(res.status(200).json({
             success: true
           }));
         } catch (err) {
