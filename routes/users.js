@@ -6,11 +6,11 @@ const VerifyToken = require('./verifyToken');
 
 /* Get all users */
 Router.get("/", async (req, res) => {
-	try {
-		db.getAllUsers().then(users => {
-			res.status(200).json(users);
-		});
-	}
+  try {
+    await db.getAllUsers().then(users => {
+      res.status(200).json(users);
+    });
+  }
   catch(err) { res.status(500).json({ error: 'Unable to get all user.' });  }
 });
 
@@ -21,9 +21,9 @@ Router.put("/", VerifyToken, async (req, res) => {
   const { email, display_name, zipcode, password } = req.body;
   try {
     const id = user_id;
-		db.updateUser(id, email, display_name, zipcode, password)
-		.then(res.status(200).json({success: true}))
-	}
+    await db.updateUser(id, email, display_name, zipcode, password)
+	.then(res.status(200).json({success: true}))
+  }
   catch (err) { res.status(500).json({ error: 'Unable to update user.' }); }
 });
 
@@ -37,7 +37,7 @@ Router.delete("/delete", VerifyToken, async(req, res) => {
   }
 
   try {
-    db.deleteUser(user_id).then(res.status(200).json({success: true}));
+    await db.deleteUser(user_id).then(res.status(200).json({success: true}));
   }
   catch (err) { res.status(500).json({ error: 'Unable to delete user.' }); }
 });
