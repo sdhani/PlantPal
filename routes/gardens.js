@@ -9,7 +9,7 @@ Router.get("/", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
 	try {
-		db.getAllUserGardens(user_id).then(gardens => {
+		await db.getAllUserGardens(user_id).then(gardens => {
 			res.status(200).json(gardens);
 		});
 	}
@@ -22,7 +22,7 @@ Router.get("/:id", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-    db.getGardenByID(user_id, req.params.id).then(garden => {
+    await db.getGardenByID(user_id, req.params.id).then(garden => {
       if(garden.length > 0){
         res.status(200).json(garden);
       } else {
@@ -39,7 +39,7 @@ Router.get("/:id/plants", VerifyToken, async (req, res) => {
   const { user_id } = req;
 
   try {
-		db.getAllPlantsFromGarden(user_id, req.params.id).then(plants => {
+		await db.getAllPlantsFromGarden(user_id, req.params.id).then(plants => {
 			res.status(200).json(plants);
 		});
 	}
@@ -57,7 +57,7 @@ Router.post("/", VerifyToken, async (req, res) => {
   }
 
   try {
-    db.createGarden(garden_name, user_id).then(
+    await db.createGarden(garden_name, user_id).then(
       res.status(200).json({success: true})
     )
 	}
@@ -75,7 +75,7 @@ Router.put("/:id", VerifyToken, async (req, res) => {
   }
 
   try {
-    db.updateGardenByID(user_id, req.params.id, garden_name).then(
+    await db.updateGardenByID(user_id, req.params.id, garden_name).then(
       res.status(200).json({success: true})
     );
   }
@@ -88,7 +88,7 @@ Router.delete("/:id/delete", VerifyToken, async(req, res) => {
   const { user_id } = req;
 
   try {
-    db.deleteGardenByID(user_id, req.params.id).then(res.status(200).json({success: true}));
+    await db.deleteGardenByID(user_id, req.params.id).then(res.status(200).json({success: true}));
   }
   catch (err) { res.status(500).json({ error: 'Failed to delete garden.' }); }
 });
