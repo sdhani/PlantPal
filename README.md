@@ -12,7 +12,7 @@
 - [@sdhani](https://github.com/sdhani) **`Backend Developer`**
 - [@Marjan154](https://github.com/Marjan154) **`Frontend Developer`**
 - [@anumhsn](https://github.com/anumhsn) **`Frontend Developer`**
-- [@benevolentPreta](https://github.com/benevolentPreta) **`Backend Developer + Heroku Schedule Jobs`**
+- [@benevolentPreta](https://github.com/benevolentPreta) **`Backend Developer, Heroku Schedule Jobs`**
 
 
 ## Install and Run
