@@ -5,8 +5,6 @@
 - [x] Sift through care tips for their particular plant. (via the Trefle API)
 - [x] Get WEATHER and CARE indications for outdoor plants (via the OpenWeatherMap API)
 
-### :tv: [DEMO](https://plant-pals.herokuapp.com)
-
 ---
 ### Contributors
 - [@sdhani](https://github.com/sdhani) **`Backend Developer`**
